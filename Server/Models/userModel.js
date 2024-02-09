@@ -7,6 +7,7 @@ const userSchema=new mongoose.Schema({
         required: [true, "Please enter you Name"],
         maxLength: [30, "Name cannot exceed 30 characters"],
         minLength: [3, "Name should  have more 3 characters"],
+        trim:true
     },
    email:{
     type:String,
@@ -20,23 +21,31 @@ const userSchema=new mongoose.Schema({
     minLength: [3, "Paasword should be greater than 3 characters"],
    
    },
-  avatar: [
+  avatar: 
     {
-      public_id: {
-        type: String,
-        // required: true,
-      },
-      url: {
+      // public_id: {
+      //   type: String,
+      //   // required: true,
+      // },
+      // url: {
         type: String,
         default:"https://tse4.mm.bing.net/th?id=OIP.tgmmCh4SA36j0dMT0ay9_AHaHa&pid=Api&P=0&h=180"
         // required: true,
-      },
+      // },
     },
-  ],
+  
+  phone:{
+    type:String,
+    required: true
+  },
+  address:{
+    type:String,
+    required: true
+  },
   role: {
     type: String,
     default: "user",
   }
-}) 
+},{timestamps:true}) 
 
 module.exports=mongoose.model("User",userSchema)
