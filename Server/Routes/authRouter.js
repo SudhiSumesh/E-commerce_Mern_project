@@ -1,5 +1,7 @@
 const express=require('express')
-const { registerController, loginController } = require('../Controllers/authController')
+const { registerController, loginController,testController } = require('../Controllers/authController')
+const { requireSignIn, isAdmin } = require('../Middleware/authMiddleware')
+
 const router=express.Router()
 
 // routing
@@ -7,7 +9,7 @@ const router=express.Router()
 router.route('/register').post(registerController)
 //LOGIN || POST METHOD
 router.route('/login').post(loginController)
-
+router.get('/test',requireSignIn,isAdmin, testController)
 // router.route('/logout').get()
 // router.route('/password/forgot').post()
 // router.route('/password/reset/:token').put()

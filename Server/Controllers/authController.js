@@ -98,3 +98,13 @@ exports.loginController = async (req, res) => {
     });
   }
 };
+
+exports.testController=async (req,res)=>{
+ 
+    res.status(200).json({
+      message:"protected route accessed"
+    })
+
+  
+
+}
