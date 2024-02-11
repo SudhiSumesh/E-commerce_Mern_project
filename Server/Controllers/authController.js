@@ -44,24 +44,23 @@ exports.registerController = async (req, res) => {
     });
   }
 };
-
 //Login user || POST
 exports.loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
     // Checking if user has given password and  email both
     if (!email || !password) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Invalid email or password ",
       });
     }
     // check if user exist
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Invalid email or password ",
       });
     }
     //check if passowrod is matching
@@ -69,11 +68,11 @@ exports.loginController = async (req, res) => {
     if (!matchPassword) {
       return res.status(200).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Invalid email or password ",
       });
     }
     //token
-    const token = await JWT.sign(
+    const token =  JWT.sign(
       { _id: user._id },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "1hr" }
@@ -98,13 +97,9 @@ exports.loginController = async (req, res) => {
     });
   }
 };
-
+//test route
 exports.testController=async (req,res)=>{
- 
     res.status(200).json({
       message:"protected route accessed"
     })
-
-  
-
 }
