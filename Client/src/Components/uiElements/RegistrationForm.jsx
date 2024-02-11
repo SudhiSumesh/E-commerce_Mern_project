@@ -40,7 +40,7 @@ const RegistrationForm = ({ setAction }) => {
     
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/auth/register",
+        import.meta.env.VITE_REGISTRATION_POST_URL,
         {
           ...inputValue,
         },

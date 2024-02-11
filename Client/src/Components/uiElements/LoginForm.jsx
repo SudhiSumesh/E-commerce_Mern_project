@@ -38,7 +38,7 @@ const LoginForm = ({ onCloseModal }) => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/auth/login",
+        VITE_LOGIN_POST_URL,
         {
           ...inputValue,
         },
