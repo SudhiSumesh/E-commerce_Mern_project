@@ -1,184 +1,187 @@
-import React, { useState } from "react";
+import React from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { ToastContainer, toast } from "react-toastify";
 
 const RegistrationForm = ({ setAction }) => {
-  const [inputValue, setInputValue] = useState({
-    name: "",
-    email: "",
-    password: "",
-    address: "",
-    phone: "",
+  const notifyError = (message) => toast.error(message); //toast error function
+  //Yup Validation schema
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().min(3,"enter a valid name").required("Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(4, "Password must be at least 4 characters")
+      .max(15, "Password must not exceed 15 characters"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+    phone: Yup.string()
+      .matches(/^\d{10}$/, "Phone number must be 10 digits")
+      .required("Phone number is required"),
+    address: Yup.string().required("Address is required"),
+    agree: Yup.boolean().oneOf(
+      [true],
+      "You must accept the terms and conditions"
+    ),
   });
-  //destructure values 
-  const { name, email, password, phone, address } = inputValue;
-  //input onchange handler
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
-  };
-
-  // error || success message with tosatify
-  //  toast err
-  const handleError = (err) =>
-    toast.error(err, {
-      position: "top-center",
-    });
-  //toast success
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "top-center",
-    });
-
-  //handle form submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    try {
-      const { data } = await axios.post(
-        import.meta.env.VITE_REGISTRATION_POST_URL,
-        {
-          ...inputValue,
-        },
-        { withCredentials: true }
-      );
-      console.log(data);
-      //destructure response data
-      const { success, message, user } = data;
-      if (success) {
-        handleSuccess(message);
-        setTimeout(() => {
-          setAction("login"); //  switch to  login modal 
-          console.log(user);
-        }, 2000);
-      } else {
-        handleError(message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    //set default input values
-    setInputValue({
-      ...inputValue,
+// set  useFormic hook
+  const formik = useFormik({
+    // setting initail values
+    initialValues: {
       name: "",
       email: "",
       password: "",
-      address: "",
+      confirmPassword: "",
       phone: "",
-    });
-
-  };
+      address: "",
+      agree: false,
+    },
+    
+    validationSchema: validationSchema,
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const { data} = await axios.post(
+          import.meta.env.VITE_REGISTRATION_POST_URL,
+          values,
+          { withCredentials: true }
+        );
+        const { success, message, user } = data;
+        if (success) {
+          toast.success(message);
+          setTimeout(() => {
+            setAction("login"); // Switch to login modal
+            console.log(user);
+          }, 2000);
+        } else {
+          toast.error(message);
+        }
+      } catch (error) {
+        console.error("Registration error:", error);
+        notifyError("An error occurred. Please try again.");
+      }
+      resetForm();
+    },
+  });
 
   return (
     <>
-      <form className="flex flex-col max-w-md gap-4" onSubmit={handleSubmit}>
+      <form
+        className="flex flex-col max-w-md gap-4"
+        onSubmit={formik.handleSubmit}
+      >
         <div>
-          <div className="block mb-2">
-            {/*input name */}
-            <Label htmlFor="small" value="Full Name" />
-          </div>
+          <Label htmlFor="name" value="Full Name" />
           <TextInput
-            className="text-black"
-            id="small"
+            id="name"
             type="text"
             name="name"
-            value={name}
-            sizing="sm"
-            onChange={handleOnChange}
+            value={formik.values.name}
+            onChange={formik.handleChange}
           />
+          {formik.touched.name && formik.errors.name && (
+            <p className="text-sm text-red-500">{formik.errors.name}</p>
+          )}
         </div>
-        {/* email input*/}
+
         <div>
-          <div className="block mb-2">
-            <Label htmlFor="email2" value="Your email" />
-          </div>
+          <Label htmlFor="email" value="Your email" />
           <TextInput
-            id="email2"
+            id="email"
             type="email"
             name="email"
-            value={email}
-            placeholder="abc@gmail.com"
-            onChange={handleOnChange}
-            required
-            shadow
+            value={formik.values.email}
+            onChange={formik.handleChange}
           />
+          {formik.touched.email && formik.errors.email && (
+            <p className="text-sm text-red-500">{formik.errors.email}</p>
+          )}
         </div>
-        {/* password input */}
+
         <div>
-          <div className="block mb-2">
-            <Label htmlFor="password2" value="Your password" />
-          </div>
+          <Label htmlFor="password" value="Your password" />
           <TextInput
-            id="password2"
+            id="password"
             type="password"
             name="password"
-            value={password}
-            required
-            shadow
-            onChange={handleOnChange}
+            value={formik.values.password}
+            onChange={formik.handleChange}
           />
+          {formik.touched.password && formik.errors.password && (
+            <p className="text-sm text-red-500">{formik.errors.password}</p>
+          )}
         </div>
-        <div>
-          {/* confirm password */}
-          <div className="block mb-2">
-            <Label htmlFor="repeat-password" value="Confirm password" />
-          </div>
 
+        <div>
+          <Label htmlFor="confirmPassword" value="Confirm password" />
           <TextInput
-            id="repeat-password"
+            id="confirmPassword"
             type="password"
-            // onChange={handleOnChange}
-            required
-            shadow
+            name="confirmPassword"
+            value={formik.values.confirmPassword}
+            onChange={formik.handleChange}
           />
+          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+            <p className="text-sm text-red-500">
+              {formik.errors.confirmPassword}
+            </p>
+          )}
         </div>
+
         <div>
-          {/* input phone */}
-          <div className="block mb-2">
-            <Label htmlFor="base" value="Mobile" />
-          </div>
+          <Label htmlFor="phone" value="Mobile" />
           <TextInput
-            id="base"
+            id="phone"
             type="text"
-            sizing="md"
             name="phone"
-            onChange={handleOnChange}
-            value={phone}
+            value={formik.values.phone}
+            onChange={formik.handleChange}
           />
+          {formik.touched.phone && formik.errors.phone && (
+            <p className="text-sm text-red-500">{formik.errors.phone}</p>
+          )}
         </div>
-        {/*input  address */}
+
         <div>
-          <div className="block mb-2">
-            <Label htmlFor="large" value="Address" />
-          </div>
+          <Label htmlFor="address" value="Address" />
           <TextInput
-            id="large"
+            id="address"
             type="text"
-            sizing="lg"
             name="address"
-            onChange={handleOnChange}
-            value={address}
+            value={formik.values.address}
+            onChange={formik.handleChange}
           />
+          {formik.touched.address && formik.errors.address && (
+            <p className="text-sm text-red-500">{formik.errors.address}</p>
+          )}
         </div>
-        {/* checkbox */}
-        <div className="flex items-center gap-2">
-          <Checkbox id="agree" />
-          <Label htmlFor="agree" className="flex">
+
+        <div>
+          <Checkbox
+            id="agree"
+            name="agree"
+            className="me-2"
+            checked={formik.values.agree}
+            onChange={formik.handleChange}
+          />
+          <Label htmlFor="agree">
             I agree with the&nbsp;
             <a className="text-cyan-600 hover:underline dark:text-cyan-500">
               terms and conditions
             </a>
           </Label>
+          {formik.touched.agree && formik.errors.agree && (
+            <p className="text-sm text-red-500">{formik.errors.agree}</p>
+          )}
         </div>
-        {/* register btn */}
+
         <Button type="submit">Register new account</Button>
       </form>
-        <ToastContainer/>
+      <ToastContainer />
     </>
   );
 };
+
 export default RegistrationForm;

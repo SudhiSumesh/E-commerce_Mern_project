@@ -1,109 +1,91 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import axios from "axios";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
 
 const LoginForm = ({ onCloseModal }) => {
-  const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState({
-    email: "",
-    password: "",
+  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string().required("Password is required"),
   });
-  // destructure values
-  const { email, password } = inputValue;
-  //handle on change
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
-  };
-  // error || success message with tosatify
-  //  toast err
-  const handleError = (err) =>
-    toast.error(err, {
-      position: "top-center",
-    });
-  //toast success
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "top-center",
-    });
 
-  //handle submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const { data } = await axios.post(
-        VITE_LOGIN_POST_URL,
-        {
-          ...inputValue,
-        },
-        { withCredentials: true }
-      );
-      // destructure response data
-      const { success, message, user } = data;
-      
-      if (success) {
-        handleSuccess(message);
-        setTimeout(() => {
-          onCloseModal(); //close modal
-          navigate("/");
-          console.log(user);
-        }, 1000);
-        
-      } else {
-        handleError(message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    //set default input values
-    setInputValue({
-      ...inputValue,
+  const formik = useFormik({
+    initialValues: {
       email: "",
       password: "",
-    });
-  };
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const response = await axios.post(
+          import.meta.env.VITE_LOGIN_POST_URL,
+          values,
+          { withCredentials: true }
+        );
+        const { success, message, user } = response.data;
+        if (success) {
+          notifySuccess(message);
+          setTimeout(() => {
+            onCloseModal(); // Close modal
+            console.log(user);
+          }, 1000);
+        } else {
+          notifyError(message);
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        notifyError("An error occurred. Please try again.");
+      }
+      resetForm();
+    },
+  });
+
   return (
     <>
       <h3 className="text-xl font-medium text-gray-900 dark:text-white">
         Sign in
       </h3>
-      <form onSubmit={handleSubmit}>
-        {/* email input */}
+      <form onSubmit={formik.handleSubmit}>
         <div className="py-3">
           <div className="block mb-2">
             <Label htmlFor="email" value="Your email" />
           </div>
           <TextInput
             id="email"
-            placeholder="name@gmail.com"
             name="email"
-            value={email}
-            onChange={handleOnChange}
+            placeholder="name@gmail.com"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             required
           />
+          {formik.touched.email && formik.errors.email && (
+            <p className="text-sm text-red-500">{formik.errors.email}</p>
+          )}
         </div>
-        {/* password input */}
         <div>
           <div className="block mb-2">
             <Label htmlFor="password" value="Your password" />
           </div>
           <TextInput
             id="password"
-            type="password"
-            required
             name="password"
-            value={password}
-            onChange={handleOnChange}
+            type="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            required
           />
+          {formik.touched.password && formik.errors.password && (
+            <p className="text-sm text-red-500">{formik.errors.password}</p>
+          )}
         </div>
         <div className="flex justify-between">
-          {/* checkbox */}
           <div className="flex items-center gap-2 py-3">
             <Checkbox id="remember" />
             <Label htmlFor="remember">Remember me</Label>
@@ -112,9 +94,8 @@ const LoginForm = ({ onCloseModal }) => {
             Lost Password?
           </a>
         </div>
-        {/* login btn */}
         <div className="w-full">
-          <Button type="submit">Login </Button>
+          <Button type="submit">Login</Button>
         </div>
       </form>
       <ToastContainer />
