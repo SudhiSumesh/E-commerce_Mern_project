@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 const LoginForm = ({ onCloseModal }) => {
   const notifyError = (message) => toast.error(message);
   const notifySuccess = (message) => toast.success(message);
-
+//validation schema
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),

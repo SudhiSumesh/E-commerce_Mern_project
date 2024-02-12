@@ -34,7 +34,7 @@ const FormModal = () => {
               // display registraino form
               <>
                 <RegistrationForm  setAction={setAction} />
-                <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300">
+                <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300 " >
                   Already have account?&nbsp;
                   <a className="text-cyan-700 hover:underline dark:text-cyan-500"onClick={() => setAction("login")}>
                     login to your account
