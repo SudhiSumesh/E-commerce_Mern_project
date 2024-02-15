@@ -1,12 +1,13 @@
 import React from "react";
 import Layout from "../Components/Layout/Layout";
+import HomeHeroSection from "../Components/Sections/homeHeroSection";
+import HomeVideoSection from "../Components/Sections/HomeVideoSection";
 
 function HomePage() {
   return (
     <Layout>
-      <div className="flex justify-center items-center h-[80vh]">
-        <h1 className="text-3xl font-bold"> Hero section </h1>
-      </div>
+     <HomeVideoSection/>
+     <HomeHeroSection/>
     </Layout>
   )};
 export default HomePage;

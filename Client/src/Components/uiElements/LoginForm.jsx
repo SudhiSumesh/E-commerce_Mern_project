@@ -95,7 +95,9 @@ const LoginForm = ({ onCloseModal }) => {
           </a>
         </div>
         <div className="w-full">
-          <Button type="submit">Login</Button>
+          <Button type="submit" gradientDuoTone="purpleToBlue">
+            Login
+          </Button>
         </div>
       </form>
       <ToastContainer />

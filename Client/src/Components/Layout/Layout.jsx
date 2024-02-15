@@ -4,11 +4,11 @@ import Footer from './Footer'
 
 const Layout = ({children}) => {
   return (
-    <>
+    <div className=''>
      <NavBar/>
-     <main className='min-h-[80vh]'>{children}</main>
+     <main className='min-h-[80vh] '>{children}</main>
      <Footer/> 
-    </>
+    </div>
   )
 }
 

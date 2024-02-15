@@ -177,7 +177,9 @@ const RegistrationForm = ({ setAction }) => {
           )}
         </div>
 
-        <Button type="submit">Register new account</Button>
+        <Button type="submit" gradientDuoTone="purpleToBlue">
+          Register new account
+        </Button>
       </form>
       <ToastContainer />
     </>
