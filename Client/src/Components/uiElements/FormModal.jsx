@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import {  Button, Modal } from "flowbite-react";
-import LoginForm from './LoginForm';
-import RegistrationForm from './RegistrationForm';
+import {   Modal } from "flowbite-react";
+import LoginForm from '../Auth/LoginForm';
+import RegistrationForm from '../Auth/RegistrationForm';
+
 
 const FormModal = () => {
     const [action,setAction]=useState("login")
@@ -15,8 +16,6 @@ const FormModal = () => {
     <>
       <div
         className="px-2 text-xl rounded-lg self-center hover:underline hover:text-[blue] cursor-pointer transition-all duration-700"
-        outline
-        gradientDuoTone="purpleToBlue"
         onClick={() => setOpenModal(true)}
       >
         Login

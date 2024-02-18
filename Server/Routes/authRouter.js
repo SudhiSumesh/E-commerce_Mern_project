@@ -13,6 +13,25 @@ router.route('/login').post(loginController)
 //test route
 router.get('/test',requireSignIn,isAdmin, testController)
 
+// User protected route auth
+router.get('/user-auth',requireSignIn,(req,res)=>{
+    res.status(200).json({
+        ok:true,
+    })
+})
+//Admin protected route auth
+router.get('/admin-auth',requireSignIn,isAdmin,(req,res)=>{
+   try {
+     res.status(200).json({
+       ok: true,
+     });
+   } catch (error) {
+    res.status(500).json({
+        message:"un",
+        error
+    })
+   }
+})
 // router.route('/logout').get()
 // router.route('/password/forgot').post()
 // router.route('/password/reset/:token').put()

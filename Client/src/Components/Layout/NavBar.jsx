@@ -4,8 +4,13 @@ import SearchBar from "../uiElements/SearchBar";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../Context/auth";
+import DropDownModal from "../uiElements/DropDownModal";
+// import { toast } from "react-hot-toast";
 
 const NavBar = () => {
+  const [auth] = useAuth();
+
   return (
     <div className="border-b-2 sticky top-0 z-10 bg-white">
       <Nav fluid rounded className="container rounded-none p-4 ">
@@ -25,7 +30,7 @@ const NavBar = () => {
               className="text-2xl self-center p-2 mt-1 hover:text-[blue] cursor-pointer"
             />
           </Link>
-          <FormModal /> {/*form modal */}
+          {auth.user ? <DropDownModal /> : <FormModal />}
           <Nav.Toggle />
         </div>
         <Nav.Collapse>

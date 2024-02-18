@@ -177,7 +177,7 @@ const RegistrationForm = ({ setAction }) => {
           )}
         </div>
 
-        <Button type="submit" gradientDuoTone="purpleToBlue">
+        <Button type="submit">
           Register new account
         </Button>
       </form>

@@ -4,11 +4,17 @@ import * as Yup from "yup";
 import axios from "axios";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
+import { useAuth } from "../../Context/auth";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LoginForm = ({ onCloseModal }) => {
+  const [auth, setAuth] = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  // toast message funcs
   const notifyError = (message) => toast.error(message);
   const notifySuccess = (message) => toast.success(message);
-//validation schema
+  //validation schema
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),
@@ -27,18 +33,28 @@ const LoginForm = ({ onCloseModal }) => {
           values,
           { withCredentials: true }
         );
-        const { success, message, user } = response.data;
+        const { success, message, user, token } = response.data;
         if (success) {
           notifySuccess(message);
+
           setTimeout(() => {
             onCloseModal(); // Close modal
-            console.log(user);
+            //  if user try to access  privte route 
+            location.state && navigate(location.state)
+            //set user and token
+            setAuth({
+              ...auth,
+              user: user,
+              token: token,
+            });
+            localStorage.setItem("auth", JSON.stringify(response.data));
+            console.log(user, token);
           }, 1000);
         } else {
           notifyError(message);
         }
       } catch (error) {
-        console.error("Login error:", error);
+        console.log("Login error:", error);
         notifyError("An error occurred. Please try again.");
       }
       resetForm();
@@ -95,9 +111,7 @@ const LoginForm = ({ onCloseModal }) => {
           </a>
         </div>
         <div className="w-full">
-          <Button type="submit" gradientDuoTone="purpleToBlue">
-            Login
-          </Button>
+          <Button type="submit">Login</Button>
         </div>
       </form>
       <ToastContainer />
