@@ -22,15 +22,8 @@ const userSchema=new mongoose.Schema({
    },
   avatar: 
     {
-      // public_id: {
-      //   type: String,
-      //   // required: true,
-      // },
-      // url: {
         type: String,
         default:"https://tse4.mm.bing.net/th?id=OIP.tgmmCh4SA36j0dMT0ay9_AHaHa&pid=Api&P=0&h=180"
-        // required: true,
-      // },
     },
   
   phone:{
