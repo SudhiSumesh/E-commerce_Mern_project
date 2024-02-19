@@ -3,7 +3,7 @@ import React from 'react'
 const SearchBar = () => {
   return (
     <>
-      <div className="flex md:order-2">
+      <div className="hidden md:flex md:order-2">
         <div className="relative md:block">
           <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
             <svg

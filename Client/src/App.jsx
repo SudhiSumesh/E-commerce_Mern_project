@@ -9,6 +9,10 @@ import PrivateRoute from './Components/Routes/private'
 import AdminRoute from './Components/Routes/AdminRoute';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import UserList from './Pages/Admin/UserList';
+import ProductList from './Pages/Admin/ProductList';
+import Category from './Pages/Admin/Category';
+import Page404 from './Pages/Page404';
+
 function App() {
   return (
     <>
@@ -20,13 +24,14 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminRoute />}>
           <Route path="" element={<AdminDashboard />} />
           <Route path="users" element={<UserList/>} />
-          <Route path="products" element={<AdminDashboard />} />
-          <Route path="category" element={<AdminDashboard />} />
+          <Route path="products" element={<ProductList/>} />
+          <Route path="category" element={<Category/>} />
         </Route>
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </>
   );};

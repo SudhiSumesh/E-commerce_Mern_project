@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const helmet=require('helmet')
 const dotenv = require("dotenv").config();
 const DbConnection = require("./Config/dbConnection");
 const authRoutes = require("./Routes/authRouter");
@@ -12,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 // middlewares
 app.use(express.json());
-
+app.use(helmet())
 // set cross origin access
 app.use(
   cors({

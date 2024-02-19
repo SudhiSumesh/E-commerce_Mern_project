@@ -27,10 +27,10 @@ router.get('/admin-auth',requireSignIn,isAdmin,(req,res)=>{
      });
    } catch (error) {
     res.status(500).json({
-        message:"un",
+        message:"errorr in auth",
         error
     })
-   }
+   } 
 })
 // router.route('/logout').get()
 // router.route('/password/forgot').post()

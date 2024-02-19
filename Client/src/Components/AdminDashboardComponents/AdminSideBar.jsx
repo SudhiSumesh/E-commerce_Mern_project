@@ -1,4 +1,3 @@
-
 import { Sidebar } from "flowbite-react";
 import { BiBuoy } from "react-icons/bi";
 import {
@@ -36,14 +35,13 @@ function AdminSideBar() {
             icon={HiShoppingBag}
             className="hover:text-[blue] rounded-none"
           >
-            <Link> Products</Link>
+            <Link to={"/admin-dashboard/products"}> Products</Link>
           </Sidebar.Item>
           <Sidebar.Item
-            href="#"
             icon={HiViewBoards}
             className="hover:text-[blue] rounded-none"
           >
-            <Link> Category</Link>
+            <Link to={"/admin-dashboard/category"}> Category</Link>
           </Sidebar.Item>
           <Sidebar.Item
             icon={HiArrowSmRight}
@@ -66,14 +64,12 @@ function AdminSideBar() {
             Upgrade to Pro
           </Sidebar.Item>
           <Sidebar.Item
-            href="#"
             icon={HiViewBoards}
             className="hover:text-[blue] rounded-none"
           >
             Documentation
           </Sidebar.Item>
           <Sidebar.Item
-            href="#"
             icon={BiBuoy}
             className="hover:text-[blue] rounded-none"
           >

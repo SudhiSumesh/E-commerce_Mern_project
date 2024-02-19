@@ -16,7 +16,8 @@ body {
 .container {
   max-width: 1380px;
   margin: 0 auto;
-
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
 }
 .main-font{
 font-family: "Space Grotesk", sans-serif;

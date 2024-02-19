@@ -1,20 +1,12 @@
-
-
 import { Footer } from "flowbite-react";
-import {
-  BsFacebook,
-  BsInstagram,
-  BsTwitter,
-} from "react-icons/bs";
+import { BsFacebook, BsInstagram, BsTwitter } from "react-icons/bs";
 
 const FooterContainer = () => {
   return (
-    <Footer container className="bg-black rounded-none">
+    <Footer container className="bg-[#02020b] rounded-none">
       <div className="w-full ">
         <div className=" grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
-          <div className="text-[white] text-2xl my-2">
-            Salalah.
-          </div>
+          <div className="text-[white] text-2xl my-2">Salalah.</div>
           <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
             <div>
               <Footer.Title title="about" />
@@ -52,8 +44,6 @@ const FooterContainer = () => {
             <Footer.Icon href="#" icon={BsFacebook} />
             <Footer.Icon href="#" icon={BsInstagram} />
             <Footer.Icon href="#" icon={BsTwitter} />
-          
-            
           </div>
         </div>
       </div>

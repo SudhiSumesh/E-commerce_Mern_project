@@ -1,15 +1,16 @@
 import React from "react";
 import Layout from "../../Components/Layout/Layout";
 import AdminSideBar from "../../Components/AdminDashboardComponents/AdminSideBar";
-import UserManagement from "../../Components/AdminDashboardComponents/UserManagement";
-function UserList() {
+import ProductManagement from "../../Components/AdminDashboardComponents/ProductManagement";
+function ProductList() {
   return (
     <Layout>
+        <div>Product Page</div>
       <div className="flex">
         <AdminSideBar />
-        <UserManagement />
+        <ProductManagement/>
       </div>
     </Layout>
   );
 }
-export default UserList
+export default ProductList;
