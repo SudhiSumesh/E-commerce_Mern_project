@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "flowbite-react";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import CategoryForm from "./adminForms/CategoryForm";
-import { date } from "yup";
+import CategoryForm from "./CategoryForm";
+import CategoryEditModal from "./CategoryEditModal";
+import CategoryDeleteModal from "./CategoryDeleteModal";
+
 function CategoryManagement() {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
+  const [selected,setSelected]=useState(null)
+  // const [updatedName,setupdatedName]=useState("")
+
   //getting all categories
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(import.meta.env.VITE_GET_CATEGORY_URL);
       if (data.success) {
         setCategories(data.category);
+        
       }
     } catch (error) {
       console.log(error);
@@ -43,13 +48,54 @@ function CategoryManagement() {
       toast.error("somthing went wrong in form submission");
     }
   };
+  //update category
+  const handleUpdate=async(updatedCategory)=>{
+ 
+   try {
+     const { data } =await axios.put(
+       `${import.meta.env.VITE_UPDATE_CATEGORY_URL}/${selected._id}`,
+       { name: updatedCategory }
+     );
+     if (data.success) {
+       toast.success(data.message);
+       console.log(data.message);
+       setSelected(null);
+       getAllCategory();
+     } else {
+       toast.error(data.message);
+       console.log(data.message);
+     }
+   } catch (error) {
+    console.log(error);
+    toast.error("error in updating category")
+   }
+  }
+  //delete category
+    const handleDelete= async () => {
+      try {
+        const { data } = await axios.delete(
+          `${import.meta.env.VITE_DELETE_CATEGORY_URL}/${selected._id}`);
+        if (data.success) {
+          toast.success(data.message);
+          console.log(data.message);
+          setSelected(null);
+          getAllCategory();
+        } else {
+          toast.error(data.message);
+          console.log(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("error in updating category");
+      }
+    };
   return (
     <div className="mb-10 ">
       <CategoryForm
         handleFormSubmit={handleFormSubmit}
         value={name}
         setValue={setName}
-      />{" "}
+      />
       {/* category form */}
       <Table hoverable className=" border my-4  ">
         <Table.Head>
@@ -73,20 +119,23 @@ function CategoryManagement() {
               </Table.Cell>
               <Table.Cell>{category.name}</Table.Cell>
               <Table.Cell>
-                <Link
-                  to="#"
+                <button
+                  onClick={() => setSelected(category)}
                   className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                 >
-                  Edit
-                </Link>
+                  <CategoryEditModal
+                    name={category.name}
+                    handleUpdate={handleUpdate}
+                  />
+                </button>
               </Table.Cell>
               <Table.Cell>
-                <Link
-                  to="#"
-                  className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                <button
+                  onClick={() => setSelected(category)}
+                  className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                 >
-                  Delete
-                </Link>
+                  <CategoryDeleteModal handleDelete={handleDelete} />
+                </button>
               </Table.Cell>
             </Table.Row>
           ))}

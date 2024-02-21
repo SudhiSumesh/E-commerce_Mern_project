@@ -20,7 +20,7 @@ router.get("/get-product/:slug", getSingleProductController);
 // router.get("/product-photo/:pid", productPhotoController);
 
 //delete product ||delete method
-router.delete("/product/:id", deleteProductController);
+router.delete("/delete-product/:id", deleteProductController);
 
 
 module.exports= router

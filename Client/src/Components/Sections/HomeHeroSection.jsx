@@ -6,7 +6,7 @@ const HomeHeroSection = () => {
   return (
     <div className="container  md:my-4 ">
       <div className="flex items-center justify-between">
-        <div className="text-4xl font-bold py-5 main-font">DISCOVER</div>
+        <div className="text-4xl  py-5 main-font">DISCOVER</div>
         <Link to="/products" className="text-lg ">
           More
           <FontAwesomeIcon icon={faChevronRight} className=" px-2" />

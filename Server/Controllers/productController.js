@@ -4,7 +4,7 @@ const productModel = require("../Models/productModel");
 //create product
 exports.createProductController = async (req, res) => {
   try {
-    const { name, description, price, category, quantity, images } = req.body;
+    const { name, description, price, category, quantity } = req.body;
     //validation
     switch (true) {
       case !name:
@@ -17,8 +17,8 @@ exports.createProductController = async (req, res) => {
         return res.status(500).send({ error: "Category is Required" });
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
-      case !images:
-        return res.status(500).send({ error: "image is Required" });
+      // case !images:
+      //   return res.status(500).send({ error: "image is Required" });
     }
     // create
     const product = await new productModel({
@@ -51,7 +51,7 @@ exports.getProductController = async (req, res) => {
       .sort({ createdAt: -1 });
     res.status(200).send({
       success: true,
-      counTotal: products.length,
+      countTotal: products.length,
       message: "successfully getted All Products ",
       products,
     });
@@ -104,8 +104,6 @@ exports.updateProductController = async (req, res) => {
         return res.status(500).send({ error: "Category is Required" });
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
-      case !images:
-        return res.status(500).send({ error: "image is Required" });
     }
     //update
     const product = await productModel.findByIdAndUpdate(

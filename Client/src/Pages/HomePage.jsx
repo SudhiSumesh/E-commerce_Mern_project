@@ -8,7 +8,7 @@ import CustumerReviews from "../Components/Sections/CostumerReviews";
 function HomePage() {
   return (
     <Layout>
-     <HomeVideoSection/>
+     <HomeVideoSection />
      <WhyShopWithUs/>
      <HomeHeroSection/>
      <CustumerReviews/>

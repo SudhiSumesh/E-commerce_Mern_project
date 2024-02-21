@@ -1,8 +1,7 @@
 import React from "react";
 import Layout from "../../Components/Layout/Layout";
 import AdminSideBar from "../../Components/AdminDashboardComponents/AdminSideBar";
-import CategoryManagement from "../../Components/AdminDashboardComponents/CategoryMAnagement";
-import CategoryForm from "../../Components/AdminDashboardComponents/adminForms/CategoryForm";
+import CategoryManagement from "../../Components/AdminDashboardComponents/category/CategoryManagement"
 function Category() {
   return (
     <Layout>
