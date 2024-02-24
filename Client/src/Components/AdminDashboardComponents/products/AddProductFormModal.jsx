@@ -11,10 +11,12 @@ import {
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../Context/auth";
 
-function AddProductFormModal() {
+function AddProductFormModal({ getAllProduct }) {
   const [openModal, setOpenModal] = useState(false);
   const [categories, setCategories] = useState();
+  const [auth] = useAuth();
   //close modal
   function onCloseModal() {
     setOpenModal(false);
@@ -22,6 +24,10 @@ function AddProductFormModal() {
   //getting all categories
   const getAllCategory = async () => {
     try {
+      if (!auth?.user || !auth?.token) {
+        onCloseModal();
+        return console.log("auth required");
+      }
       const { data } = await axios.get(import.meta.env.VITE_GET_CATEGORY_URL);
       if (data.success) {
         setCategories(data.category);
@@ -34,34 +40,36 @@ function AddProductFormModal() {
   // get all category -function
   useEffect(() => {
     getAllCategory();
-  }, []);
+  }, [openModal]);
   // set  useFormic hook
   const formik = useFormik({
     // setting initail values
     initialValues: {
-        name: "",
-        description: "",
-        category: "",
-        price: "",
-        quantity: "",
-       
+      name: "",
+      description: "",
+      category: "",
+      price: "",
+      quantity: "",
     },
     onSubmit: async (values, { resetForm }) => {
       try {
+        if (!auth?.user || !auth?.token) {
+          onCloseModal();
+          return console.log("auth required");
+        }
         const { data } = await axios.post(
           import.meta.env.VITE_Add_PRODUCT_URL,
-          values,
+          values
           // { withCredentials: true }
         );
-        if(data?.success){
-            toast.success("product added successfully")
-            console.log(data.message)
-            onCloseModal()
-            getAllCategory();
-        }
-        else{
-            toast.error(data.message)
-            console.log(data.message)
+        if (data?.success) {
+          toast.success("product added successfully");
+          getAllProduct();
+          console.log(data.message);
+          onCloseModal();
+        } else {
+          toast.error(data.message);
+          console.log(data.message);
         }
       } catch (error) {
         console.log("Error in product adding:", error);

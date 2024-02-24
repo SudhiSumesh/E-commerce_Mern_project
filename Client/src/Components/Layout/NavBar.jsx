@@ -30,7 +30,7 @@ const NavBar = () => {
               className="text-2xl self-center p-2 mt-1 hover:text-[blue] cursor-pointer"
             />
           </Link>
-          {auth.user ? <DropDownModal /> : <FormModal />}
+          {auth?.user ? <DropDownModal /> : <FormModal />}
           <Nav.Toggle />
         </div>
         <Nav.Collapse>

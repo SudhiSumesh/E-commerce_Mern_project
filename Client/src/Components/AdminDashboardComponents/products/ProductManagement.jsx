@@ -1,39 +1,48 @@
 import React, { useEffect, useState } from "react";
-import {  Table } from "flowbite-react";
+import { Table } from "flowbite-react";
 import AddProductFormModal from "./AddProductFormModal";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import EditProductModal from "./EditProducModal";
 import ProductDeleteModal from "./ProductDeleteModal";
+import { useAuth } from "../../../Context/auth";
 
 function ProductManagement() {
-  const [products,setProducts]=useState([])
-  const [selected,setSelected]=useState(null)
+  const [products, setProducts] = useState([]);
+;
+  const [auth] = useAuth();
   //get all products
-  const getAllProduct= async ()=>{
-try {
-       const { data } = await axios.get(import.meta.env.VITE_GET_PRODUCT_URL);
-  if(data?.success){
-    setProducts(data.products)
+  const getAllProduct = async () => {
+    try {
+      //  getAllCategory();
+      if (!auth?.user || !auth?.token) {
+        // onCloseModal();
+        return console.log("auth required");
+      }
+      const { data } = await axios.get(import.meta.env.VITE_GET_PRODUCT_URL);
+      if (data?.success) {
+        setProducts(data.products);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("error in getting product list");
+    }
+  };
+  useEffect(() => {
+    getAllProduct();
+  }, []);
 
-  }
-} catch (error) {
-  console.log(error);
-  toast.error("error in getting product list")
-}       
-  }
-  useEffect(()=>{
-    getAllProduct()
-  },[])
+
 
   return (
     <>
       <div className="  ps-10 py-3">
         <div>
-          <AddProductFormModal />
+          <AddProductFormModal getAllProduct={getAllProduct} />
         </div>
         <Table hoverable className=" border m-4 ">
           <Table.Head>
+            <Table.HeadCell>Sl.No</Table.HeadCell>
             <Table.HeadCell>Category</Table.HeadCell>
             <Table.HeadCell>Product name</Table.HeadCell>
             <Table.HeadCell>Image</Table.HeadCell>
@@ -51,8 +60,9 @@ try {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {products.map((product) => (
+            {products?.reverse().map((product, i) => (
               <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Cell>{i + 1}</Table.Cell>
                 <Table.Cell>{product.category.name}</Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {product.name}
@@ -64,10 +74,7 @@ try {
                 <Table.Cell>{product.price}</Table.Cell>
                 <Table.Cell>{product.quantity}</Table.Cell>
                 <Table.Cell>
-                  <button
-                    onClick={() => setSelected(product)}
-                    className="font-medium text-[blue] hover:underline dark:[blue]"
-                  >
+                  <button className="font-medium text-[blue] hover:underline dark:[blue]" >
                     <EditProductModal
                       product={product}
                       getAllProduct={getAllProduct}
@@ -92,3 +99,4 @@ try {
 }
 
 export default ProductManagement;
+

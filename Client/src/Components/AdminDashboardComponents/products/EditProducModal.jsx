@@ -1,8 +1,6 @@
 import axios from "axios";
 import {
   Button,
-  Dropdown,
-  FileInput,
   Label,
   Modal,
   TextInput,
@@ -11,18 +9,25 @@ import {
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../Context/auth";
 
 function EditProductModal({product, getAllProduct}) {
+  const [auth,setAuth]=useAuth()
   const [openModal, setOpenModal] = useState(false);
   const [categories, setCategories] = useState();
   // const [productId,setProductId]=useState(product)
   //close modal
+  // console.log(product);
   function onCloseModal() {
     setOpenModal(false);
   }
   //getting all categories
   const getAllCategory = async () => {
     try {
+      if(!auth.user || !auth.token){
+        onCloseModal()
+        return  console.log("Auth required");
+      }
       const { data } = await axios.get(import.meta.env.VITE_GET_CATEGORY_URL);
       if (data.success) {
         setCategories(data.category);
@@ -38,17 +43,23 @@ function EditProductModal({product, getAllProduct}) {
   }, []);
 
   // set  useFormic hook
-  const formik = useFormik({
+  const formik = useFormik(
+{
     // setting initail values
+    
     initialValues: {
-      name: product.name,
-      description: product.description,
-      category: product.category._id,
-      price: product.price,
-      quantity: product.quantity,
+      name: product.name || "",
+      description: product.description || "",
+      category: product.category._id||"",
+      price: product.price||"",
+      quantity: product.quantity|"",
     },
     onSubmit: async (values, { resetForm }) => {
       try {
+            if (!auth?.user || !auth?.token) {
+              onCloseModal();
+              return console.log("auth required");
+            }
         // update category
         const { data } = await axios.put(
           `${import.meta.env.VITE_UPDATE_PRODUCT_URL}/${product._id}`,
@@ -60,6 +71,7 @@ function EditProductModal({product, getAllProduct}) {
           console.log(data.message);
           onCloseModal();
            getAllProduct();
+            getAllCategory();
         } else {
           toast.error(data.message);
           console.log(data.message);
@@ -74,7 +86,11 @@ function EditProductModal({product, getAllProduct}) {
   return (
     <>
       <button
-        onClick={() => setOpenModal(true)}
+        onClick={() => {
+              setOpenModal(true)
+              // console.log(auth.user,auth.token);
+           
+            }}
         className="  text-[blue] hover:underline rounded-lg"
       >
         Edit
@@ -184,3 +200,4 @@ function EditProductModal({product, getAllProduct}) {
 }
 
 export default EditProductModal;
+

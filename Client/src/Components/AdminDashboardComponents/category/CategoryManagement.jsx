@@ -5,16 +5,23 @@ import axios from "axios";
 import CategoryForm from "./CategoryForm";
 import CategoryEditModal from "./CategoryEditModal";
 import CategoryDeleteModal from "./CategoryDeleteModal";
+import { useAuth } from "../../../Context/auth";
 
 function CategoryManagement() {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [selected,setSelected]=useState(null)
+  const [auth]=useAuth()
   // const [updatedName,setupdatedName]=useState("")
 
   //getting all categories
   const getAllCategory = async () => {
     try {
+      // console.log(auth.user,auth.token);
+          if (!auth?.user || !auth?.token) {
+            // onCloseModal();
+            return console.log("auth required");
+          }
       const { data } = await axios.get(import.meta.env.VITE_GET_CATEGORY_URL);
       if (data.success) {
         setCategories(data.category);
@@ -28,12 +35,17 @@ function CategoryManagement() {
   // get all category -function
   useEffect(() => {
     getAllCategory();
-  }, []);
+  }, [selected,name]);
 
   //hnadle form submit
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    
     try {
+          if (!auth?.user || !auth?.token) {
+            // onCloseModal();
+            return console.log("auth required");
+          }
       const { data } = await axios.post(
         import.meta.env.VITE_CREATE_CATEGORY_URL,
         { name }
@@ -52,6 +64,10 @@ function CategoryManagement() {
   const handleUpdate=async(updatedCategory)=>{
  
    try {
+        if (!auth?.user || !auth?.token) {
+          // onCloseModal();
+          return console.log("auth required");
+        }
      const { data } =await axios.put(
        `${import.meta.env.VITE_UPDATE_CATEGORY_URL}/${selected._id}`,
        { name: updatedCategory }
@@ -73,6 +89,10 @@ function CategoryManagement() {
   //delete category
     const handleDelete= async () => {
       try {
+            if (!auth?.user || !auth?.token) {
+              // onCloseModal();
+              return console.log("auth required");
+            }
         const { data } = await axios.delete(
           `${import.meta.env.VITE_DELETE_CATEGORY_URL}/${selected._id}`);
         if (data.success) {
@@ -109,7 +129,7 @@ function CategoryManagement() {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {categories?.map((category, index) => (
+          {categories?.slice(0).reverse().map((category, index) => (
             <Table.Row
               key={category._id}
               className="bg-white dark:border-gray-700 dark:bg-gray-800"

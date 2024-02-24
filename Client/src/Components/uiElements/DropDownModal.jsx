@@ -12,10 +12,11 @@ function DropDownModal() {
     setAuth({
       ...auth,
       user: null,
-      token: "",
+      token: ""
     });
     localStorage.clear("auth");
     navigate("/");
+    console.log(auth);
   };
   return (
     <div className="mt-1 mx-3 ">

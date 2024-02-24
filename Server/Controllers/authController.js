@@ -1,6 +1,8 @@
 const userModel = require("../Models/userModel");
 const JWT = require("jsonwebtoken");
+const bcrypt=require('bcrypt')
 const { hashPassword, comparePassword } = require("../Utils/authHelper");
+const sendEmail = require("../Utils/sendMail");
 
 //Register user || POST
 exports.registerController = async (req, res) => {
@@ -72,24 +74,22 @@ exports.loginController = async (req, res) => {
       });
     }
     //token
-    const token =  JWT.sign(
-      { _id: user._id },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: "1d" }
-    );
+    const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "1d",
+    });
     res.status(200).json({
-        success:true,
-        message:"login success",
-        user:{
-            name:user.name,
-           email:user.email,
-           phone:user.phone,
-           address:user.address,
-           avatar:user.avatar,
-           role:user.role,
-        },
-        token
-    })
+      success: true,
+      message: "login success",
+      user: {
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        avatar: user.avatar,
+        role: user.role,
+      },
+      token,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -100,8 +100,74 @@ exports.loginController = async (req, res) => {
   }
 };
 //test route
-exports.testController=async (req,res)=>{
-    res.status(200).json({
-      message:"protected route accessed"
-    })
+exports.testController = async (req, res) => {
+  res.status(200).json({
+    message: "protected route accessed",
+  });
+};
+
+//forgot password
+
+exports.forgotController = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await userModel.findOne({ email });
+    if (!user)
+      return res
+        .status(401)
+        .json({ success: false, message: "user not exist" });
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    
+    const addOtp = await userModel.findByIdAndUpdate(user._id, {
+      otp: otp,
+    });
+    if (addOtp) {
+      sendEmail(email, otp);
+      res.status(201).json({ message: "otp sended to mail" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error in Forgott password",
+      error,
+    });
+  }
+};
+
+//reset password
+exports.resetController=async (req,res)=>{
+try {
+
+  const {email,password,otp}=req.body
+  if(!otp&&!password){
+   return res.send("otp & passowrd requird")
+  }
+  if(password.length<3){
+   return res.send("password must greater than 3");
+
+  }
+  const user=await userModel.findOne({email})
+
+    if (!user) {
+      return res.send("User not found");
+    }
+  if (otp==user?.otp) {
+     const hashedPassword = await bcrypt.hash(password, 10);
+     const updatedPassword = await userModel.findByIdAndUpdate(user._id, {
+       password: hashedPassword,
+       otp:""
+     });
+     if (updatedPassword) {
+       return res.status(201).json({ message: "Password updated" });
+     }
+  }
+} catch (error) {
+   console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error in reset password",
+      error,
+})
+}
 }
