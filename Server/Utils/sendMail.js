@@ -11,7 +11,7 @@ const sendEmail = async (email, otp) => {
     },
   });
   const info = await transporter.sendMail({
-    from: '"Salalah 👻" <sudhisumesh854797@gmail.com>', // sender address
+    from: '"Salalah " <sudhisumesh854797@gmail.com>', // sender address
     to: email, // list of receivers
     subject: "Reset Password", // Subject line
     html: `<h2>your OTP IS ${otp}</h2>`, // html body

@@ -2,21 +2,25 @@ import { Avatar, Dropdown } from "flowbite-react";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/auth";
+import { ToastBar, Toaster, toast } from "react-hot-toast";
 
 function DropDownModal() {
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
+  const notifySuccess = () => toast.success("logout succssfully");
+
   //handle logout
   const handleLogout = () => {
-    // toast.success("logout succssfully");
     setAuth({
       ...auth,
       user: null,
-      token: ""
+      token: "",
     });
     localStorage.clear("auth");
+    
+    notifySuccess();
     navigate("/");
-    console.log(auth);
+    // console.log(auth);
   };
   return (
     <div className="mt-1 mx-3 ">
@@ -26,7 +30,9 @@ function DropDownModal() {
         label={<Avatar alt="User profile" img={auth?.user?.avatar} rounded />}
       >
         <Dropdown.Header>
-          <span className="block text-xl capitalize font-medium">{auth?.user?.name}</span>
+          <span className="block text-xl capitalize font-medium">
+            {auth?.user?.name}
+          </span>
           <span className="block text-sm font-medium truncate">
             {auth?.user?.email}
           </span>
@@ -42,6 +48,7 @@ function DropDownModal() {
           Sign out
         </Dropdown.Item>
       </Dropdown>
+      <Toaster />
     </div>
   );
 }

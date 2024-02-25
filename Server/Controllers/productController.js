@@ -3,8 +3,13 @@ const productModel = require("../Models/productModel");
 
 //create product
 exports.createProductController = async (req, res) => {
+  console.log(req.body);
   try {
     const { name, description, price, category, quantity } = req.body;
+    const imageOne = req.body.images[0].name;
+    const imageTwo = req.body.images[1].name;
+
+    const imageThree = req.body.images[2].name;
     //validation
     switch (true) {
       case !name:
@@ -17,14 +22,25 @@ exports.createProductController = async (req, res) => {
         return res.status(500).send({ error: "Category is Required" });
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
-      // case !images:
-      //   return res.status(500).send({ error: "image is Required" });
+      case !imageOne:
+        return res.status(500).send({ error: "image is Required" });
+      case !imageTwo:
+        return res.status(500).send({ error: "image is Required" });
+      case !imageThree:
+        return res.status(500).send({ error: "image is Required" });
     }
     // create
-    const product = await new productModel({
-      ...req.body,
+    const product = await  productModel.create({
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      imageOne,
+      imageTwo,
+      imageThree,
       slug: slugify(name),
-    }).save();
+    });
     res.status(200).json({
       success: true,
       message: "Product successfully created",

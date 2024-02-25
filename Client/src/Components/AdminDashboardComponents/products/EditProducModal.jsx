@@ -8,16 +8,16 @@ import {
 } from "flowbite-react";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../../Context/auth";
 
 function EditProductModal({product, getAllProduct}) {
-  const [auth,setAuth]=useAuth()
+  const [auth]=useAuth()
   const [openModal, setOpenModal] = useState(false);
   const [categories, setCategories] = useState();
-  // const [productId,setProductId]=useState(product)
+  // const [produ,setProduct]=useState(product)
   //close modal
-  // console.log(product);
+  console.log(product);
   function onCloseModal() {
     setOpenModal(false);
   }
@@ -48,11 +48,11 @@ function EditProductModal({product, getAllProduct}) {
     // setting initail values
     
     initialValues: {
-      name: product.name || "",
-      description: product.description || "",
-      category: product.category._id||"",
-      price: product.price||"",
-      quantity: product.quantity|"",
+      name: product?.name || "" ,
+      description: product?.description || "" ,
+      category: product?.category._id || "",
+      price: product?.price || "",
+      quantity: product?.quantity || "",
     },
     onSubmit: async (values, { resetForm }) => {
       try {
@@ -87,10 +87,9 @@ function EditProductModal({product, getAllProduct}) {
     <>
       <button
         onClick={() => {
-              setOpenModal(true)
-              // console.log(auth.user,auth.token);
-           
-            }}
+          setOpenModal(true);
+          // console.log(auth.user,auth.token);
+        }}
         className="  text-[blue] hover:underline rounded-lg"
       >
         Edit
@@ -195,6 +194,7 @@ function EditProductModal({product, getAllProduct}) {
           </form>
         </Modal.Body>
       </Modal>
+      <ToastContainer />
     </>
   );
 }

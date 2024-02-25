@@ -2,10 +2,11 @@ const express = require('express')
 const router=express.Router()
 const { createProductController, updateProductController, getProductController, getSingleProductController, deleteProductController } = require('../Controllers/productController')
 const { requireSignIn, isAdmin } = require('../Middleware/authMiddleware')
+const { upload } = require('../Middleware/Multer')
 
 //routes
 //create product|| post method
-router.post('/create-product',requireSignIn,isAdmin,createProductController)
+router.post('/create-product',requireSignIn,isAdmin,upload.array('images',3),createProductController)
 
 //update product|| put method
 router.put("/update-product/:id",requireSignIn, isAdmin,updateProductController);

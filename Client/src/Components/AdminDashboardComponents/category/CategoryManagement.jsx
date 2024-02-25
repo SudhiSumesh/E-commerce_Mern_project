@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "flowbite-react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import CategoryForm from "./CategoryForm";
 import CategoryEditModal from "./CategoryEditModal";
@@ -54,6 +54,10 @@ function CategoryManagement() {
         toast.success(`${name} is created`);
         getAllCategory();
         setName("");
+      }
+      else{
+        console.log("error in creating category");
+        toast.error("error in creating category")
       }
     } catch (error) {
       console.log(error);
@@ -129,38 +133,42 @@ function CategoryManagement() {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {categories?.slice(0).reverse().map((category, index) => (
-            <Table.Row
-              key={category._id}
-              className="bg-white dark:border-gray-700 dark:bg-gray-800"
-            >
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {index + 1}
-              </Table.Cell>
-              <Table.Cell>{category.name}</Table.Cell>
-              <Table.Cell>
-                <button
-                  onClick={() => setSelected(category)}
-                  className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                >
-                  <CategoryEditModal
-                    name={category.name}
-                    handleUpdate={handleUpdate}
-                  />
-                </button>
-              </Table.Cell>
-              <Table.Cell>
-                <button
-                  onClick={() => setSelected(category)}
-                  className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                >
-                  <CategoryDeleteModal handleDelete={handleDelete} />
-                </button>
-              </Table.Cell>
-            </Table.Row>
-          ))}
+          {categories
+            ?.slice(0)
+            .reverse()
+            .map((category, index) => (
+              <Table.Row
+                key={category._id}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {index + 1}
+                </Table.Cell>
+                <Table.Cell>{category.name}</Table.Cell>
+                <Table.Cell>
+                  <button
+                    onClick={() => setSelected(category)}
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                  >
+                    <CategoryEditModal
+                      name={category.name}
+                      handleUpdate={handleUpdate}
+                    />
+                  </button>
+                </Table.Cell>
+                <Table.Cell>
+                  <button
+                    onClick={() => setSelected(category)}
+                    className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                  >
+                    <CategoryDeleteModal handleDelete={handleDelete} />
+                  </button>
+                </Table.Cell>
+              </Table.Row>
+            ))}
         </Table.Body>
       </Table>
+      <ToastContainer />
     </div>
   );
 }

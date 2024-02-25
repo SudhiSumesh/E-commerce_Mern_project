@@ -1,13 +1,12 @@
 import axios from "axios";
 import {
   Button,
-  Dropdown,
-  FileInput,
   Label,
   Modal,
   TextInput,
   Textarea,
 } from "flowbite-react";
+import { Dropzone, FileMosaic } from "@files-ui/react";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -16,10 +15,21 @@ import { useAuth } from "../../../Context/auth";
 function AddProductFormModal({ getAllProduct }) {
   const [openModal, setOpenModal] = useState(false);
   const [categories, setCategories] = useState();
+  const [images, setImages] = useState([]);
+    const [previewImages, setPreviewImages] = useState([]);
   const [auth] = useAuth();
   //close modal
   function onCloseModal() {
     setOpenModal(false);
+  }
+  const HandleFileChange=(event)=>{
+    const selectedFiles = event.target.files;
+    setImages(Array.from(selectedFiles));
+    //  image preview
+    const imagePreviews = Array.from(selectedFiles).map((file) =>
+      URL.createObjectURL(file)
+    );
+    setPreviewImages(imagePreviews);
   }
   //getting all categories
   const getAllCategory = async () => {
@@ -48,10 +58,13 @@ function AddProductFormModal({ getAllProduct }) {
       name: "",
       description: "",
       category: "",
+      images:[],
       price: "",
       quantity: "",
     },
     onSubmit: async (values, { resetForm }) => {
+      const newValues = { ...values, images: images };
+      console.log(newValues);
       try {
         if (!auth?.user || !auth?.token) {
           onCloseModal();
@@ -59,7 +72,7 @@ function AddProductFormModal({ getAllProduct }) {
         }
         const { data } = await axios.post(
           import.meta.env.VITE_Add_PRODUCT_URL,
-          values
+          newValues
           // { withCredentials: true }
         );
         if (data?.success) {
@@ -112,19 +125,28 @@ function AddProductFormModal({ getAllProduct }) {
                 </select>
               </div>
               {/* choose file */}
-              {/* <div>
-                <div className="my-2 ">
-                  <Label
-                    htmlFor="file-upload-helper-text"
-                    value="Upload product image"
+              <input
+                type="file"
+                onChange={HandleFileChange}
+                multiple
+                className="my-10"
+              />
+                {/* preview */}
+                {previewImages.map((previewUrl, index) => (
+                  <img
+                    key={index}
+                    src={previewUrl}
+                    alt={`Preview ${index + 1}`}
+                    style={{
+                      display:"flex",
+                      maxWidth: "100px",
+                      maxHeight: "100px",
+                      marginTop: "40px",
+                    }}
                   />
-                </div>
-                <FileInput
-                  type="file"
-                  className=""
-                  //   helperText="SVG, PNG, JPG or GIF (MAX. 800x400px)."
-                />
-              </div> */}
+                ))}
+             
+
               {/* enter product name */}
               <div className="my-2  block">
                 <Label htmlFor="" value="Product Name" />

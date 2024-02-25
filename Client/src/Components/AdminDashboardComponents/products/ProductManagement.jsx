@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Table } from "flowbite-react";
 import AddProductFormModal from "./AddProductFormModal";
 import axios from "axios";
-import { Slide, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import EditProductModal from "./EditProducModal";
 import ProductDeleteModal from "./ProductDeleteModal";
 import { useAuth } from "../../../Context/auth";
 
-function ProductManagement() {
+ function ProductManagement() {
   const [products, setProducts] = useState([]);
-;
+
   const [auth] = useAuth();
   //get all products
   const getAllProduct = async () => {
@@ -32,8 +32,6 @@ function ProductManagement() {
     getAllProduct();
   }, []);
 
-
-
   return (
     <>
       <div className="  ps-10 py-3">
@@ -45,16 +43,14 @@ function ProductManagement() {
             <Table.HeadCell>Sl.No</Table.HeadCell>
             <Table.HeadCell>Category</Table.HeadCell>
             <Table.HeadCell>Product name</Table.HeadCell>
-            <Table.HeadCell>Image</Table.HeadCell>
+            <Table.HeadCell className="text-center">Image</Table.HeadCell>
             <Table.HeadCell>Description</Table.HeadCell>
             <Table.HeadCell>Price</Table.HeadCell>
             <Table.HeadCell>Quantity</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
             </Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Block</span>
-            </Table.HeadCell>
+
             <Table.HeadCell>
               <span className="sr-only">Delete</span>
             </Table.HeadCell>
@@ -67,14 +63,17 @@ function ProductManagement() {
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {product.name}
                 </Table.Cell>
-                <Table.Cell>{product.description}</Table.Cell>
+                <Table.Cell>
+                  {/* <img src={product.images} alt="productimage" width="110px"/> */}
+                </Table.Cell>
                 <Table.Cell className="max-w-[300px]">
+
                   {product.description}
                 </Table.Cell>
                 <Table.Cell>{product.price}</Table.Cell>
                 <Table.Cell>{product.quantity}</Table.Cell>
                 <Table.Cell>
-                  <button className="font-medium text-[blue] hover:underline dark:[blue]" >
+                  <button className="font-medium text-[blue] hover:underline dark:[blue]">
                     <EditProductModal
                       product={product}
                       getAllProduct={getAllProduct}
@@ -93,6 +92,7 @@ function ProductManagement() {
             ))}
           </Table.Body>
         </Table>
+        <ToastContainer />
       </div>
     </>
   );

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../../Context/auth";
 
 function ProductDeleteModal({ productId, getAllProduct }) {
@@ -66,6 +66,7 @@ function ProductDeleteModal({ productId, getAllProduct }) {
           </div>
         </Modal.Body>
       </Modal>
+      <ToastContainer />
     </>
   );
 }

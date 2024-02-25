@@ -28,10 +28,17 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    images: {
+    image1: {
       type: String,
-      default: "https://raylo.imgix.net/iphone-12-red.png",
-      // required:true
+      required: true,
+    },
+    image2: {
+      type: String,
+      required: true,
+    },
+    image3: {
+      type: String,
+      required: true,
     },
     rating: {
       type: Number,

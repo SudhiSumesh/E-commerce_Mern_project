@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './Pages/HomePage'
 import ProductsPage from './Pages/ProductsPage';
+import ResetPassword from "./Components/Auth/ResetPassword"
 import AboutPage from './Pages/AboutPage';
 import ContactPage from './Pages/ContactPage';
 import CartPage from './Pages/CartPage';
@@ -12,6 +13,7 @@ import UserList from './Pages/Admin/UserList';
 import ProductList from './Pages/Admin/ProductList';
 import Category from './Pages/Admin/Category';
 import Page404 from './Pages/Page404';
+import ForgotPassword from './Components/Auth/ForgotPassword';
 
 function App() {
   return (
@@ -31,6 +33,9 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        
         <Route path="*" element={<Page404 />} />
       </Routes>
     </>

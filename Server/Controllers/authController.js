@@ -111,19 +111,26 @@ exports.testController = async (req, res) => {
 exports.forgotController = async (req, res) => {
   try {
     const { email } = req.body;
+        if (!email)
+          return res
+            .status(401)
+            .json({ success: false, message: "require email" });
     const user = await userModel.findOne({ email });
     if (!user)
       return res
         .status(401)
         .json({ success: false, message: "user not exist" });
+
     const otp = Math.floor(100000 + Math.random() * 900000);
     
     const addOtp = await userModel.findByIdAndUpdate(user._id, {
       otp: otp,
     });
     if (addOtp) {
-      sendEmail(email, otp);
-      res.status(201).json({ message: "otp sended to mail" });
+     await sendEmail(email, otp);
+      res.status(201).json({ 
+        success:true,
+        message: "otp sended to mail" });
     }
   } catch (error) {
     console.log(error);
@@ -139,7 +146,7 @@ exports.forgotController = async (req, res) => {
 exports.resetController=async (req,res)=>{
 try {
 
-  const {email,password,otp}=req.body
+  const {password,otp}=req.body
   if(!otp&&!password){
    return res.send("otp & passowrd requird")
   }
@@ -147,7 +154,7 @@ try {
    return res.send("password must greater than 3");
 
   }
-  const user=await userModel.findOne({email})
+  const user=await userModel.findOne({otp})
 
     if (!user) {
       return res.send("User not found");
@@ -159,7 +166,7 @@ try {
        otp:""
      });
      if (updatedPassword) {
-       return res.status(201).json({ message: "Password updated" });
+       return res.status(201).json({success:true, message: "Password updated" });
      }
   }
 } catch (error) {

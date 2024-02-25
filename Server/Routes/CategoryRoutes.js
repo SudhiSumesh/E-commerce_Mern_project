@@ -17,6 +17,11 @@ router.get('/show-category',categoryController)
 router.get("/single-category/:slug", singleCategoryController);
 
 //Delete Category ||delete method
-router.delete('/detete-category/:id',requireSignIn,isAdmin,deleteCategoryController) 
+router.delete(
+  "/detete-category/:categoryId",
+  requireSignIn,
+  isAdmin,
+  deleteCategoryController
+); 
 
 module.exports=router

@@ -2,10 +2,10 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Checkbox, Label, TextInput } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../Context/auth";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate ,Link} from "react-router-dom";
 
 const LoginForm = ({ onCloseModal }) => {
   const [auth, setAuth] = useAuth();
@@ -39,8 +39,8 @@ const LoginForm = ({ onCloseModal }) => {
 
           setTimeout(() => {
             onCloseModal(); // Close modal
-            //  if user try to access  privte route 
-            location.state && navigate(location.state)
+            //  if user try to access  privte route
+            location.state && navigate(location.state);
             //set user and token
             setAuth({
               ...auth,
@@ -48,7 +48,7 @@ const LoginForm = ({ onCloseModal }) => {
               token: token,
             });
             localStorage.setItem("auth", JSON.stringify(response.data));
-            console.log(user, token);
+            // console.log(user, token);
           }, 1000);
         } else {
           notifyError(message);
@@ -106,12 +106,19 @@ const LoginForm = ({ onCloseModal }) => {
             <Checkbox id="remember" />
             <Label htmlFor="remember">Remember me</Label>
           </div>
-          <a className="text-sm text-cyan-700 hover:underline dark:text-cyan-500">
-            Lost Password?
-          </a>
+          <Link to="/forgot-password"
+            className="text-sm text-[blue] hover:underline dark:text-cyan-500"
+          >
+            Lost Password ?
+          </Link>
         </div>
         <div className="w-full">
-          <Button type="submit">Login</Button>
+          <button
+            className="bg-[blue] px-3 py-1.5 rounded-md text-white"
+            type="submit"
+          >
+            Login
+          </button>
         </div>
       </form>
       <ToastContainer />

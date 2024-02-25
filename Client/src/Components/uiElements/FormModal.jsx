@@ -28,10 +28,10 @@ const FormModal = () => {
               // display login form
               <>
                 <LoginForm onCloseModal={onCloseModal} />
-                <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300">
+                <div className="flex justify-between text-sm font-medium text-[black] dark:text-gray-300">
                   Not registered?&nbsp;
                   <a
-                    className="text-cyan-700 hover:underline dark:text-cyan-500"
+                    className="text-[blue] hover:underline dark:text-cyan-500"
                     onClick={() => setAction("signup")}
                   >
                     Create account
