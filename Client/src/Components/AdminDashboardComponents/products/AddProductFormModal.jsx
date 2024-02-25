@@ -1,36 +1,46 @@
 import axios from "axios";
-import {
-  Button,
-  Label,
-  Modal,
-  TextInput,
-  Textarea,
-} from "flowbite-react";
+import { Button, Label, Modal, TextInput, Textarea } from "flowbite-react";
 import { Dropzone, FileMosaic } from "@files-ui/react";
-import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../../Context/auth";
 
 function AddProductFormModal({ getAllProduct }) {
   const [openModal, setOpenModal] = useState(false);
   const [categories, setCategories] = useState();
-  const [images, setImages] = useState([]);
-    const [previewImages, setPreviewImages] = useState([]);
+  const [file, setFile] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
   const [auth] = useAuth();
+  const [data, setData] = useState({
+    name: "",
+    description: "",
+    quantity: "",
+    price: "",
+    file: "",
+    category: "",
+  });
+  const [input, setInput] = useState({
+    name: "",
+    description: "",
+    quantity: "",
+    price: "",
+    category: "",
+  });
   //close modal
   function onCloseModal() {
     setOpenModal(false);
   }
-  const HandleFileChange=(event)=>{
+  //handle file change
+  const handleFileChange = (event) => {
     const selectedFiles = event.target.files;
-    setImages(Array.from(selectedFiles));
-    //  image preview
+    setFile(Array.from(selectedFiles));
+
+    // Generate preview images
     const imagePreviews = Array.from(selectedFiles).map((file) =>
       URL.createObjectURL(file)
     );
     setPreviewImages(imagePreviews);
-  }
+  };
   //getting all categories
   const getAllCategory = async () => {
     try {
@@ -47,50 +57,49 @@ function AddProductFormModal({ getAllProduct }) {
       toast.error("Something went wrong in getting category");
     }
   };
+
   // get all category -function
   useEffect(() => {
     getAllCategory();
   }, [openModal]);
-  // set  useFormic hook
-  const formik = useFormik({
-    // setting initail values
-    initialValues: {
-      name: "",
-      description: "",
-      category: "",
-      images:[],
-      price: "",
-      quantity: "",
-    },
-    onSubmit: async (values, { resetForm }) => {
-      const newValues = { ...values, images: images };
-      console.log(newValues);
-      try {
-        if (!auth?.user || !auth?.token) {
-          onCloseModal();
-          return console.log("auth required");
-        }
-        const { data } = await axios.post(
-          import.meta.env.VITE_Add_PRODUCT_URL,
-          newValues
-          // { withCredentials: true }
-        );
-        if (data?.success) {
-          toast.success("product added successfully");
-          getAllProduct();
-          console.log(data.message);
-          onCloseModal();
-        } else {
-          toast.error(data.message);
-          console.log(data.message);
-        }
-      } catch (error) {
-        console.log("Error in product adding:", error);
-        toast.error("An error occurred. Please try again.");
+
+  //handlechange
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setInput({ ...input, [name]: value });
+  }
+  //handleSubmit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formdata = new FormData();
+      file.forEach((file) => {
+        formdata.append("file", file);
+      });
+      formdata.append("name", input.name);
+      formdata.append("price", input.price);
+      formdata.append("description", input.description);
+      formdata.append("quantity", input.quantity);
+      formdata.append("category", input.category);
+      const { data } = await axios.post(
+        import.meta.env.VITE_Add_PRODUCT_URL,
+        formdata
+      );
+      if (data.success) {
+        onCloseModal();
+        getAllProduct();
+        // toast.success(data.message)
+        console.log(data.message);
+      } else {
+        console.log(data.message);
       }
-      resetForm();
-    },
-  });
+    } catch (error) {
+      onCloseModal();
+      getAllProduct();
+      console.log(error);
+      toast.error("error in create product");
+    }
+  };
   return (
     <>
       <button
@@ -104,7 +113,7 @@ function AddProductFormModal({ getAllProduct }) {
         <Modal.Body>
           <form
             className="flex max-w-md flex-col gap-4"
-            onSubmit={formik.handleSubmit}
+            onSubmit={handleSubmit}
           >
             <div>
               {/* dropdown category*/}
@@ -113,8 +122,8 @@ function AddProductFormModal({ getAllProduct }) {
                 <select
                   className="rounded-xl"
                   name="category"
-                  value={formik.values.category}
-                  onChange={formik.handleChange}
+                  value={input.category}
+                  onChange={handleChange}
                 >
                   <option value="">Select category</option>
                   {categories?.map((category) => (
@@ -127,25 +136,24 @@ function AddProductFormModal({ getAllProduct }) {
               {/* choose file */}
               <input
                 type="file"
-                onChange={HandleFileChange}
+                onChange={handleFileChange}
                 multiple
                 className="my-10"
               />
-                {/* preview */}
-                {previewImages.map((previewUrl, index) => (
-                  <img
-                    key={index}
-                    src={previewUrl}
-                    alt={`Preview ${index + 1}`}
-                    style={{
-                      display:"flex",
-                      maxWidth: "100px",
-                      maxHeight: "100px",
-                      marginTop: "40px",
-                    }}
-                  />
-                ))}
-             
+              {/* preview */}
+              {previewImages.map((previewUrl, index) => (
+                <img
+                  key={index}
+                  src={previewUrl}
+                  alt={`Preview ${index + 1}`}
+                  style={{
+                    display: "flex",
+                    maxWidth: "100px",
+                    maxHeight: "100px",
+                    marginTop: "40px",
+                  }}
+                />
+              ))}
 
               {/* enter product name */}
               <div className="my-2  block">
@@ -155,8 +163,8 @@ function AddProductFormModal({ getAllProduct }) {
                 required
                 shadow
                 name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
+                value={input.name}
+                onChange={handleChange}
               />
             </div>
             {/* text area description */}
@@ -170,8 +178,8 @@ function AddProductFormModal({ getAllProduct }) {
                 required
                 rows={4}
                 name="description"
-                value={formik.values.description}
-                onChange={formik.handleChange}
+                value={input.description}
+                onChange={handleChange}
               />
             </div>
             {/* price */}
@@ -182,8 +190,8 @@ function AddProductFormModal({ getAllProduct }) {
               <TextInput
                 type="number"
                 name="price"
-                value={formik.values.price}
-                onChange={formik.handleChange}
+                value={input.price}
+                onChange={handleChange}
                 required
                 shadow
               />
@@ -196,8 +204,8 @@ function AddProductFormModal({ getAllProduct }) {
               <TextInput
                 type="number"
                 name="quantity"
-                value={formik.values.quantity}
-                onChange={formik.handleChange}
+                value={input.quantity}
+                onChange={handleChange}
                 required
                 shadow
               />
@@ -208,6 +216,7 @@ function AddProductFormModal({ getAllProduct }) {
           </form>
         </Modal.Body>
       </Modal>
+      <ToastContainer />
     </>
   );
 }

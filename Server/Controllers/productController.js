@@ -6,10 +6,9 @@ exports.createProductController = async (req, res) => {
   console.log(req.body);
   try {
     const { name, description, price, category, quantity } = req.body;
-    const imageOne = req.body.images[0].name;
-    const imageTwo = req.body.images[1].name;
-
-    const imageThree = req.body.images[2].name;
+    const imageOne = req.files[0].filename;
+    const imageTwo = req.files[1].filename;
+    const imageThree = req.files[2].filename;
     //validation
     switch (true) {
       case !name:
@@ -29,8 +28,14 @@ exports.createProductController = async (req, res) => {
       case !imageThree:
         return res.status(500).send({ error: "image is Required" });
     }
+
+    //existing product
+      const productexist = await productModel.findOne({ name });
+
+      if (productexist)
+        return res.status(401).json({ message: "product already exist" });
     // create
-    const product = await  productModel.create({
+    const product = await productModel.create({
       name,
       description,
       price,
@@ -127,7 +132,7 @@ exports.updateProductController = async (req, res) => {
       { ...req.body, slug: slugify(name) },
       { new: true }
     );
-   
+
     res.status(200).json({
       success: true,
       message: "Product successfully updated",

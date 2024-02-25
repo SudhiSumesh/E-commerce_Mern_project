@@ -14,6 +14,8 @@ const PORT = process.env.PORT || 5000;
 // middlewares
 app.use(express.json());
 app.use(helmet())
+//serve static files
+app.use(express.static('public'))
 // set cross origin access
 app.use(
   cors({
@@ -22,7 +24,6 @@ app.use(
     credentials: true,
   })
 );
-
 //routes
 
 //AUTH ROUTES

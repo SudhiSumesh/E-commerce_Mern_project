@@ -6,7 +6,7 @@ const { upload } = require('../Middleware/Multer')
 
 //routes
 //create product|| post method
-router.post('/create-product',requireSignIn,isAdmin,upload.array('images',3),createProductController)
+router.post('/create-product',requireSignIn,isAdmin,upload.array('file',3),createProductController)
 
 //update product|| put method
 router.put("/update-product/:id",requireSignIn, isAdmin,updateProductController);

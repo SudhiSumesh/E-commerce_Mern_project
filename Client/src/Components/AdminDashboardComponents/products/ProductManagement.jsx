@@ -22,6 +22,7 @@ import { useAuth } from "../../../Context/auth";
       const { data } = await axios.get(import.meta.env.VITE_GET_PRODUCT_URL);
       if (data?.success) {
         setProducts(data.products);
+        console.log(products);
       }
     } catch (error) {
       console.log(error);
@@ -64,10 +65,15 @@ import { useAuth } from "../../../Context/auth";
                   {product.name}
                 </Table.Cell>
                 <Table.Cell>
-                  {/* <img src={product.images} alt="productimage" width="110px"/> */}
+                  <img
+                    crossorigin="anonymous"
+                    src={`http://localhost:4000/images/undefined1708850023681_Screenshot%202023-09-23%20104628.png`}
+                    alt="productimage"
+                    width="110px"
+                    height="110px"
+                  />
                 </Table.Cell>
                 <Table.Cell className="max-w-[300px]">
-
                   {product.description}
                 </Table.Cell>
                 <Table.Cell>{product.price}</Table.Cell>

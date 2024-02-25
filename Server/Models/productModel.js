@@ -28,15 +28,15 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    image1: {
+    imageOne: {
       type: String,
       required: true,
     },
-    image2: {
+    imageTwo: {
       type: String,
       required: true,
     },
-    image3: {
+    imageThree: {
       type: String,
       required: true,
     },
