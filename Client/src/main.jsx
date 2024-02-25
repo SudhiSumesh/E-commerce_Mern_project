@@ -5,13 +5,16 @@ import { AuthProvider } from "./Context/auth.jsx";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 import App from "./App.jsx";
+import { SearchProvider } from "./Context/search.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <SearchProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </SearchProvider>
     </AuthProvider>
   </React.StrictMode>
 );

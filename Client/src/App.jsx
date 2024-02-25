@@ -14,12 +14,14 @@ import ProductList from './Pages/Admin/ProductList';
 import Category from './Pages/Admin/Category';
 import Page404 from './Pages/Page404';
 import ForgotPassword from './Components/Auth/ForgotPassword';
+import SearchPage from './Pages/SearchPage';
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
         </Route>

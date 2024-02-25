@@ -165,3 +165,29 @@ exports.deleteProductController = async (req, res) => {
     });
   }
 };
+
+//search product 
+
+exports.searchProductController=async(req,res)=>{
+ try {
+  const {keyword}=req.params
+  const results=await productModel.find({
+    $or:[
+      {name:{$regex:keyword,$options:"i"}},//option i for case insensitive
+      {description:{$regex:keyword,$options:"i"}}
+    ]
+  }).select()
+  res.status(200).json({
+    success:true,
+    message:"filterd data",
+    results
+  })
+
+ } catch (error) {
+  res.status(500).json({
+    message:"error in search product",
+    success:false,
+    error
+  })
+ }
+}
