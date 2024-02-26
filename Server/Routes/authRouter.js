@@ -5,6 +5,7 @@ const {
   testController,
   forgotController,
   resetController,
+  updateProfileController,
 } = require("../Controllers/authController");
 const { requireSignIn, isAdmin } = require("../Middleware/authMiddleware");
 const router = express.Router();
@@ -43,6 +44,8 @@ router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
     });
   }
 });
+// update-profile|| put method
+router.put('/profile/:id',requireSignIn,updateProfileController)
 // router.route('/logout').get()
 
 module.exports = router;

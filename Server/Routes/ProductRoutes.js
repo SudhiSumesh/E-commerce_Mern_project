@@ -1,6 +1,6 @@
 const express = require('express')
 const router=express.Router()
-const { createProductController, updateProductController, getProductController, getSingleProductController, deleteProductController, searchProductController } = require('../Controllers/productController')
+const { createProductController, updateProductController, getProductController, getSingleProductController, deleteProductController, searchProductController, relatedProductController } = require('../Controllers/productController')
 const { requireSignIn, isAdmin } = require('../Middleware/authMiddleware')
 const { upload } = require('../Middleware/Multer')
 
@@ -26,5 +26,6 @@ router.delete("/delete-product/:id", deleteProductController);
 //product search || get method
 router.get('/search/:keyword',searchProductController)
 
-
+//releted product || get method
+router.get('/related-product/:pid/:cid',relatedProductController)
 module.exports= router

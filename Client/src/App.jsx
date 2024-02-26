@@ -15,15 +15,17 @@ import Category from './Pages/Admin/Category';
 import Page404 from './Pages/Page404';
 import ForgotPassword from './Components/Auth/ForgotPassword';
 import SearchPage from './Pages/SearchPage';
+import SingleProduct from './Pages/SingleProduct';
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/product/:slug" element={<SingleProduct/>} />
         <Route path="/search" element={<SearchPage />} />
-        <Route path="/dashboard" element={<PrivateRoute />}>
-          <Route path="user" element={<Dashboard />} />
+        <Route path="/settings" element={<PrivateRoute />}>
+          <Route path="" element={<Dashboard />} />
         </Route>
         <Route path="/admin-dashboard" element={<AdminRoute /> }>
           <Route path="" element={<AdminDashboard />} />

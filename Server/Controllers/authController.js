@@ -81,6 +81,7 @@ exports.loginController = async (req, res) => {
       success: true,
       message: "login success",
       user: {
+        userId:user._id,
         name: user.name,
         email: user.email,
         phone: user.phone,
@@ -177,4 +178,44 @@ try {
       error,
 })
 }
+}
+
+
+
+// update profile
+
+exports.updateProfileController=async(req,res)=>{
+  try {
+   const  {id}=req.params
+    const {name,email,address,phone,password,avatar}=req.body
+   
+
+    // // validate password
+    // if(!password && password.length<3){
+    //   return res.status(401).json({error:"password reuired and minimum 3 charecter long"})
+    // }
+    // const hashedPassowrd=password?await hashPassword(password):undefined
+    const updatedUser = await userModel.findByIdAndUpdate(
+      {_id:id},
+      {
+        name: name ,
+        phone: phone ,
+        address:address,
+      },
+      { new: true }
+    );
+ const user = await userModel.findById({ _id: id });
+    res.status(200).json({
+      success: true,
+      message: " profile updated",
+      user,
+    });
+  } catch (error) {
+       console.log(error);
+       res.status(500).json({
+         success: false,
+         message: "Error in profile update",
+         error,
+       });
+  }
 }

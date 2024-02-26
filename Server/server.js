@@ -6,6 +6,7 @@ const DbConnection = require("./Config/dbConnection");
 const authRoutes = require("./Routes/authRouter");
 const categoryRoutes = require("./Routes/CategoryRoutes");
 const ProductRoutes=require('./Routes/ProductRoutes')
+const UserRoutes=require('./Routes/UserRoutes')
 const app = express();
 
 //port
@@ -24,6 +25,7 @@ app.use(
     credentials: true,
   })
 );
+app.options("*", cors());
 //routes
 
 //AUTH ROUTES
@@ -32,7 +34,8 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 //PRODUCT ROUTES
 app.use("/api/v1/product",ProductRoutes)
-
+//USERCONTROLL ROUTES
+app.use("/api/v1/user-controll",UserRoutes)
 //server
 app.listen(PORT, () => {
   console.log(`server is running at ${PORT}`);

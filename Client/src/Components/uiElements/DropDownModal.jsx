@@ -2,7 +2,7 @@ import { Avatar, Dropdown } from "flowbite-react";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/auth";
-import { ToastBar, Toaster, toast } from "react-hot-toast";
+import {  Toaster, toast } from "react-hot-toast";
 
 function DropDownModal() {
   const [auth, setAuth] = useAuth();
@@ -42,7 +42,9 @@ function DropDownModal() {
             <Link to={"/admin-dashboard"}>Dashboard</Link>
           </Dropdown.Item>
         )}
-        <Dropdown.Item className="hover:text-[blue]">Settings</Dropdown.Item>
+        <Dropdown.Item className="hover:text-[blue]">
+          <Link to={"/settings"}>Settings</Link>
+        </Dropdown.Item>
         <Dropdown.Divider />
         <Dropdown.Item onClick={handleLogout} className="hover:text-[blue]">
           Sign out

@@ -22,7 +22,7 @@ const useSearch = () => {
   const context = useContext(SearchContext); // Use useContext to get the context value
 
   if (!context) {
-    throw new Error("useAuth must be used within a AuthProvider");
+    throw new Error("useSearch must be used within a AuthProvider");
   }
 
   return context;

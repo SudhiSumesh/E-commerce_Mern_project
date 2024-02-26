@@ -93,14 +93,14 @@ exports.getSingleProductController = async (req, res) => {
     const product = await productModel
       .findOne({ slug: req.params.slug })
       .populate("category");
-    res.status(200).send({
+    res.status(200).json({
       success: true,
       message: "Single Product Fetched",
       product,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send({
+    res.status(500).json({
       success: false,
       message: "Error while getitng single product",
       error,
@@ -190,4 +190,23 @@ exports.searchProductController=async(req,res)=>{
     error
   })
  }
+}
+// get releated prodect
+exports.relatedProductController=async(req,res)=>{
+  try {
+    const {pid,cid}=req.params
+    const products=await productModel.find({category:cid,_id:{$ne:pid}}).select().limit(6).populate("category")
+     res.status(200).json({
+      success:true,
+      message:"  releted category geted",
+      products
+    })
+  } catch (error) {
+    res.status(500).json({
+      success:false,
+      message:"error in getting releted category",
+      error
+    })
+    console.log(error);
+  }
 }
