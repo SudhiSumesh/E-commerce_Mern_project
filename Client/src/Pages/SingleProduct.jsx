@@ -13,12 +13,14 @@ import {
 import { Card } from "flowbite-react";
 function SingleProduct() {
   const [product, setProduct] = useState({});
+  // const [productImges,setProductImages]=useState([])
   const [relatedProducts, setRelatedProduct] = useState([]);
   const params = useParams();
-  const imgUrl="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg "
+  // useeffect
   useEffect(() => {
     getProduct();
   }, [params?.slug]);
+  //get product
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
@@ -27,7 +29,7 @@ function SingleProduct() {
 
       if (data.success) {
         setProduct(data?.product);
-        getSimilarProduct(data?.product?._id,data?.product.category._id)
+        getSimilarProduct(data?.product?._id, data?.product.category._id);
         console.log(product);
       } else {
         console.log("error");
@@ -36,6 +38,8 @@ function SingleProduct() {
       console.log(error);
     }
   };
+  // get similar product
+
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
@@ -46,6 +50,11 @@ function SingleProduct() {
       console.log(error);
     }
   };
+  //image urls
+  const imgUrl = `http://localhost:4000/images/${product.imageOne}`;
+  const imgUrlTwo = `http://localhost:4000/images/${product?.imageTwo}`;
+  const imgUrlThree = `http://localhost:4000/images/${product?.imageThree}`;
+
   return (
     <Layout>
       <div className="container py-5">
@@ -72,42 +81,46 @@ function SingleProduct() {
                   <div className="p-2 mb-3 border rounded-lg side-img">
                     <img
                       src="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg"
-                      alt=""
+                      alt="sideimg"
                       className="side-image"
                       width="70px"
+                      height="90px"
                     />
                   </div>
                   <div className="p-2 mb-3 border rounded-lg side-img">
                     <img
                       src="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg"
-                      alt=""
+                      alt="side img"
                       width="70px"
+                      height="90px"
                       className="side-image"
                     />
                   </div>
                   <div className="p-2 mb-3 border rounded-lg side-img">
                     <img
-                      src="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg"
-                      alt=""
+                      src={imgUrl}
+                      alt="side img"
                       width="70px"
+                      height="90px"
                       className="side-image"
                     />
                   </div>
                 </div>
                 {/* product img */}
                 <div className="  p-5 py-3 text-center">
-                 
                   <ReactImageMagnify
                     {...{
                       smallImage: {
+                        crossorigin: "",
                         alt: "phone",
                         isFluidWidth: true,
-                        src: imgUrl,
-                      
+                        src: "https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg",
                       },
                       largeImage: {
-                        src: imgUrl,
-                        width: 900,
+                        crossorigin: "",
+                        alt: "phone",
+                        src: "https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg",
+                        width: 800,
                         height: 1100,
                       },
                     }}

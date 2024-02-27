@@ -66,8 +66,8 @@ import { useAuth } from "../../../Context/auth";
                 </Table.Cell>
                 <Table.Cell>
                   <img
-                    crossorigin="anonymous"
-                    src={`http://localhost:4000/images/undefined1708850023681_Screenshot%202023-09-23%20104628.png`}
+                    crossorigin=""
+                    src={`http://localhost:4000/images/${product.imageOne}`}
                     alt="productimage"
                     width="110px"
                     height="110px"

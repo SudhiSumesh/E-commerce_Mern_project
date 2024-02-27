@@ -138,21 +138,24 @@ function AddProductFormModal({ getAllProduct }) {
                 type="file"
                 onChange={handleFileChange}
                 multiple
+                name=""
                 className="my-10"
               />
               {/* preview */}
               {previewImages.map((previewUrl, index) => (
-                <img
-                  key={index}
-                  src={previewUrl}
-                  alt={`Preview ${index + 1}`}
-                  style={{
-                    display: "flex",
-                    maxWidth: "100px",
-                    maxHeight: "100px",
-                    marginTop: "40px",
-                  }}
-                />
+                <div className="flex">
+                  <img
+                    key={index}
+                    src={previewUrl}
+                    alt={`Preview ${index + 1}`}
+                    style={{
+                      display: "flex",
+                      maxWidth: "100px",
+                      maxHeight: "100px",
+                      marginTop: "40px",
+                    }}
+                  />
+                </div>
               ))}
 
               {/* enter product name */}
