@@ -4,6 +4,7 @@ import Layout from "../Components/Layout/Layout";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReactImageMagnify from "react-image-magnify";
 import {
   faCartArrowDown,
   faBagShopping,
@@ -14,6 +15,7 @@ function SingleProduct() {
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProduct] = useState([]);
   const params = useParams();
+  const imgUrl="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg "
   useEffect(() => {
     getProduct();
   }, [params?.slug]);
@@ -93,13 +95,22 @@ function SingleProduct() {
                   </div>
                 </div>
                 {/* product img */}
-                <div className="p-5 py-3 text-center">
-                  <img
-                    src="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg"
-                    className="cursor-pointer"
-                    alt=""
-                    width="450px"
-                    id="main-img"
+                <div className="  p-5 py-3 text-center">
+                 
+                  <ReactImageMagnify
+                    {...{
+                      smallImage: {
+                        alt: "phone",
+                        isFluidWidth: true,
+                        src: imgUrl,
+                      
+                      },
+                      largeImage: {
+                        src: imgUrl,
+                        width: 900,
+                        height: 1100,
+                      },
+                    }}
                   />
                 </div>
               </div>
