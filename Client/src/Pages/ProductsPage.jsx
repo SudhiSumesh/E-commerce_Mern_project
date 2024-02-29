@@ -19,12 +19,17 @@ function ProductsPage() {
       if (data?.success) {
         // console.log(data.message);
         setProducts(data.products);
-        
       }
     } catch (error) {
       console.log(error);
       toast.error("error in getting pdt");
     }
+  };
+  //add to cart fun
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+    localStorage.setItem("cart", JSON.stringify([...cart, product]));
+    // toast.success("item added to cart");
   };
   useEffect(() => {
     getAllProduct();
@@ -125,14 +130,7 @@ function ProductsPage() {
                 {`$${product.price}`}
               </span>
               <Link
-                onClick={() => {
-                  setCart([...cart, product]);
-                  localStorage.setItem(
-                    "cart",
-                    JSON.stringify([...cart, product])
-                  );
-                  // toast.success("item added to cart");
-                }}
+                onClick={()=>addToCart(product)}
                 className="rounded-md bg-[#ffc107] px-5 py-2.5 text-center text-sm font-medium text-[black]  hover:bg-[#e7a543] focus:outline-none  focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
               >
                 Add to cart

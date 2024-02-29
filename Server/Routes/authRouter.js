@@ -48,4 +48,5 @@ router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
 router.put('/profile/:id',requireSignIn,updateProfileController)
 // router.route('/logout').get()
 
+
 module.exports = router;

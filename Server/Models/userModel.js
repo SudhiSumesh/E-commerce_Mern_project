@@ -1,46 +1,60 @@
 const mongoose =require('mongoose')
 
-const userSchema=new mongoose.Schema({
-    name:{
-        type:String,
-        required: [true, "Please enter you Name"],
-        maxLength: [30, "Name cannot exceed 30 characters"],
-        minLength: [3, "Name should  have more 3 characters"],
-        trim:true
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Please enter you Name"],
+      maxLength: [30, "Name cannot exceed 30 characters"],
+      minLength: [3, "Name should  have more 3 characters"],
+      trim: true,
     },
-   email:{
-    type:String,
-    required:[true,"pleace ente your email"],
-    unique:true,
-    
-   },
-   password:{
-    type:String,
-    required: [true, "Please enter you Password"],
-    minLength: [3, "Paasword should be greater than 3 characters"],
-   
-   },
-  avatar: 
-    {
-        type: String,
-        default:"https://tse4.mm.bing.net/th?id=OIP.tgmmCh4SA36j0dMT0ay9_AHaHa&pid=Api&P=0&h=180"
+    email: {
+      type: String,
+      required: [true, " email is required"],
+      unique: true,
     },
-  
-  phone:{
-    type:String,
-    required: true
+    password: {
+      type: String,
+      required: [true, "Password is Required"],
+      minLength: [3, "Paasword should be greater than 3 characters"],
+    },
+    avatar: {
+      type: String,
+      default:
+        "https://tse4.mm.bing.net/th?id=OIP.tgmmCh4SA36j0dMT0ay9_AHaHa&pid=Api&P=0&h=180",
+    },
+
+    phone: {
+      type: String,
+      required: [true, "phone no is required"],
+    },
+    address: {
+      type: String,
+      required: [true, "address no is required"],
+    },
+    role: {
+      type: Number,
+      default: 0,
+    },
+    otp: {
+      type: Number,
+    },
+    cart: [{
+      items:[{
+        product: {
+          type: mongoose.ObjectId,
+          ref: "Product",
+        },
+        quantity:{
+          type:Number,
+          
+        }
+      }],
+      totalPrice:Number
+  }],
   },
-  address:{
-    type:String,
-    required: true
-  },
-  role: {
-    type: Number,
-    default: 0,
-  },
-  otp:{
-    type:Number
-  }
-},{timestamps:true}) 
+  { timestamps: true }
+); 
 
 module.exports=mongoose.model("User",userSchema)

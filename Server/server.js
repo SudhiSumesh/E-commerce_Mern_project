@@ -7,6 +7,7 @@ const authRoutes = require("./Routes/authRouter");
 const categoryRoutes = require("./Routes/CategoryRoutes");
 const ProductRoutes=require('./Routes/ProductRoutes')
 const UserRoutes=require('./Routes/UserRoutes')
+const cartRoutes=require('./Routes/cartRoutes')
 const app = express();
 
 //port
@@ -36,6 +37,8 @@ app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product",ProductRoutes)
 //USERCONTROLL ROUTES
 app.use("/api/v1/user-controll",UserRoutes)
+//Add To Cart ROUTES
+app.use("/api/v1/cart",cartRoutes)
 //server
 app.listen(PORT, () => {
   console.log(`server is running at ${PORT}`);
