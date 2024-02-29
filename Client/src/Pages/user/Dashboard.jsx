@@ -1,5 +1,5 @@
-import React from 'react'
-import Layout from '../../Components/Layout/Layout'
+import React from "react";
+import Layout from "../../Components/Layout/Layout";
 import { BiBuoy } from "react-icons/bi";
 import {
   HiArrowSmRight,
@@ -8,10 +8,10 @@ import {
   HiUser,
   HiViewBoards,
 } from "react-icons/hi";
-import { Sidebar } from 'flowbite-react';
-import { Link } from 'react-router-dom';
-import UserProfileSection from './UserProfileSection';
-import UpdateProfileModal from '../../Components/Auth/UpdateProfileModal';
+import { Sidebar } from "flowbite-react";
+import { Link } from "react-router-dom";
+import UserProfileSection from "./UserProfileSection";
+import UpdateProfileModal from "../../Components/Auth/UpdateProfileModal";
 
 const Dashboard = () => {
   return (
@@ -28,7 +28,7 @@ const Dashboard = () => {
                 icon={HiUser}
                 className="hover:text-[blue] rounded-none"
               >
-                <UpdateProfileModal/>
+                <UpdateProfileModal />
               </Sidebar.Item>
               <Sidebar.Item
                 icon={HiShoppingBag}
@@ -65,12 +65,12 @@ const Dashboard = () => {
             </Sidebar.ItemGroup>
           </Sidebar.Items>
         </Sidebar>
-        <div className='w-full flex justify-center mt-20'>
+        <div className="w-full flex justify-center mt-20">
           <UserProfileSection />
         </div>
       </div>
     </Layout>
   );
-}
+};
 
-export default Dashboard
+export default Dashboard;

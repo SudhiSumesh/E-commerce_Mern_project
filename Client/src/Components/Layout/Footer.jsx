@@ -11,27 +11,27 @@ const FooterContainer = () => {
             <div>
               <Footer.Title title="about" />
               <Footer.LinkGroup col>
-                <Footer.Link href="#">Flowbite</Footer.Link>
-                <Footer.Link href="#">Tailwind CSS</Footer.Link>
-                <Footer.Link href="#">Tailwind CSS</Footer.Link>
-                <Footer.Link href="#">Tailwind CSS</Footer.Link>
+                <Footer.Link href="#">Our Services</Footer.Link>
+                <Footer.Link href="#">Privacy & Policy</Footer.Link>
+                <Footer.Link href="#">Affiliate program</Footer.Link>
+                <Footer.Link href="#">Company</Footer.Link>
               </Footer.LinkGroup>
             </div>
             <div>
-              <Footer.Title title="Follow us" />
+              <Footer.Title title="Get Help" />
               <Footer.LinkGroup col>
-                <Footer.Link href="#">Github</Footer.Link>
-                <Footer.Link href="#">Discord</Footer.Link>
-                <Footer.Link href="#">Discord</Footer.Link>
-                <Footer.Link href="#">Discord</Footer.Link>
+                <Footer.Link href="#">Shipping</Footer.Link>
+                <Footer.Link href="#">Returns</Footer.Link>
+                <Footer.Link href="#">FAQ</Footer.Link>
+                <Footer.Link href="#">Order Status</Footer.Link>
               </Footer.LinkGroup>
             </div>
             <div>
               <Footer.Title title="Legal" />
               <Footer.LinkGroup col>
                 <Footer.Link href="#">Privacy & Policy</Footer.Link>
-                <Footer.Link href="#">Terms & Conditions</Footer.Link>
-                <Footer.Link href="#">Terms & Conditions</Footer.Link>
+                <Footer.Link href="#">Payment Options</Footer.Link>
+                <Footer.Link href="#">Order Status</Footer.Link>
                 <Footer.Link href="#">Terms & Conditions</Footer.Link>
               </Footer.LinkGroup>
             </div>

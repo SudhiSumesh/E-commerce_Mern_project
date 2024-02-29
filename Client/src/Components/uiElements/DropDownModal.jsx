@@ -7,21 +7,25 @@ import { ToastContainer, toast } from "react-toastify";
 function DropDownModal() {
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
-  const notifySuccess = () => toast.success("logout succssfully");
+   
 
-  //handle logout
+  // handle logout
   const handleLogout = () => {
-    notifySuccess();
     setAuth({
-      ...auth,
       user: null,
       token: "",
     });
     localStorage.clear("auth");
-    
+    broadcastLogout();
     navigate("/");
-    console.log(auth);
+    
   };
+
+  // broadcast logout event to other tabs
+  const broadcastLogout = () => {
+    localStorage.setItem("logout", Date.now());
+  };
+
   return (
     <div className="mt-1 mx-3 ">
       <Dropdown

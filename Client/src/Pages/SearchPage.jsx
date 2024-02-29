@@ -15,7 +15,7 @@ function SearchPage() {
         </div>
         <div className="container text-xl my-4">
           {values?.results.length < 1
-            ? "Not Found Anything Related To your Search"
+            ? <div className="text-center text-3xl text-[orange] mt-52">Can't Find Anything Related To your Search</div>
             : `Found ${values?.results.length} Matches`}
         </div>
         <div className="container flex flex-wrap gap-5 my-10">

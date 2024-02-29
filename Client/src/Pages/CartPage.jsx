@@ -20,15 +20,13 @@ const CartPage = () => {
   const grantTotal = () => {
     try {
       let total = 0;
-       cart?.map(
-        (item) => total=total + item.price
-      );
+      cart?.map((item) => (total = total + item.price));
 
       console.log(total);
-      return total.toLocaleString("en-US",{
-        style:"currency",
-        currency:"USD"
-      })
+      return total.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -37,13 +35,13 @@ const CartPage = () => {
     <Layout>
       <div className="container-fluid bg-gray-100 py-5">
         <div className="px-5 pt-5 ms-5 pb-2 font-semibold">Home / Cart</div>
-        <div className="container" id="cart_container">
+        <div className="container " id="cart_container">
           <div className="px-5 bg-white pb-3 mb-3">
             <div className="pt-5 flex flex-col md:flex-row gap-5 gap-md-0 justify-between border-b border-gray-200">
               <div className="font-semibold text-lg md:pl-5 md:pr-5">
                 Product
               </div>
-              <div className="font-semibold text-lg md:pl-5 ml-20">Amount</div>
+              <div className="font-semibold text-lg md:pl-5 md:ml-20">Amount</div>
               <div className="font-semibold text-lg md:pr-5">Quantity</div>
               <div className="font-semibold text-lg md:pr-5">Total</div>
               <div className="font-semibold text-lg md:pr-5"></div>
@@ -51,7 +49,6 @@ const CartPage = () => {
             {/* Cart items */}
             {cart?.length <= 0 ? (
               <div className="text-[red]  text-center my-10 text-xl">
-                {" "}
                 Your Cart is Empty !
               </div>
             ) : (
@@ -61,13 +58,12 @@ const CartPage = () => {
                   key={c._id}
                 >
                   <div className="py-4 md:py-5 flex items-center gap-3">
-                    <input
-                      type="checkbox"
-                      className=" cursor-pointer rounded-md h-5 w-5 text-indigo-600"
-                    />
+                   
+                    
                     <div>
                       <img
-                        src="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg"
+                        crossOrigin=""
+                        src={`http://localhost:4000/images/${c.imageOne}`}
                         alt="img"
                         width="100px"
                       />
@@ -125,7 +121,7 @@ const CartPage = () => {
             <div className="px-5 bg-white pb-3 mt-5">
               <div className="flex items-center gap-5 justify-end p-5">
                 <a className="text-black cursor-pointer text-lg font-semibold">
-                Total : {grantTotal()}
+                  Total : {grantTotal()}
                 </a>
                 <div className="flex flex-col gap-3">
                   <a className="p-3 px-4 cursor-pointer text-white bg-[red] rounded-full  text-lg">

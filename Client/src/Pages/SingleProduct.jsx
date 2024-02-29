@@ -11,7 +11,9 @@ import {
   faTag,
 } from "@fortawesome/free-solid-svg-icons";
 import { Card } from "flowbite-react";
+import { useCart } from "../Context/cart";
 function SingleProduct() {
+  const [cart, setCart] = useCart([]);
   const [product, setProduct] = useState({});
   // const [productImges,setProductImages]=useState([])
   const [relatedProducts, setRelatedProduct] = useState([]);
@@ -51,9 +53,10 @@ function SingleProduct() {
     }
   };
   //image urls
-  const imgUrl = `http://localhost:4000/images/${product.imageOne}`;
-  const imgUrlTwo = `http://localhost:4000/images/${product?.imageTwo}`;
-  const imgUrlThree = `http://localhost:4000/images/${product?.imageThree}`;
+  const imgUrl =
+    `http://localhost:4000/images/${product.imageOne}`;
+  const imgUrlTwo = `http://localhost:4000/images/${product.imageTwo}`;
+  const imgUrlThree = `http://localhost:4000/images/${product.imageThree}`;
 
   return (
     <Layout>
@@ -72,24 +75,18 @@ function SingleProduct() {
                   {/* side-bar */}
                   <div className="p-2 mb-3  border rounded-lg ">
                     <img
-                      src="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg"
+                      src={imgUrlThree}
+                      crossOrigin=""
                       alt=""
                       className="side-image"
                       width="70px"
                     />
                   </div>
+
                   <div className="p-2 mb-3 border rounded-lg side-img">
                     <img
-                      src="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg"
-                      alt="sideimg"
-                      className="side-image"
-                      width="70px"
-                      height="90px"
-                    />
-                  </div>
-                  <div className="p-2 mb-3 border rounded-lg side-img">
-                    <img
-                      src="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg"
+                      crossOrigin=""
+                      src={imgUrlTwo}
                       alt="side img"
                       width="70px"
                       height="90px"
@@ -98,6 +95,7 @@ function SingleProduct() {
                   </div>
                   <div className="p-2 mb-3 border rounded-lg side-img">
                     <img
+                      crossOrigin=""
                       src={imgUrl}
                       alt="side img"
                       width="70px"
@@ -111,24 +109,36 @@ function SingleProduct() {
                   <ReactImageMagnify
                     {...{
                       smallImage: {
-                        crossorigin: "",
                         alt: "phone",
                         isFluidWidth: true,
                         src: "https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg",
+                        crossOrigin: "anonymous",
                       },
                       largeImage: {
-                        crossorigin: "",
                         alt: "phone",
                         src: "https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg",
                         width: 800,
                         height: 1100,
+                        crossOrigin: "anonymous",
                       },
+  
                     }}
+                  
                   />
                 </div>
               </div>
               <div className="p-5 flex justify-between md:justify-center gap-20">
-                <button className="p-3 pe-6 bg-[orange] rounded-md font-semibold text-base text-white">
+                <button
+                  className="p-3 pe-6 bg-[orange] rounded-md font-semibold text-base text-white"
+                  onClick={() => {
+                    setCart([...cart, product]);
+                    localStorage.setItem(
+                      "cart",
+                      JSON.stringify([...cart, product])
+                    );
+                    // toast.success("item added to cart");
+                  }}
+                >
                   <FontAwesomeIcon
                     className="fas fa-bag-shopping px-3 "
                     icon={faCartArrowDown}

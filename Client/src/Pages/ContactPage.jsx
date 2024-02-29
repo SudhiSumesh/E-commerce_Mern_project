@@ -17,66 +17,56 @@ const ContactPage = () => {
             />
           </div>
         </div>
-        <div className="p-5">
-          <div className="text-3xl font-semibold underline text-center">
+        {/* connect with us */}
+        <div className="p-5 mt-10">
+          <div className="text-3xl my-4 font-bold underline text-center">
             Connect with Us
           </div>
-          <p className="pt-3 text-center  font-semibold">
-            Fill out the form bellow and we will contact you as soon as possible
-            !
+          <p className="pt-3 text-center font-bold mb-6">
+            Fill out the form below and we will contact you as soon as possible!
           </p>
-          <form >
-            <div className=" flex flex-col">
-             
-                <div>
-                  <div className="mb-2 block">
-                    <Label htmlFor="email1" value="Your Name" />
-                  </div>
-                  <TextInput
-                    id="email1"
-                    type="email"
-                    placeholder=""
-                    required
-                  />          
-             
-                  <div className="mb-2 block">
-                    <Label htmlFor="email1" value="Your email" />
-                  </div>
-                  <TextInput
-                    id="email1"
-                    type="email"
-                   
-                    required
-                  />
-                </div>
-      <div className='flex flex-col'>
-                  <div className="mb-2 block">
-                    <Label htmlFor="email1" value="Choose Topic" />
-                  </div>
-                  <TextInput
-                    id="email1"
-                    type="email"
-                   
-                    required
-                  />
-         
-                  <div className="mb-2 block">
-                    <Label htmlFor="email1" value="Your Message" />
-                  </div>
-                  <TextInput
-                    id="email1"
-                    type="email"
-                   
-                    required
-                  />
-                </div>
-                <div className="px-5 py-3 flex justify-end">
-                  <Button className=" bg-black py-2 px-5 rounded-full ">
-                    Send
-                  </Button>
-                </div>
+          <form className="">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="py-5 px-5">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  className=" border-t-0 border-r-0 border-l-0 border-b-2 rounded-sm px-3 py-2 w-full"
+                />
               </div>
-          
+              <div className="py-5 px-5">
+                <select
+                  placeholder="Your Email"
+                  className=" border-t-0 border-r-0 border-l-0 border-b-2 rounded-sm px-3 py-2 w-full"
+                >
+                  <option value="">Choose Topic</option>
+                  <option value="">About shopping</option>
+                  <option value="">About Services</option>
+                  <option value="">About pricing</option>
+                </select>
+              </div>
+              <div className="py-5 px-5">
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  className=" border-t-0 border-r-0 border-l-0 border-b-2 rounded-sm px-3 py-2 w-full"
+                />
+              </div>
+              <div className="py-5 px-5">
+                <input
+                  type="email"
+                  placeholder="Message"
+                  className=" border-t-0 border-r-0 border-l-0 border-b-2 rounded-sm px-3 py-2 w-full"
+                />
+              </div>
+            </div>
+            <div className="px-5 py-3 flex justify-end">
+              <button
+                className=" bg-black text-white py-3 px-14 rounded-full"
+              >
+                Send
+              </button>
+            </div>
           </form>
         </div>
       </div>

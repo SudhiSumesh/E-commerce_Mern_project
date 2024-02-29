@@ -1,4 +1,4 @@
-import { Card } from "flowbite-react";
+import { Card, Carousel } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import Layout from "../Components/Layout/Layout";
 import { useAuth } from "../Context/auth";
@@ -9,7 +9,7 @@ import { useCart } from "../Context/cart";
 
 function ProductsPage() {
   const [auth, setAuth] = useAuth();
-  const [cart,setCart]=useCart()
+  const [cart, setCart] = useCart([]);
   const [products, setProducts] = useState([]);
   // console.log(auth);
 
@@ -17,9 +17,9 @@ function ProductsPage() {
     try {
       const { data } = await axios.get(import.meta.env.VITE_GET_PRODUCT_URL);
       if (data?.success) {
-        console.log(data.message);
+        // console.log(data.message);
         setProducts(data.products);
-        console.log(data.products);
+        
       }
     } catch (error) {
       console.log(error);
@@ -31,18 +31,41 @@ function ProductsPage() {
   }, []);
   return (
     <Layout>
-      <div className="text-center text-4xl my-10">
+      <div className="h-56 sm:h-64 xl:h-80 2xl:h-96  p-10 container">
+        <Carousel className="h-[400px]">
+          <img
+            src={`http://localhost:4000/images/${products[2]?.imageTwo}`}
+            alt="first img"
+            crossOrigin=""
+            width="300px"
+            height="400px"
+          />
+          <img
+            src={`http://localhost:4000/images/${products[2]?.imageOne}`}
+            alt="second img"
+            crossOrigin=""
+          />
+          <img
+            src={`http://localhost:4000/images/${products[0]?.imageThree}`}
+            alt="thrid img"
+            crossOrigin=""
+          />
+        </Carousel>
+      </div>
+      <div className="ms-20  text-4xl my-10 mt-36">
         Find the phone that's right for you.
       </div>
 
       <div className="container flex flex-wrap gap-5">
         {/* map products */}
         {products?.map((product) => (
-          <Card className="w-[320px] my-6" key={product._id}>
+          <Card className="w-[320px]  my-6" key={product._id}>
             <img
               crossOrigin=""
               src={`http://localhost:4000/images/${product.imageTwo}`}
               alt={product.slug}
+              width="300px"
+              height={"70px"}
             />
             <Link
               to={`/product/${product.slug}`}
@@ -104,10 +127,12 @@ function ProductsPage() {
               <Link
                 onClick={() => {
                   setCart([...cart, product]);
-                  localStorage.setItem("cart",JSON.stringify([...cart,product]))
-                  toast.success("item added to cart");
+                  localStorage.setItem(
+                    "cart",
+                    JSON.stringify([...cart, product])
+                  );
+                  // toast.success("item added to cart");
                 }}
-                to=""
                 className="rounded-md bg-[#ffc107] px-5 py-2.5 text-center text-sm font-medium text-[black]  hover:bg-[#e7a543] focus:outline-none  focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
               >
                 Add to cart

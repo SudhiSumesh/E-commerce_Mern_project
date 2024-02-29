@@ -7,6 +7,7 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../Context/auth";
 import DropDownModal from "../uiElements/DropDownModal";
 import { useCart } from "../../Context/cart";
+import { ToastContainer } from "react-toastify";
 // import { toast } from "react-hot-toast";
 
 const NavBar = () => {
@@ -65,6 +66,7 @@ const [cart,setCart]=useCart()
           </Link>
         </Nav.Collapse>
       </Nav>
+      <ToastContainer/>
     </div>
   );
 };

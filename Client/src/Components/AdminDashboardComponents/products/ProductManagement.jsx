@@ -31,7 +31,7 @@ import { useAuth } from "../../../Context/auth";
   };
   useEffect(() => {
     getAllProduct();
-  }, []);
+  },[]);
 
   return (
     <>

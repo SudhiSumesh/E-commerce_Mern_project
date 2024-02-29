@@ -5,19 +5,25 @@ import axios from "axios";
 import { Label, Modal, ModalBody, TextInput } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../Context/auth";
+import { useNavigate } from "react-router-dom";
 
 const UpdateProfileModal = ({ }) => {
   const [openModal, setOpenModal] = useState(false);
   const [auth, setAuth] = useAuth();
+  const navigate=useNavigate()
   function onCloseModal() {
     setOpenModal(false);
   }
   const notifyError = (message) => toast.error(message); //toast error function
   //Yup Validation schema
   const validationSchema = Yup.object().shape({
-    name: Yup.string().min(3, "enter a valid name"),
-    phone: Yup.string().matches(/^\d{10}$/, "Phone number must be 10 digits"),
-    address: Yup.string(),
+    name: Yup.string()
+      .min(3, "enter a valid name")
+      .required("Name is required"),
+    phone: Yup.string()
+      .matches(/^\d{10}$/, "Phone number must be 10 digits")
+      .required("Phone Number  is required"),
+    address: Yup.string().required("Address is required"),
   });
   // set  useFormic hook
   const formik = useFormik({
@@ -39,12 +45,13 @@ const UpdateProfileModal = ({ }) => {
         const { success, message } = data;
         if (success) {
           setAuth({ ...auth, user: data?.updateduser });
+          toast.success(message);
           let ls = localStorage.getItem("auth");
           ls = JSON.parse(ls);
           ls.user=data?.updateduser
           localStorage.setItem("auth", JSON.stringify(ls));
-          toast.success(message);
             onCloseModal()
+            navigate('/')
         } else {
           toast.error(message);
         }

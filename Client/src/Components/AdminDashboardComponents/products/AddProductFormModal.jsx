@@ -11,14 +11,6 @@ function AddProductFormModal({ getAllProduct }) {
   const [file, setFile] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
   const [auth] = useAuth();
-  const [data, setData] = useState({
-    name: "",
-    description: "",
-    quantity: "",
-    price: "",
-    file: "",
-    category: "",
-  });
   const [input, setInput] = useState({
     name: "",
     description: "",
@@ -142,8 +134,8 @@ function AddProductFormModal({ getAllProduct }) {
                 className="my-10"
               />
               {/* preview */}
-              {previewImages.map((previewUrl, index) => (
-                <div className="flex">
+              <div className="flex justify-between items-center ">
+                {previewImages.map((previewUrl, index) => (
                   <img
                     key={index}
                     src={previewUrl}
@@ -155,8 +147,8 @@ function AddProductFormModal({ getAllProduct }) {
                       marginTop: "40px",
                     }}
                   />
-                </div>
-              ))}
+                ))}
+              </div>
 
               {/* enter product name */}
               <div className="my-2  block">
@@ -225,3 +217,5 @@ function AddProductFormModal({ getAllProduct }) {
 }
 
 export default AddProductFormModal;
+
+

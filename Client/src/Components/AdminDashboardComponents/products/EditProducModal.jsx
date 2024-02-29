@@ -14,6 +14,7 @@ import { useAuth } from "../../../Context/auth";
 function EditProductModal({product, getAllProduct}) {
   const [auth]=useAuth()
   const [openModal, setOpenModal] = useState(false);
+    // const [previewImages, setPreviewImages] = useState([]);
   const [categories, setCategories] = useState();
   // const [produ,setProduct]=useState(product)
   //close modal
@@ -67,8 +68,8 @@ function EditProductModal({product, getAllProduct}) {
           { withCredentials: true }
         );
         if (data?.success) {
-          toast.success("product added successfully");
-          console.log(data.message);
+          // toast.success("product added successfully");
+          // console.log(data.message);
           onCloseModal();
            getAllProduct();
             getAllCategory();
@@ -120,20 +121,29 @@ function EditProductModal({product, getAllProduct}) {
                 </select>
               </div>
               {/* choose file */}
-              {/* <div>
-                <div className="my-2 ">
-                  <Label
-                    htmlFor="file-upload-helper-text"
-                    value="Upload product image"
+              {/* <input
+                type="file"
+                onChange={handleFileChange}
+                multiple
+                name=""
+                className="my-10"
+              />
+              {/* preview */}
+              {/* <div className="flex justify-between items-center ">
+                {previewImages.map((previewUrl, index) => (
+                  <img
+                    key={index}
+                    src={previewUrl}
+                    alt={`Preview ${index + 1}`}
+                    style={{
+                      display: "flex",
+                      maxWidth: "100px",
+                      maxHeight: "100px",
+                      marginTop: "40px",
+                    }}
                   />
-                </div>
-                <FileInput
-                  type="file"
-                  className=""
-                  //   helperText="SVG, PNG, JPG or GIF (MAX. 800x400px)."
-                />
-              </div> */}
-              {/* enter product name */}
+                ))}
+              </div> */} 
               <div className="my-2  block">
                 <Label htmlFor="" value="Product Name" />
               </div>
@@ -188,7 +198,7 @@ function EditProductModal({product, getAllProduct}) {
                 shadow
               />
             </div>
-            <Button type="submit" color="blue">
+            <Button type="submit" color="blue" >
               Update Product
             </Button>
           </form>

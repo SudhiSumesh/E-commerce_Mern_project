@@ -9,19 +9,55 @@ const RegistrationForm = ({ setAction }) => {
   const notifyError = (message) => toast.error(message); //toast error function
   //Yup Validation schema
   const validationSchema = Yup.object().shape({
-    name: Yup.string().min(3,"enter a valid name").required("Name is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
+    name: Yup.string()
+      .min(3, "enter a valid name")
+      .required("Name is required")
+      .trim()
+      .test(
+        "is-not-only-whitespace",
+        "Field cannot be empty",
+        (value) => value.trim() !== ""
+      ),
+    email: Yup.string()
+      .email("Invalid email")
+      .required("Email is required")
+      .test(
+        "is-not-only-whitespace",
+        "Field cannot be empty",
+        (value) => value.trim() !== ""
+      ),
     password: Yup.string()
       .required("Password is required")
       .min(4, "Password must be at least 4 characters")
-      .max(15, "Password must not exceed 15 characters"),
+      .max(15, "Password must not exceed 15 characters")
+      .test(
+        "is-not-only-whitespace",
+        "Field cannot be empty",
+        (value) => value.trim() !== ""
+      ),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
-      .required("Confirm Password is required"),
+      .required("Confirm Password is required")
+      .test(
+        "is-not-only-whitespace",
+        "Field cannot be empty",
+        (value) => value.trim() !== ""
+      ),
     phone: Yup.string()
       .matches(/^\d{10}$/, "Phone number must be 10 digits")
-      .required("Phone number is required"),
-    address: Yup.string().required("Address is required"),
+      .required("Phone number is required")
+      .test(
+        "is-not-only-whitespace",
+        "Field cannot be empty",
+        (value) => value.trim() !== ""
+      ),
+    address: Yup.string()
+      .required("Address is required")
+      .test(
+        "is-not-only-whitespace",
+        "Field cannot be empty",
+        (value) => value.trim() !== ""
+      ),
     agree: Yup.boolean().oneOf(
       [true],
       "You must accept the terms and conditions"
