@@ -8,6 +8,8 @@ const categoryRoutes = require("./Routes/CategoryRoutes");
 const ProductRoutes=require('./Routes/ProductRoutes')
 const UserRoutes=require('./Routes/UserRoutes')
 const cartRoutes=require('./Routes/cartRoutes')
+const paymentRoutes = require("./Routes/paymentRoutes");
+const orderRoutes = require("./Routes/orderRoutes");
 const app = express();
 
 //port
@@ -39,6 +41,10 @@ app.use("/api/v1/product",ProductRoutes)
 app.use("/api/v1/user-controll",UserRoutes)
 //Add To Cart ROUTES
 app.use("/api/v1/cart",cartRoutes)
+//PAYMENT ROUTES
+app.use("/api/v1/payment",paymentRoutes)
+//ORDER ROUTES
+app.use("/api/v1/orders", orderRoutes);
 //server
 app.listen(PORT, () => {
   console.log(`server is running at ${PORT}`);

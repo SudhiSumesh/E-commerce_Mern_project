@@ -21,7 +21,7 @@ const Dashboard = () => {
           <Sidebar.Items className=" border rounded-sm bg-white h-[80vh]">
             <Sidebar.ItemGroup>
               <Sidebar.Item className="hover:underline rounded-none text-[blue] -ms-2 text-xl">
-                <Link to={"/"}> Account Settings</Link>
+                <Link to={"/settings"}> Account Settings</Link>
               </Sidebar.Item>
 
               <Sidebar.Item
@@ -34,7 +34,7 @@ const Dashboard = () => {
                 icon={HiShoppingBag}
                 className="hover:text-[blue] rounded-none"
               >
-                <Link to={"/"}> My Orders</Link>
+                <Link to={"/settings/my-orders"}> My Orders</Link>
               </Sidebar.Item>
               <Sidebar.Item
                 icon={HiArrowSmRight}

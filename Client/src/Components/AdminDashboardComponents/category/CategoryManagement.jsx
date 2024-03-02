@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "flowbite-react";
-import { ToastContainer, toast } from "react-toastify";
+import  toast,{Toaster}  from "react-hot-toast";
 import axios from "axios";
 import CategoryForm from "./CategoryForm";
 import CategoryEditModal from "./CategoryEditModal";
@@ -20,7 +20,7 @@ function CategoryManagement() {
       // console.log(auth.user,auth.token);
           if (!auth?.user || !auth?.token) {
             // onCloseModal();
-            return console.log("auth required");
+            return toast("auth required");
           }
       const { data } = await axios.get(import.meta.env.VITE_GET_CATEGORY_URL);
       if (data.success) {
@@ -56,8 +56,8 @@ function CategoryManagement() {
         setName("");
       }
       else{
-        console.log("error in creating category");
-        toast.error("error in creating category")
+        // console.log("error in creating category");
+        toast.error(data.message)
       }
     } catch (error) {
       console.log(error);
@@ -168,7 +168,7 @@ function CategoryManagement() {
             ))}
         </Table.Body>
       </Table>
-      <ToastContainer />
+      <Toaster/>
     </div>
   );
 }

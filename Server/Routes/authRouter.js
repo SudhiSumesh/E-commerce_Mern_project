@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const {
   registerController,
   loginController,
@@ -8,7 +9,6 @@ const {
   updateProfileController,
 } = require("../Controllers/authController");
 const { requireSignIn, isAdmin } = require("../Middleware/authMiddleware");
-const router = express.Router();
 
 // routing
 //REGISTER || POST METHOD

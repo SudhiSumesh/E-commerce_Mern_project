@@ -5,16 +5,18 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactImageMagnify from "react-image-magnify";
+import toast, { Toaster } from "react-hot-toast";
 import {
   faCartArrowDown,
   faBagShopping,
   faTag,
 } from "@fortawesome/free-solid-svg-icons";
 import { Card } from "flowbite-react";
-import { useCart } from "../Context/cart";
+import { useAuth } from "../Context/auth";
+
 function SingleProduct() {
-  const [cart, setCart] = useCart([]);
   const [product, setProduct] = useState({});
+  const [auth, setAuth] = useAuth();
   // const [productImges,setProductImages]=useState([])
   const [relatedProducts, setRelatedProduct] = useState([]);
   const params = useParams();
@@ -32,7 +34,7 @@ function SingleProduct() {
       if (data.success) {
         setProduct(data?.product);
         getSimilarProduct(data?.product?._id, data?.product.category._id);
-        console.log(product);
+        // console.log(product);
       } else {
         console.log("error");
       }
@@ -52,9 +54,35 @@ function SingleProduct() {
       console.log(error);
     }
   };
+
+  //add to cart fun
+  const addToCart = async (product) => {
+    try {
+      if (auth?.user) {
+        const quantity = 1;
+        const { data } = await axios.put(import.meta.env.VITE_ADD_TO_CART_URL, {
+          productId: product._id,
+          quantity,
+        });
+        if (data.success) {
+          setAuth({ ...auth, user: data?.user });
+          let ls = localStorage.getItem("auth");
+          ls = JSON.parse(ls);
+          ls.user = data?.user;
+          localStorage.setItem("auth", JSON.stringify(ls));
+
+          toast.success("item added to cart");
+        }
+      } else {
+        toast("login required");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("errror in adding item to cart");
+    }
+  };
   //image urls
-  const imgUrl =
-    `http://localhost:4000/images/${product.imageOne}`;
+  const imgUrl = `http://localhost:4000/images/${product.imageOne}`;
   const imgUrlTwo = `http://localhost:4000/images/${product.imageTwo}`;
   const imgUrlThree = `http://localhost:4000/images/${product.imageThree}`;
 
@@ -79,7 +107,8 @@ function SingleProduct() {
                       crossOrigin=""
                       alt=""
                       className="side-image"
-                      width="70px"
+                      width="150px"
+                      height="150px"
                     />
                   </div>
 
@@ -88,8 +117,8 @@ function SingleProduct() {
                       crossOrigin=""
                       src={imgUrlTwo}
                       alt="side img"
-                      width="70px"
-                      height="90px"
+                      width="150px"
+                      height="150px"
                       className="side-image"
                     />
                   </div>
@@ -98,14 +127,14 @@ function SingleProduct() {
                       crossOrigin=""
                       src={imgUrl}
                       alt="side img"
-                      width="70px"
-                      height="90px"
+                      width="150px"
+                      height="150px"
                       className="side-image"
                     />
                   </div>
                 </div>
                 {/* product img */}
-                <div className="  p-5 py-3 text-center">
+                <div className="  p-5 py-3 text-center ">
                   <ReactImageMagnify
                     {...{
                       smallImage: {
@@ -113,6 +142,7 @@ function SingleProduct() {
                         isFluidWidth: true,
                         src: "https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg",
                         crossOrigin: "anonymous",
+                      
                       },
                       largeImage: {
                         alt: "phone",
@@ -121,22 +151,15 @@ function SingleProduct() {
                         height: 1100,
                         crossOrigin: "anonymous",
                       },
-  
                     }}
-                  
                   />
                 </div>
               </div>
-              <div className="p-5 flex justify-between md:justify-center gap-20">
+              <div className="p-5 flex justify-between md:justify-center gap-20 ms-20 mt-20">
                 <button
                   className="p-3 pe-6 bg-[orange] rounded-md font-semibold text-base text-white"
                   onClick={() => {
-                    setCart([...cart, product]);
-                    localStorage.setItem(
-                      "cart",
-                      JSON.stringify([...cart, product])
-                    );
-                    // toast.success("item added to cart");
+                    addToCart(product);
                   }}
                 >
                   <FontAwesomeIcon
@@ -145,7 +168,7 @@ function SingleProduct() {
                   />
                   ADD TO CART
                 </button>
-                <a className="p-3 rounded-md pe-6 bg-[tomato] text-white  font-semibold text-base">
+                <a className="p-3 rounded-md pe-6 bg-[tomato] text-white  font-semibold text-base cursor-pointer">
                   <FontAwesomeIcon
                     className="fas fa-bag-shopping px-3"
                     icon={faBagShopping}
@@ -249,25 +272,22 @@ function SingleProduct() {
                 </div>
               </div>
               <div>
-                <div className="font-semibold text-lg py-3">Colour</div>
+                <div className="font-semibold text-lg py-3">Varient</div>
                 <div className="flex gap-3 justify-center md:justify-start">
                   <div className="p-3 border rounded-lg">
                     <img
-                      src="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg"
+                      crossOrigin=""
+                      src={imgUrlThree}
                       alt=""
                       width="100px"
                     />
                   </div>
                   <div className="p-3 border rounded-lg">
-                    <img
-                      src="https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg"
-                      alt=""
-                      width="100px"
-                    />
+                    <img crossOrigin="" src={imgUrl} alt="" width="100px" />
                   </div>
                 </div>
               </div>
-              <div className="py-5 flex items-center justify-between">
+              {/* <div className="py-5 flex items-center justify-between">
                 <div className="font-semibold text-lg">Quantity</div>
                 <div className="flex">
                   <img
@@ -292,13 +312,17 @@ function SingleProduct() {
                 <div className="font-semibold text-lg">
                   Cash on delivery available.
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="text-center text-4xl my-10">Related Product.</div>
+      <div className="text-center text-4xl my-10">
+        {relatedProducts.length > 0
+          ? "Related Products."
+          : "No Releated products"}
+      </div>
 
       <div className="container flex flex-wrap gap-5">
         {/* map products */}
@@ -368,6 +392,9 @@ function SingleProduct() {
               </span>
               <Link
                 to=""
+                onClick={() => {
+                  addToCart(product);
+                }}
                 className="rounded-lg bg-[#ffc107] px-5 py-2.5 text-center text-sm font-medium text-black hover:bg-[#ffc105] focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
               >
                 Add to cart
@@ -377,6 +404,7 @@ function SingleProduct() {
         ))}
         {/* card end */}
       </div>
+      <Toaster />
       <CoustumerReviews />
     </Layout>
   );

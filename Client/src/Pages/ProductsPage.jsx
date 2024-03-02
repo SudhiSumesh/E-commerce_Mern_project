@@ -3,13 +3,11 @@ import React, { useEffect, useState } from "react";
 import Layout from "../Components/Layout/Layout";
 import { useAuth } from "../Context/auth";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-import { useCart } from "../Context/cart";
 
 function ProductsPage() {
   const [auth, setAuth] = useAuth();
-  const [cart, setCart] = useCart([]);
   const [products, setProducts] = useState([]);
   // console.log(auth);
 
@@ -22,14 +20,33 @@ function ProductsPage() {
       }
     } catch (error) {
       console.log(error);
-      toast.error("error in getting pdt");
+      toast.error("error in getting  product");
     }
   };
   //add to cart fun
-  const addToCart = (product) => {
-    setCart([...cart, product]);
-    localStorage.setItem("cart", JSON.stringify([...cart, product]));
-    // toast.success("item added to cart");
+  const addToCart = async (product) => {
+    try {
+      if (auth?.user) {
+        const quantity = 1;
+        const { data } = await axios.put(import.meta.env.VITE_ADD_TO_CART_URL, {
+          productId: product._id,
+          quantity,
+        });
+        if (data.success) {
+          setAuth({ ...auth, user: data?.user });
+          let ls = localStorage.getItem("auth");
+          ls = JSON.parse(ls);
+          ls.user = data?.user;
+          localStorage.setItem("auth", JSON.stringify(ls));
+          toast.success("item added to cart");
+        }
+      } else {
+        toast("login required");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("errror in adding item to cart")
+    }
   };
   useEffect(() => {
     getAllProduct();
@@ -65,17 +82,18 @@ function ProductsPage() {
         {/* map products */}
         {products?.map((product) => (
           <Card className="w-[320px]  my-6" key={product._id}>
-            <img
-              crossOrigin=""
-              src={`http://localhost:4000/images/${product.imageTwo}`}
-              alt={product.slug}
-              width="300px"
-              height={"70px"}
-            />
             <Link
               to={`/product/${product.slug}`}
               className="hover:underline  overflow-hidden"
             >
+              <img
+                crossOrigin=""
+                src={`http://localhost:4000/images/${product.imageTwo}`}
+                alt={product.slug}
+                width="300px"
+                height={"70px"}
+              />
+
               <h5 className="  text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
                 {`${product.name}, ${product.description}`}
               </h5>
@@ -130,7 +148,9 @@ function ProductsPage() {
                 {`$${product.price}`}
               </span>
               <Link
-                onClick={()=>addToCart(product)}
+                onClick={() => {
+                  addToCart(product);
+                }}
                 className="rounded-md bg-[#ffc107] px-5 py-2.5 text-center text-sm font-medium text-[black]  hover:bg-[#e7a543] focus:outline-none  focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
               >
                 Add to cart
@@ -140,7 +160,7 @@ function ProductsPage() {
         ))}
         {/* card end */}
       </div>
-      <ToastContainer />
+      <Toaster />
     </Layout>
   );
 }

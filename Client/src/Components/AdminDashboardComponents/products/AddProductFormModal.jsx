@@ -1,9 +1,8 @@
 import axios from "axios";
 import { Button, Label, Modal, TextInput, Textarea } from "flowbite-react";
-import { Dropzone, FileMosaic } from "@files-ui/react";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../../Context/auth";
+import toast,{ Toaster } from "react-hot-toast";
 
 function AddProductFormModal({ getAllProduct }) {
   const [openModal, setOpenModal] = useState(false);
@@ -80,10 +79,11 @@ function AddProductFormModal({ getAllProduct }) {
       if (data.success) {
         onCloseModal();
         getAllProduct();
-        // toast.success(data.message)
-        console.log(data.message);
+        toast.success(data.message)
+      
       } else {
         console.log(data.message);
+         toast.error(data.message);
       }
     } catch (error) {
       onCloseModal();
@@ -211,7 +211,7 @@ function AddProductFormModal({ getAllProduct }) {
           </form>
         </Modal.Body>
       </Modal>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }

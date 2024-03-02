@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 
 function ResetPassword() {
   const [inputValues, setInputValues] = useState({
     otp: "",
     password: "",
   });
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   // handle change
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,17 +20,23 @@ function ResetPassword() {
   // console.log(inputValues);
   //handle submit
   const handleSubmit = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
     const { password, otp } = inputValues;
     try {
-      const { data } = await axios.put(import.meta.env.VITE_RESET_PASSWORD_URL, {
-        password,
-        otp,
-      });
-      if(data.success){
-        toast.success(data.message)
+      const { data } = await axios.put(
+        import.meta.env.VITE_RESET_PASSWORD_URL,
+        {
+          password,
+          otp,
+        }
+      );
+      if (data.success) {
+        toast.success(data.message);
         console.log(data.message);
-        navigate("/")
+        navigate("/");
+      } else {
+        toast.error("incorrect otp");
+        console.log(data.message);
       }
     } catch (error) {
       toast.error("error in reset password");
@@ -81,7 +87,7 @@ function ResetPassword() {
             </button>
           </div>
         </form>
-        <ToastContainer />
+        <Toaster />
       </div>
     </>
   );

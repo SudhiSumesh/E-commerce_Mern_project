@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import toast,{ Toaster  } from "react-hot-toast";
 
 function ForgotPassword({}) {
   const [email, setEmail] = useState("");
@@ -65,7 +65,7 @@ function ForgotPassword({}) {
         <Link to="/" className="bg-[blue] text-white px-4 rounded-md my-6 py-2">
           Go to Home
         </Link>
-        <ToastContainer />
+        <Toaster />
       </div>
     </>
   );

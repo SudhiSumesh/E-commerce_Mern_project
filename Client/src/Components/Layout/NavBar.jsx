@@ -6,13 +6,34 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../Context/auth";
 import DropDownModal from "../uiElements/DropDownModal";
-import { useCart } from "../../Context/cart";
-import { ToastContainer } from "react-toastify";
+import { useEffect, useState } from "react";
+import axios from "axios";
 // import { toast } from "react-hot-toast";
 
 const NavBar = () => {
   const [auth] = useAuth();
-const [cart,setCart]=useCart()
+  const [userCart, setUserCart] = useState([]);
+  // gett cart
+  useEffect(() => {
+    getUserCart();
+  }, [auth]);
+  //get user cart
+  const getUserCart = async () => {
+    if (auth?.user) {
+      try {
+        const { data } = await axios.get(
+          import.meta.env.VITE_GET_USER_CART_URL
+        );
+        if (data.success) {
+          setUserCart(data.cart.items);
+          //  console.log(cartLength);
+        }
+      } catch (error) {
+        console.log(error);
+        console.log("error in getting  cart");
+      }
+    }
+  };
   return (
     <div className="border-b-2 sticky top-0 z-10 bg-white">
       <Nav fluid rounded className="container rounded-none p-4 ">
@@ -32,7 +53,7 @@ const [cart,setCart]=useCart()
               className=" text-2xl self-center p-2 mt-1 hover:text-[blue] cursor-pointer"
             ></FontAwesomeIcon>
             <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -bottom-1 -end-1 dark:border-gray-900">
-              {cart?.length}
+              {userCart?.length }
             </div>
           </Link>
           {auth?.user ? <DropDownModal /> : <FormModal />}
@@ -66,7 +87,6 @@ const [cart,setCart]=useCart()
           </Link>
         </Nav.Collapse>
       </Nav>
-      <ToastContainer/>
     </div>
   );
 };

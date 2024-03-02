@@ -5,7 +5,7 @@ const userModel = require("../Models/userModel");
 exports.requireSignIn = async (req, res, next) => {
   const token = req.headers.authorization; //get token
   // 
-  if (!token) {
+  if (!token ) {
    return res.status(401).json({
       success: false,
       message: "token required",

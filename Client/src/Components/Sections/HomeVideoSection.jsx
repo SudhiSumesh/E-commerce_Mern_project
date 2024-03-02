@@ -3,10 +3,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 function HomeVideoSection() {
-  
+  // Function to handle right-click event
+  const handleContextMenu = (event) => {
+    event.preventDefault(); // Prevent default context menu
+  };
   return (
     <div className="relative">
-      <video autoPlay loop muted className="md:min-h-[97.15vh] mb-4">
+      <video
+        autoPlay
+        loop
+        onContextMenu={handleContextMenu}
+        muted
+        className="md:min-h-[97.15vh] mb-4"
+      >
         <source src="/assets/videos/herovideo.mp4" type="video/mp4" />
         {/*fallback content in case the video cannot be played */}
         video

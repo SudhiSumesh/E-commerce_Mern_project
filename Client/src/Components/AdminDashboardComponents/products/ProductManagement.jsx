@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table } from "flowbite-react";
 import AddProductFormModal from "./AddProductFormModal";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 import EditProductModal from "./EditProducModal";
 import ProductDeleteModal from "./ProductDeleteModal";
 import { useAuth } from "../../../Context/auth";
@@ -35,7 +35,7 @@ import { useAuth } from "../../../Context/auth";
 
   return (
     <>
-      <div className="  ps-10 py-3">
+      <div className=" mt-3 py-3">
         <div>
           <AddProductFormModal getAllProduct={getAllProduct} />
         </div>
@@ -98,7 +98,7 @@ import { useAuth } from "../../../Context/auth";
             ))}
           </Table.Body>
         </Table>
-        <ToastContainer />
+        <Toaster />
       </div>
     </>
   );

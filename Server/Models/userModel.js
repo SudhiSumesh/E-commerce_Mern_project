@@ -1,37 +1,66 @@
-const mongoose =require('mongoose')
+const mongoose = require("mongoose");
+
+const paymentSchema = new mongoose.Schema({
+  razorpay_order_id: {
+    type: String,
+    
+  },
+  razorpay_payment_id: {
+    type: String,
+    
+  },
+  razorpay_signature: {
+    type: String,
+    
+  },
+});
+
+const orderSchema = new mongoose.Schema({
+  orderList: [
+    {
+      product: {
+        
+      },
+      quantity: {
+        type: Number,
+        
+      },
+    },
+  ],
+  payment: paymentSchema, // Include payment details here
+});
 
 const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please enter you Name"],
+      required: [true, "Please enter your Name"],
       maxLength: [30, "Name cannot exceed 30 characters"],
-      minLength: [3, "Name should  have more 3 characters"],
+      minLength: [3, "Name should have more than 3 characters"],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, " email is required"],
+      required: [true, "Email is required"],
       unique: true,
     },
     password: {
       type: String,
       required: [true, "Password is Required"],
-      minLength: [3, "Paasword should be greater than 3 characters"],
+      minLength: [3, "Password should be greater than 3 characters"],
     },
     avatar: {
       type: String,
       default:
         "https://tse4.mm.bing.net/th?id=OIP.tgmmCh4SA36j0dMT0ay9_AHaHa&pid=Api&P=0&h=180",
     },
-
     phone: {
       type: String,
-      required: [true, "phone no is required"],
+      required: [true, "Phone number is required"],
     },
     address: {
       type: String,
-      required: [true, "address no is required"],
+      required: [true, "Address is required"],
     },
     role: {
       type: Number,
@@ -40,21 +69,22 @@ const userSchema = new mongoose.Schema(
     otp: {
       type: Number,
     },
-    cart: [{
-      items:[{
-        product: {
-          type: mongoose.ObjectId,
-          ref: "Product",
+    cart: {
+      items: [
+        {
+          product: {
+            type: mongoose.ObjectId,
+            ref: "Product",
+          },
+          quantity: {
+            type: Number,
+          },
         },
-        quantity:{
-          type:Number,
-          
-        }
-      }],
-      totalPrice:Number
-  }],
+      ],
+    },
+    orders: [orderSchema],
   },
   { timestamps: true }
-); 
+);
 
-module.exports=mongoose.model("User",userSchema)
+module.exports = mongoose.model("User", userSchema);

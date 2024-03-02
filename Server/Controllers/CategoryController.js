@@ -9,6 +9,10 @@ exports.createCategoryController = async (req, res) => {
     const { name } = req.body;
     // return if not name
     if (!name) return res.status(401).json({ message: "Name is required" });
+    //if name is empty
+    if (name.trim() === "") {
+      return res.status(401).json({ message: "Name is required" });
+    }
     //check if category already existed
     const existingCategory = await CategoryModel.findOne({ name });
     if (existingCategory) {
@@ -43,6 +47,10 @@ exports.updateCategoryController = async (req, res) => {
     // return if not name
     if (!name || !id)
       return res.status(401).json({ message: "name and Id is required" });
+    //if name is empty
+      if (name.trim() === "") {
+        return res.status(401).json({ message: "Name is required" });
+      }
     //find by id and update
     const category = await CategoryModel.findByIdAndUpdate(
       id,

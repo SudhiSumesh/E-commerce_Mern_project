@@ -17,6 +17,7 @@ import ForgotPassword from "./Components/Auth/ForgotPassword";
 import SearchPage from "./Pages/SearchPage";
 import SingleProduct from "./Pages/SingleProduct";
 import { useEffect } from "react";
+import UserOrders from "./Pages/user/UserOrders";
 
 function App() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/settings" element={<PrivateRoute />}>
           <Route path="" element={<Dashboard />} />
+          <Route path="my-orders" element={<UserOrders />} />
         </Route>
         <Route path="/admin-dashboard" element={<AdminRoute />}>
           <Route path="" element={<AdminDashboard />} />

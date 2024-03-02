@@ -47,7 +47,7 @@ const LoginForm = ({ onCloseModal }) => {
               user: user,
               token: token,
             });
-            localStorage.setItem("auth", JSON.stringify(response.data));
+            localStorage.setItem("auth", JSON.stringify({user,token}));
             // console.log(user, token);
           }, 1000);
         } else {

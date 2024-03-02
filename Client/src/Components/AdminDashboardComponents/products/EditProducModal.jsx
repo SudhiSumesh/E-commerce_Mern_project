@@ -8,7 +8,7 @@ import {
 } from "flowbite-react";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "../../../Context/auth";
 
 function EditProductModal({product, getAllProduct}) {
@@ -18,7 +18,7 @@ function EditProductModal({product, getAllProduct}) {
   const [categories, setCategories] = useState();
   // const [produ,setProduct]=useState(product)
   //close modal
-  console.log(product);
+
   function onCloseModal() {
     setOpenModal(false);
   }
@@ -204,7 +204,7 @@ function EditProductModal({product, getAllProduct}) {
           </form>
         </Modal.Body>
       </Modal>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }

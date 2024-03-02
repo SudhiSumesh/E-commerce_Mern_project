@@ -28,12 +28,21 @@ exports.createProductController = async (req, res) => {
       case !imageThree:
         return res.status(500).send({ error: "image is Required" });
     }
-
+    if (quantity <= 0) {
+      return res
+        .status(401)
+        .send({ error: "quantity must be a positive non zero number" });
+    }
+    if (price <= 0) {
+      return res
+        .status(401)
+        .send({ error: "price must be a positive non zero number" });
+    }
     //existing product
-      const productexist = await productModel.findOne({ name });
+    const productexist = await productModel.findOne({ name }) || await productModel.findOne({ slug:slugify(name) })
 
-      if (productexist)
-        return res.status(401).json({ message: "product already exist" });
+    if (productexist)
+      return res.status(401).json({ message: "product already exist" });
     // create
     const product = await productModel.create({
       name,
@@ -126,6 +135,23 @@ exports.updateProductController = async (req, res) => {
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
     }
+    if (quantity <= 0) {
+      return res
+        .status(401)
+        .send({ error: "quantity must be a positive non zero number" });
+    }
+    if (price <= 0) {
+      return res
+        .status(401)
+        .send({ error: "price must be a positive non zero number" });
+    }
+    //existing product
+    const productexist =
+      (await productModel.findOne({ name })) ||
+      (await productModel.findOne({ slug: slugify(name) }));
+
+    if (productexist)
+      return res.status(401).json({ message: "product already exist" });
     //update
     const product = await productModel.findByIdAndUpdate(
       req.params.id,
@@ -166,47 +192,52 @@ exports.deleteProductController = async (req, res) => {
   }
 };
 
-//search product 
+//search product
 
-exports.searchProductController=async(req,res)=>{
- try {
-  const {keyword}=req.params
-  const results=await productModel.find({
-    $or:[
-      {name:{$regex:keyword,$options:"i"}},//option i for case insensitive
-      {description:{$regex:keyword,$options:"i"}}
-    ]
-  }).select()
-  res.status(200).json({
-    success:true,
-    message:"filterd data",
-    results
-  })
-
- } catch (error) {
-  res.status(500).json({
-    message:"error in search product",
-    success:false,
-    error
-  })
- }
-}
-// get releated prodect
-exports.relatedProductController=async(req,res)=>{
+exports.searchProductController = async (req, res) => {
   try {
-    const {pid,cid}=req.params
-    const products=await productModel.find({category:cid,_id:{$ne:pid}}).select().limit(6).populate("category")
-     res.status(200).json({
-      success:true,
-      message:"  releted category geted",
-      products
-    })
+    const { keyword } = req.params;
+    const results = await productModel
+      .find({
+        $or: [
+          { name: { $regex: keyword, $options: "i" } }, //option i for case insensitive
+          { description: { $regex: keyword, $options: "i" } },
+        ],
+      })
+      .select();
+    res.status(200).json({
+      success: true,
+      message: "filterd data",
+      results,
+    });
   } catch (error) {
     res.status(500).json({
-      success:false,
-      message:"error in getting releted category",
-      error
-    })
+      message: "error in search product",
+      success: false,
+      error,
+    });
+  }
+};
+// get releated prodect
+exports.relatedProductController = async (req, res) => {
+  try {
+    const { pid, cid } = req.params;
+    const products = await productModel
+      .find({ category: cid, _id: { $ne: pid } })
+      .select()
+      .limit(6)
+      .populate("category");
+    res.status(200).json({
+      success: true,
+      message: "  releted category geted",
+      products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "error in getting releted category",
+      error,
+    });
     console.log(error);
   }
-}
+};
