@@ -47,7 +47,7 @@ function UserManagement() {
               <Table.Cell>{user.email}</Table.Cell>
               <Table.Cell>{user.phone}</Table.Cell>
               <Table.Cell>{user.address}</Table.Cell>
-              <Table.Cell>
+              {/* <Table.Cell>
                 <Link
                   to=""
                   className="font-medium text-[blue] hover:underline dark:text-cyan-500"
@@ -70,7 +70,7 @@ function UserManagement() {
                 >
                   Delete
                 </Link>
-              </Table.Cell>
+              </Table.Cell> */}
             </Table.Row>
           ))}
         </Table.Body>

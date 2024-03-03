@@ -1,5 +1,6 @@
 const slugify = require("slugify");
 const productModel = require("../Models/productModel");
+const userModel = require("../Models/userModel");
 
 //create product
 exports.createProductController = async (req, res) => {
@@ -38,6 +39,9 @@ exports.createProductController = async (req, res) => {
         .status(401)
         .send({ error: "price must be a positive non zero number" });
     }
+     if (name.trim() === "" || description.trim()==="") {
+       return res.status(401).json({ message: "Name and description is required" });
+     }
     //existing product
     const productexist = await productModel.findOne({ name }) || await productModel.findOne({ slug:slugify(name) })
 
@@ -145,13 +149,18 @@ exports.updateProductController = async (req, res) => {
         .status(401)
         .send({ error: "price must be a positive non zero number" });
     }
-    //existing product
-    const productexist =
-      (await productModel.findOne({ name })) ||
-      (await productModel.findOne({ slug: slugify(name) }));
+         if (name.trim() === "" || description.trim() === "") {
+           return res
+             .status(401)
+             .json({ message: "Name and description is required" });
+         }
+    // //existing product
+    // const productexist =
+    //   (await productModel.findOne({ name })) ||
+    //   (await productModel.findOne({ slug: slugify(name) }));
 
-    if (productexist)
-      return res.status(401).json({ message: "product already exist" });
+    // if (productexist)
+    //   return res.status(401).json({ message: "product already exist" });
     //update
     const product = await productModel.findByIdAndUpdate(
       req.params.id,
@@ -174,20 +183,37 @@ exports.updateProductController = async (req, res) => {
   }
 };
 
-//delete products
+
+
 exports.deleteProductController = async (req, res) => {
   try {
-    await productModel.findByIdAndDelete(req.params.id);
+    const productId = req.params.id;
+
+    // Find and delete the product
+    await productModel.findByIdAndDelete(productId);
+
+    // Remove references to the deleted product from user carts
+    await userModel.updateMany(
+      { "cart.items.product": productId },
+      { $pull: { "cart.items": { product: productId } } } //$pull is a MongoDB update operator used to remove all instances of a specified value from an array.
+    );
+
+    // Remove references to the deleted product from user orders
+    await userModel.updateMany(
+      { "orders.orderList.product": productId },
+      { $pull: { "orders.$[].orderList": { product: productId } } } //$[]: This is the all positional operator.
+    );
+
     res.status(200).send({
       success: true,
-      message: "Product Deleted successfully",
+      message: "Product deleted successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send({
       success: false,
       message: "Error while deleting product",
-      error,
+      error: error.message,
     });
   }
 };

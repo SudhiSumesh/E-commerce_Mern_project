@@ -8,13 +8,14 @@ import { Link, useNavigate } from "react-router-dom";
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
   const [deleted, setDeleted] = useState(false);
+  const [stock, setStock] = useState(false);
   const [userCart, setUserCart] = useState([]);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   // useEffect
 
   useEffect(() => {
     getUserCart();
-  }, [auth, deleted]);
+  }, [auth, deleted,stock]);
   //get user cart
   const getUserCart = async () => {
     if (auth?.user) {
@@ -24,7 +25,7 @@ const CartPage = () => {
         );
         if (data.success) {
           setUserCart(data.cart.items);
-          console.log("cart",{userCart});
+          console.log("cart", { userCart });
         }
       } catch (error) {
         console.log(error);
@@ -33,16 +34,16 @@ const CartPage = () => {
     }
   };
   //increment
-  const handleIncrement = async (pid,prevQty,pdtQty) => {
+  const handleIncrement = async (pid, prevQty, pdtQty) => {
     try {
       if (auth?.user) {
-        const newQty = prevQty >=pdtQty  ? 0 : 1;
-        if(newQty===0){
-          toast(`only ${pdtQty} item left in stock`)
+        const newQty = prevQty >= pdtQty ? 0 : 1;
+        if (newQty === 0) {
+          toast(`only ${pdtQty} item left in stock`);
         }
         const { data } = await axios.put(import.meta.env.VITE_ADD_TO_CART_URL, {
           productId: pid,
-          quantity:newQty,
+          quantity: newQty,
         });
         if (data.success) {
           setAuth({ ...auth, user: data?.user });
@@ -113,43 +114,55 @@ const CartPage = () => {
     }
   };
   // Open Razorpay modal
-  const handleOpenRazorpay =(order) => {
-const options = {
-  key: import.meta.env.VITE_RAZOR_API_KEY_ID,
-  amount: Number(order.amount * 100),
-  currency: order.currency,
-  name: "Salalah.",
-  description: "Find the smartphone thats right for you",
-  order_id: order.id,
-  //verify 
-  handler:async function (response) {
-    // console.log(response);
-    const { data } = await axios.post(import.meta.env.VITE_PAYMENT_VERIFY_URL,{...response,userOrder:userCart});
-    if(data.success){
-      toast.success(data.message)
-     //  navigate("/settings/my-orders");
-    }
-    else{
-      toast.error("error in verification")
-    }
-  },
-
-};
+  const handleOpenRazorpay = (order) => {
+    const options = {
+      key: import.meta.env.VITE_RAZOR_API_KEY_ID,
+      amount: Number(order.amount * 100),
+      currency: order.currency,
+      name: "Salalah.",
+      description: "Find the smartphone thats right for you",
+      order_id: order.id,
+      //verify
+      handler: async function (response) {
+        // console.log(response);
+        const { data } = await axios.post(
+          import.meta.env.VITE_PAYMENT_VERIFY_URL,
+          { ...response, userOrder: userCart }
+        );
+        if (data.success) {
+          toast.success(data.message);
+          //  navigate("/settings/my-orders");
+        } else {
+          toast.error("error in verification");
+        }
+      },
+    };
     const rzp1 = new window.Razorpay(options);
-       rzp1.open();
+    rzp1.open();
   };
   //handle payment
   const handlePayment = async () => {
+    // setStock(!stock)
     try {
-      const amount = grantTotal();
-      const { data } = await axios.post(
-        import.meta.env.VITE_PAYMENT_ORDER_URL,
-        { amount }
-      );
-      if (data.success) {
-        // console.log(data.order);
-       
-        handleOpenRazorpay(data.order);
+      //check if stock is out
+      const outOfStock = userCart.findIndex((item) => {
+      return  item.product.quantity === 0;
+      });
+      if (outOfStock !== -1) {
+        toast.error(`${userCart[outOfStock].product.name} is currently out of stock please try later`)
+      }else{
+        const amount = grantTotal();
+        const { data } = await axios.post(
+          import.meta.env.VITE_PAYMENT_ORDER_URL,
+          {
+            amount,
+          }
+        );
+        if (data.success) {
+          // console.log(data.order);
+
+          handleOpenRazorpay(data.order);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -186,19 +199,21 @@ const options = {
                     key={item._id}
                   >
                     <div className="py-4 md:py-5 flex items-center gap-3">
-                      <div>
+                      <div className="">
+                      { item.product.quantity===0? <span className=" p-1 bg-[#ff0000]  rounded-md text-[#ffffff] text-center">Out of stock</span>:"" }
                         <img
                           crossOrigin=""
                           src={`http://localhost:4000/images/${item.product.imageOne}`}
                           alt="img"
                           width="100px"
+                          className="mt-2"
                         />
                       </div>
                       <div className="w-[150px]">
                         <div className="font-semibold text-lg">
-                          {item.product.name}
+                          {item.product.name} 
                         </div>
-                        <div className="text-muted text-[12px]">
+                        <div className="text-muted text-[14px]">
                           {item.product.description}
                         </div>
                       </div>
@@ -224,7 +239,11 @@ const options = {
                       </div>
                       <img
                         onClick={() =>
-                          handleIncrement(item.product._id, item.quantity,item.product.quantity)
+                          handleIncrement(
+                            item.product._id,
+                            item.quantity,
+                            item.product.quantity
+                          )
                         }
                         src="/assets/images/add.png"
                         alt=""

@@ -18,12 +18,10 @@ const paymentSchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema({
   orderList: [
     {
-      product: {
-        
-      },
+      product: {},
       quantity: {
         type: Number,
-        
+        min: [0, "Quantity must not be negative"],
       },
     },
   ],
@@ -78,6 +76,7 @@ const userSchema = new mongoose.Schema(
           },
           quantity: {
             type: Number,
+            min: [0, "Quantity must not be negative"],
           },
         },
       ],

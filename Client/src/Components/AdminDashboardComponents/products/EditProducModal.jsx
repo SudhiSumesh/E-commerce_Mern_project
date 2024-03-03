@@ -1,33 +1,35 @@
 import axios from "axios";
-import {
-  Button,
-  Label,
-  Modal,
-  TextInput,
-  Textarea,
-} from "flowbite-react";
+import { Button, Label, Modal, TextInput, Textarea } from "flowbite-react";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "../../../Context/auth";
 
-function EditProductModal({product, getAllProduct}) {
-  const [auth]=useAuth()
+function EditProductModal({ product, getAllProduct }) {
+  const [auth] = useAuth();
   const [openModal, setOpenModal] = useState(false);
-    // const [previewImages, setPreviewImages] = useState([]);
+  // const [previewImages, setPreviewImages] = useState([]);
   const [categories, setCategories] = useState();
   // const [produ,setProduct]=useState(product)
   //close modal
-
+  useEffect(() => {
+    formik.setValues({
+      name: product?.name || "",
+      description: product?.description || "",
+      category: product?.category._id || "",
+      price: product?.price || "",
+      quantity: product?.quantity || "",
+    });
+  }, [product]);
   function onCloseModal() {
     setOpenModal(false);
   }
   //getting all categories
   const getAllCategory = async () => {
     try {
-      if(!auth.user || !auth.token){
-        onCloseModal()
-        return  console.log("Auth required");
+      if (!auth.user || !auth.token) {
+        onCloseModal();
+        return console.log("Auth required");
       }
       const { data } = await axios.get(import.meta.env.VITE_GET_CATEGORY_URL);
       if (data.success) {
@@ -44,35 +46,35 @@ function EditProductModal({product, getAllProduct}) {
   }, []);
 
   // set  useFormic hook
-  const formik = useFormik(
-{
+  const formik = useFormik({
     // setting initail values
-    
+
     initialValues: {
-      name: product?.name || "" ,
-      description: product?.description || "" ,
+      name: product?.name || "",
+      description: product?.description || "",
       category: product?.category._id || "",
       price: product?.price || "",
       quantity: product?.quantity || "",
     },
     onSubmit: async (values, { resetForm }) => {
       try {
-            if (!auth?.user || !auth?.token) {
-              onCloseModal();
-              return console.log("auth required");
-            }
+        if (!auth?.user || !auth?.token) {
+          onCloseModal();
+          return console.log("auth required");
+        }
         // update category
         const { data } = await axios.put(
           `${import.meta.env.VITE_UPDATE_PRODUCT_URL}/${product._id}`,
-          {...values},
+          { ...values },
           { withCredentials: true }
         );
         if (data?.success) {
           // toast.success("product added successfully");
           // console.log(data.message);
+
           onCloseModal();
-           getAllProduct();
-            getAllCategory();
+          getAllProduct();
+          getAllCategory();
         } else {
           toast.error(data.message);
           console.log(data.message);
@@ -143,7 +145,7 @@ function EditProductModal({product, getAllProduct}) {
                     }}
                   />
                 ))}
-              </div> */} 
+              </div> */}
               <div className="my-2  block">
                 <Label htmlFor="" value="Product Name" />
               </div>
@@ -198,7 +200,7 @@ function EditProductModal({product, getAllProduct}) {
                 shadow
               />
             </div>
-            <Button type="submit" color="blue" >
+            <Button type="submit" color="blue">
               Update Product
             </Button>
           </form>
@@ -210,4 +212,3 @@ function EditProductModal({product, getAllProduct}) {
 }
 
 export default EditProductModal;
-

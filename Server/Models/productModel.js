@@ -19,6 +19,7 @@ const ProductSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
+      min: [0, "price must not be negative"],
     },
     category: {
       type: mongoose.ObjectId,
@@ -27,6 +28,7 @@ const ProductSchema = new mongoose.Schema(
     quantity: {
       type: Number,
       required: true,
+      min: [0, "Quantity must not be negative"],
     },
     imageOne: {
       type: String,

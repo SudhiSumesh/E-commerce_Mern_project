@@ -63,6 +63,7 @@ exports.getItemsFromCartContoller = async (req, res) => {
         .status(404)
         .json({ success: false, message: "User not found" });
     }
+    
     // Return the user's cart data
     res.status(200).json({ success: true, cart: user.cart });
   } catch (error) {

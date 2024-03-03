@@ -7,9 +7,8 @@ import EditProductModal from "./EditProducModal";
 import ProductDeleteModal from "./ProductDeleteModal";
 import { useAuth } from "../../../Context/auth";
 
- function ProductManagement() {
+function ProductManagement() {
   const [products, setProducts] = useState([]);
-
   const [auth] = useAuth();
   //get all products
   const getAllProduct = async () => {
@@ -22,7 +21,7 @@ import { useAuth } from "../../../Context/auth";
       const { data } = await axios.get(import.meta.env.VITE_GET_PRODUCT_URL);
       if (data?.success) {
         setProducts(data.products);
-        console.log(products);
+        // console.log(products);
       }
     } catch (error) {
       console.log(error);
@@ -31,7 +30,8 @@ import { useAuth } from "../../../Context/auth";
   };
   useEffect(() => {
     getAllProduct();
-  },[]);
+  }, []);
+
 
   return (
     <>
@@ -84,6 +84,7 @@ import { useAuth } from "../../../Context/auth";
                   <Table.Cell>
                     <button className="font-medium text-[blue] hover:underline dark:[blue]">
                       <EditProductModal
+                      
                         product={product}
                         getAllProduct={getAllProduct}
                       />
@@ -108,4 +109,3 @@ import { useAuth } from "../../../Context/auth";
 }
 
 export default ProductManagement;
-
