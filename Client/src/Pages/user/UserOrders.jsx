@@ -1,8 +1,8 @@
-import React from 'react'
-import Layout from '../../Components/Layout/Layout';
-import { Sidebar } from 'flowbite-react';
-import MyOders from '../../Components/userDashBoardComponents.jsx/MyOders';
-import { Link } from 'react-router-dom';
+import React from "react";
+import Layout from "../../Components/Layout/Layout";
+import { Sidebar } from "flowbite-react";
+import MyOders from "../../Components/userDashBoardComponents.jsx/MyOders";
+import { Link } from "react-router-dom";
 import { BiBuoy } from "react-icons/bi";
 
 import {
@@ -12,7 +12,7 @@ import {
   HiUser,
   HiViewBoards,
 } from "react-icons/hi";
-import UpdateProfileModal from '../../Components/Auth/UpdateProfileModal';
+import UpdateProfileModal from "../../Components/Auth/UpdateProfileModal";
 
 function UserOrders() {
   return (
@@ -66,7 +66,7 @@ function UserOrders() {
             </Sidebar.ItemGroup>
           </Sidebar.Items>
         </Sidebar>
-        <div className="w-full flex justify-center mt-20">
+        <div className="w-full mt-">
           <MyOders />
         </div>
       </div>
@@ -74,4 +74,4 @@ function UserOrders() {
   );
 }
 
-export default UserOrders
+export default UserOrders;

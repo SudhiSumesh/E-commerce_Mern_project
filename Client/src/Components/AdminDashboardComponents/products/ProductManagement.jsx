@@ -57,45 +57,48 @@ import { useAuth } from "../../../Context/auth";
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {products?.reverse().map((product, i) => (
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell>{i + 1}</Table.Cell>
-                <Table.Cell>{product.category.name}</Table.Cell>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {product.name}
-                </Table.Cell>
-                <Table.Cell>
-                  <img
-                    crossorigin=""
-                    src={`http://localhost:4000/images/${product.imageOne}`}
-                    alt="productimage"
-                    width="110px"
-                    height="110px"
-                  />
-                </Table.Cell>
-                <Table.Cell className="max-w-[300px]">
-                  {product.description}
-                </Table.Cell>
-                <Table.Cell>{product.price}</Table.Cell>
-                <Table.Cell>{product.quantity}</Table.Cell>
-                <Table.Cell>
-                  <button className="font-medium text-[blue] hover:underline dark:[blue]">
-                    <EditProductModal
-                      product={product}
-                      getAllProduct={getAllProduct}
+            {products
+              ?.slice(0)
+              .reverse()
+              .map((product, i) => (
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell>{i + 1}</Table.Cell>
+                  <Table.Cell>{product.category.name}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {product.name}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <img
+                      crossorigin=""
+                      src={`http://localhost:4000/images/${product.imageOne}`}
+                      alt="productimage"
+                      width="110px"
+                      height="110px"
                     />
-                  </button>
-                </Table.Cell>
-                <Table.Cell>
-                  <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                    <ProductDeleteModal
-                      productId={product._id}
-                      getAllProduct={getAllProduct}
-                    />
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-            ))}
+                  </Table.Cell>
+                  <Table.Cell className="max-w-[300px]">
+                    {product.description}
+                  </Table.Cell>
+                  <Table.Cell>{product.price}</Table.Cell>
+                  <Table.Cell>{product.quantity}</Table.Cell>
+                  <Table.Cell>
+                    <button className="font-medium text-[blue] hover:underline dark:[blue]">
+                      <EditProductModal
+                        product={product}
+                        getAllProduct={getAllProduct}
+                      />
+                    </button>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                      <ProductDeleteModal
+                        productId={product._id}
+                        getAllProduct={getAllProduct}
+                      />
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
           </Table.Body>
         </Table>
         <Toaster />

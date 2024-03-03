@@ -127,12 +127,7 @@ const options = {
     const { data } = await axios.post(import.meta.env.VITE_PAYMENT_VERIFY_URL,{...response,userOrder:userCart});
     if(data.success){
       toast.success(data.message)
-       setAuth({ ...auth, user: data?.user });
-       let ls = localStorage.getItem("auth");
-       ls = JSON.parse(ls);
-       ls.user = data?.user;
-       localStorage.setItem("auth", JSON.stringify(ls));
-        //  navigate("/settings/my-orders");
+     //  navigate("/settings/my-orders");
     }
     else{
       toast.error("error in verification")
