@@ -18,6 +18,8 @@ import SearchPage from "./Pages/SearchPage";
 import SingleProduct from "./Pages/SingleProduct";
 import { useEffect } from "react";
 import UserOrders from "./Pages/user/UserOrders";
+import DeleteUserAccount from "./Pages/user/DeleteUserAccount";
+import DeleteUser from "./Components/AdminDashboardComponents/users/DeleteUser";
 
 function App() {
   const location = useLocation();
@@ -45,12 +47,14 @@ function App() {
         <Route path="/settings" element={<PrivateRoute />}>
           <Route path="" element={<Dashboard />} />
           <Route path="my-orders" element={<UserOrders />} />
+          <Route path="delete-account" element={<DeleteUserAccount />} />
         </Route>
         <Route path="/admin-dashboard" element={<AdminRoute />}>
           <Route path="" element={<AdminDashboard />} />
           <Route path="users" element={<UserList />} />
           <Route path="products" element={<ProductList />} />
           <Route path="category" element={<Category />} />
+          <Route path="inbox" element={<DeleteUser />} />
         </Route>
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/about" element={<AboutPage />} />

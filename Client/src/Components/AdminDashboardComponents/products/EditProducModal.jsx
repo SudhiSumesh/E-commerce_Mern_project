@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "../../../Context/auth";
+import * as Yup from "yup";
+
 
 function EditProductModal({ product, getAllProduct }) {
   const [auth] = useAuth();
@@ -24,6 +26,37 @@ function EditProductModal({ product, getAllProduct }) {
   function onCloseModal() {
     setOpenModal(false);
   }
+
+  //Yup Validation schema
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(3, "enter a valid name ,mimimum 3 letter")
+      .required("Name is required")
+      .trim()
+      .test(
+        "is-not-only-whitespace",
+        "Field cannot be empty",
+        (value) => value.trim() !== ""
+      ),
+    description: Yup.string()
+      .min(3, "description have min length of 3 letter")
+      .required("description is required")
+      .trim()
+      .test(
+        "is-not-only-whitespace",
+        "Field cannot be empty",
+        (value) => value.trim() !== ""
+      ),
+    price: Yup.number("price must be a number")
+      .positive("price must be a positive number")
+      .required("price is required")
+      .min(1),
+    quantity: Yup.number("price must be a number")
+      .positive("price must be a positive number")
+      .required("price is required")
+      .min(1),
+  });
+
   //getting all categories
   const getAllCategory = async () => {
     try {
@@ -56,6 +89,7 @@ function EditProductModal({ product, getAllProduct }) {
       price: product?.price || "",
       quantity: product?.quantity || "",
     },
+    validationSchema: validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
         if (!auth?.user || !auth?.token) {
@@ -157,6 +191,9 @@ function EditProductModal({ product, getAllProduct }) {
                 onChange={formik.handleChange}
               />
             </div>
+            {formik.touched.name && formik.errors.name && (
+              <p className="text-sm text-red-500">{formik.errors.name}</p>
+            )}
             {/* text area description */}
             <div className="max-w-md">
               <div className="mb-2 block">
@@ -172,6 +209,11 @@ function EditProductModal({ product, getAllProduct }) {
                 onChange={formik.handleChange}
               />
             </div>
+            {formik.touched.description && formik.errors.description && (
+              <p className="text-sm text-red-500">
+                {formik.errors.description}
+              </p>
+            )}
             {/* price */}
             <div>
               <div className="mb-2 block">
@@ -186,6 +228,9 @@ function EditProductModal({ product, getAllProduct }) {
                 shadow
               />
             </div>
+            {formik.touched.price && formik.errors.price && (
+              <p className="text-sm text-red-500">{formik.errors.price}</p>
+            )}
             {/* quantity */}
             <div>
               <div className="mb-2 block">
@@ -200,6 +245,9 @@ function EditProductModal({ product, getAllProduct }) {
                 shadow
               />
             </div>
+            {formik.touched.quantity && formik.errors.quantity && (
+              <p className="text-sm text-red-500">{formik.errors.quantity}</p>
+            )}
             <Button type="submit" color="blue">
               Update Product
             </Button>

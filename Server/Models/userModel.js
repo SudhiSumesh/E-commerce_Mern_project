@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const paymentSchema = new mongoose.Schema({
   razorpay_order_id: {
     type: String,
-    
   },
   razorpay_payment_id: {
     type: String,
-    
   },
   razorpay_signature: {
     type: String,
-    
+  },
+  amount: {
+    type: Number,
   },
 });
 
@@ -27,6 +27,7 @@ const orderSchema = new mongoose.Schema({
   ],
   payment: paymentSchema, // Include payment details here
 });
+// const deleteRequestSchema = new mongoose.Schema();
 
 const userSchema = new mongoose.Schema(
   {
@@ -66,6 +67,17 @@ const userSchema = new mongoose.Schema(
     },
     otp: {
       type: Number,
+    },
+    deleteRequest: {
+      reason: {
+        type: String,
+        required: [true, "Reason for deletion is required"],
+      },
+      status: {
+        type: String,
+        enum: ["pending", "approved", "rejected"],
+        default: "pending",
+      },
     },
     cart: {
       items: [

@@ -40,7 +40,7 @@ const Dashboard = () => {
                 icon={HiArrowSmRight}
                 className="hover:text-[blue] rounded-none"
               >
-                Delete Account
+                <Link to={"/settings/delete-account"}> Delete Account </Link>
               </Sidebar.Item>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>

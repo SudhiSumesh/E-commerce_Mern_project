@@ -15,7 +15,7 @@ const CartPage = () => {
 
   useEffect(() => {
     getUserCart();
-  }, [auth, deleted,stock]);
+  }, [auth, deleted, stock]);
   //get user cart
   const getUserCart = async () => {
     if (auth?.user) {
@@ -114,7 +114,7 @@ const CartPage = () => {
     }
   };
   // Open Razorpay modal
-  const handleOpenRazorpay = (order) => {
+  const handleOpenRazorpay = (order, amount) => {
     const options = {
       key: import.meta.env.VITE_RAZOR_API_KEY_ID,
       amount: Number(order.amount * 100),
@@ -127,11 +127,11 @@ const CartPage = () => {
         // console.log(response);
         const { data } = await axios.post(
           import.meta.env.VITE_PAYMENT_VERIFY_URL,
-          { ...response, userOrder: userCart }
+          { ...response, userOrder: userCart, amount }
         );
         if (data.success) {
           toast.success(data.message);
-          //  navigate("/settings/my-orders");
+           navigate("/settings/my-orders");
         } else {
           toast.error("error in verification");
         }
@@ -144,25 +144,30 @@ const CartPage = () => {
   const handlePayment = async () => {
     // setStock(!stock)
     try {
-      //check if stock is out
-      const outOfStock = userCart.findIndex((item) => {
-      return  item.product.quantity === 0;
-      });
-      if (outOfStock !== -1) {
-        toast.error(`${userCart[outOfStock].product.name} is currently out of stock please try later`)
-      }else{
-        const amount = grantTotal();
-        const { data } = await axios.post(
-          import.meta.env.VITE_PAYMENT_ORDER_URL,
-          {
-            amount,
+      if (auth?.user) {
+        //check if stock is out
+        const outOfStock = userCart.findIndex((item) => {
+          return item.product.quantity === 0;
+        });
+        if (outOfStock !== -1) {
+          toast.error(
+            `${userCart[outOfStock].product.name} is currently out of stock please try later`
+          );
+        } else {
+          const amount = grantTotal();
+          const { data } = await axios.post(
+            import.meta.env.VITE_PAYMENT_ORDER_URL,
+            {
+              amount,
+            }
+          );
+          if (data.success) {
+            // console.log(data.order);
+            handleOpenRazorpay(data.order, data.amount);
           }
-        );
-        if (data.success) {
-          // console.log(data.order);
-
-          handleOpenRazorpay(data.order);
         }
+      }else{
+        toast.error("login required to check out")
       }
     } catch (error) {
       console.log(error);
@@ -200,7 +205,13 @@ const CartPage = () => {
                   >
                     <div className="py-4 md:py-5 flex items-center gap-3">
                       <div className="">
-                      { item.product.quantity===0? <span className=" p-1 bg-[#ff0000]  rounded-md text-[#ffffff] text-center">Out of stock</span>:"" }
+                        {item.product.quantity === 0 ? (
+                          <span className=" p-1 bg-[#ff0000]  rounded-md text-[#ffffff] text-center">
+                            Out of stock
+                          </span>
+                        ) : (
+                          ""
+                        )}
                         <img
                           crossOrigin=""
                           src={`http://localhost:4000/images/${item.product.imageOne}`}
@@ -211,7 +222,7 @@ const CartPage = () => {
                       </div>
                       <div className="w-[150px]">
                         <div className="font-semibold text-lg">
-                          {item.product.name} 
+                          {item.product.name}
                         </div>
                         <div className="text-muted text-[14px]">
                           {item.product.description}
@@ -288,12 +299,12 @@ const CartPage = () => {
                   Total : ${grantTotal()}.00
                 </a>
                 <div className="flex flex-col gap-3">
-                  <button
+            {  userCart?.length > 0  ?   <button
                     onClick={handlePayment}
                     className="p-3 px-4 cursor-pointer text-white bg-[red] rounded-full  text-lg"
                   >
                     Check out
-                  </button>
+                  </button> :""}
                 </div>
               </div>
             </div>

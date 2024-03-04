@@ -8,18 +8,29 @@ const productModel=require("../Models/productModel");
 //orders
 exports.paymentOrderController = async (req, res) => {
   try {
+    // Find the user by ID
+    const user = await userModel.findById(req.user._id);
+
+    // If user doesn't exist, return error
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
     const { amount } = req.body;
     const instance = new Razorpay({
       key_id: process.env.RAZOR_API_KEY_ID,
       key_secret: process.env.RAZOR_API_KEY_SECRET,
     });
-    
+
     const options = {
       amount: amount * 100, //amount in the smallest currency unit
       currency: "INR",
     };
     const order = await instance.orders.create(options);
-    res.status(200).json({ success: true, message: "order created", order });
+    res
+      .status(200)
+      .json({ success: true, message: "order created", order, amount });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error order" ,error});
@@ -33,6 +44,7 @@ exports.paymentVerifyController = async (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
       req.body;
     const { userOrder } = req.body;
+    const {amount}=req.body
 
     // Concatenate order ID and payment ID
     const body = `${razorpay_order_id}|${razorpay_payment_id}`;
@@ -45,6 +57,7 @@ exports.paymentVerifyController = async (req, res) => {
     const isSignatureValid = expectedSignature === razorpay_signature;
 
     // If signature is valid, update user's orders and payment details
+
     if (isSignatureValid) {
       // Find the user by ID
       const user = await userModel.findById(req.user._id);
@@ -55,22 +68,40 @@ exports.paymentVerifyController = async (req, res) => {
           razorpay_order_id,
           razorpay_payment_id,
           razorpay_signature,
+          amount,
         },
       };
 
       // Push the new order to the user's orders array
       user.orders.push(newOrder);
 
+      // Remove ordered items from user's cart
+      user.cart.items = user.cart.items.filter((item) => {
+        // Check if the item is not in the ordered items
+        return !userOrder.some(
+          (order) => order.product._id.toString() === item.product.toString()
+        );
+      });
+
       // Save the updated user document
       await user.save();
-      //stock management
-        userOrder.map( async (order)=>{
 
-          await productModel.findByIdAndUpdate(order.product._id, {
-            quantity: order.product.quantity - order.quantity
-          });
-          console.log("success");
-        })   
+      // // Update product quantities stock managemnt
+      // await Promise.all(
+      //   userOrder.map(async (order) => {
+      //     await productModel.findByIdAndUpdate(order.product._id, {
+      //       $inc: { quantity: -order.quantity }, // Decrement quantity
+      //     });
+      //   })
+      // );
+
+      //stock management
+      userOrder.map(async (order) => {
+        await productModel.findByIdAndUpdate(order.product._id, {
+          quantity: order.product.quantity - order.quantity,
+        });
+        // console.log("success");
+      });
 
       res.status(200).json({
         success: true,

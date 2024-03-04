@@ -91,7 +91,7 @@ function ProductsPage() {
                 src={`http://localhost:4000/images/${product.imageTwo}`}
                 alt={product.slug}
                 width="300px"
-                height={"70px"}
+                
               />
 
               <h5 className="  text-lg font-semibold tracking-tight text-gray-900 dark:text-white">

@@ -58,9 +58,7 @@ function ProductManagement() {
           </Table.Head>
           <Table.Body className="divide-y">
             {products
-              ?.slice(0)
-              .reverse()
-              .map((product, i) => (
+              ?.map((product, i) => (
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell>{i + 1}</Table.Cell>
                   <Table.Cell>{product.category.name}</Table.Cell>

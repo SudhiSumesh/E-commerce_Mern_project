@@ -23,7 +23,7 @@ function AdminSideBar() {
             icon={HiInbox}
             className="hover:text-[blue] rounded-none"
           >
-            <Link> Inbox</Link>
+            <Link to={"/admin-dashboard/inbox"}> Inbox</Link>
           </Sidebar.Item>
           <Sidebar.Item
             icon={HiUser}

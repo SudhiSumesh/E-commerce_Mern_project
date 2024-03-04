@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { ToastContainer, toast } from "react-toastify";
+import  toast ,{Toaster} from "react-hot-toast";
 
 const RegistrationForm = ({ setAction }) => {
   const notifyError = (message) => toast.error(message); //toast error function
@@ -217,7 +217,7 @@ const RegistrationForm = ({ setAction }) => {
           Register new account
         </Button>
       </form>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 };

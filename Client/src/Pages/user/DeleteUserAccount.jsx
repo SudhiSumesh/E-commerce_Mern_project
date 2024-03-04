@@ -1,7 +1,6 @@
 import React from "react";
 import Layout from "../../Components/Layout/Layout";
 import { Sidebar } from "flowbite-react";
-import MyOders from "../../Components/userDashBoardComponents.jsx/MyOders";
 import { Link } from "react-router-dom";
 import { BiBuoy } from "react-icons/bi";
 
@@ -13,8 +12,9 @@ import {
   HiViewBoards,
 } from "react-icons/hi";
 import UpdateProfileModal from "../../Components/Auth/UpdateProfileModal";
+import DeleteAccount from "../../Components/userDashBoardComponents.jsx/DeleteAccount";
 
-function UserOrders() {
+function DeleteUserAccount() {
   return (
     <Layout>
       <div className="flex">
@@ -67,11 +67,11 @@ function UserOrders() {
           </Sidebar.Items>
         </Sidebar>
         <div className="w-full mt-">
-          <MyOders />
+          <DeleteAccount />
         </div>
       </div>
     </Layout>
   );
 }
 
-export default UserOrders;
+export default DeleteUserAccount;

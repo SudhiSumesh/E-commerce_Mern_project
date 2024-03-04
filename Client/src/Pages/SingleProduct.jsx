@@ -81,6 +81,70 @@ function SingleProduct() {
       toast.error("errror in adding item to cart");
     }
   };
+
+  // Open Razorpay modal
+  const handleOpenRazorpay = (order, amount ,userCart) => {
+    const options = {
+      key: import.meta.env.VITE_RAZOR_API_KEY_ID,
+      amount: Number(order.amount * 100),
+      currency: order.currency,
+      name: "Salalah.",
+      description: "Find the smartphone thats right for you",
+      order_id: order.id,
+      //verify
+      handler: async function (response) {
+        // console.log(response);
+        const { data } = await axios.post(
+          import.meta.env.VITE_PAYMENT_VERIFY_URL,
+          { ...response, userOrder: userCart, amount }
+        );
+        if (data.success) {
+          toast.success(data.message);
+          //  navigate("/settings/my-orders");
+        } else {
+          toast.error("error in verification");
+        }
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
+  //handle payment
+  const handlePayment = async (product) => {
+    // setStock(!stock)
+    try {
+      if (auth?.user) {
+        const userCart=[{product,quantity:1}]
+        //check if stock is out
+        const outOfStock = userCart.findIndex((item) => {
+          return item.product.quantity === 0;
+        });
+        if (outOfStock !== -1) {
+          toast.error(
+            `${userCart[outOfStock].product.name} is currently out of stock please try later`
+          );
+        } else {
+          const amount = product.price;
+          const { data } = await axios.post(
+            import.meta.env.VITE_PAYMENT_ORDER_URL,
+            {
+              amount,
+            }
+          );
+          if (data.success) {
+            // console.log(data.order);
+            handleOpenRazorpay(data.order, data.amount ,userCart);
+          }
+        }
+      }else{
+        toast.error("please login to checkout")
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("error in check out");
+    }
+  };
+
   //image urls
   const imgUrl = `http://localhost:4000/images/${product.imageOne}`;
   const imgUrlTwo = `http://localhost:4000/images/${product.imageTwo}`;
@@ -142,7 +206,6 @@ function SingleProduct() {
                         isFluidWidth: true,
                         src: "https://www.xda-developers.com/files/2022/09/iPhone-14-midnight.jpg",
                         crossOrigin: "anonymous",
-                      
                       },
                       largeImage: {
                         alt: "phone",
@@ -168,13 +231,15 @@ function SingleProduct() {
                   />
                   ADD TO CART
                 </button>
-                <a className="p-3 rounded-md pe-6 bg-[tomato] text-white  font-semibold text-base cursor-pointer">
+                <button onClick={()=>{
+                  handlePayment(product)
+                }} className="p-3 rounded-md pe-6 bg-[tomato] text-white  font-semibold text-base cursor-pointer">
                   <FontAwesomeIcon
                     className="fas fa-bag-shopping px-3"
                     icon={faBagShopping}
                   />
                   BUY NOW
-                </a>
+                </button>
               </div>
             </div>
             <div className="col-span-1">

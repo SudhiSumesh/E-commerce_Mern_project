@@ -30,6 +30,7 @@ function MyOders() {
               className="p-6 mx-auto bg-white rounded-xl shadow-sm border  flex flex-col justify-between gap-10 w-full my-6"
             >
               <p className="text-[] "> Order ID : {order._id}</p>
+
               {order?.orderList?.map((item) => (
                 <>
                   <div
@@ -67,7 +68,6 @@ function MyOders() {
                       <address>{auth.user.address}</address>
                       <p>{auth.user.phone}</p>
                     </div>
-
                     {/* Shipping Status */}
                     {/* This can be made dynamic based on the actual order status */}
                     {/* Each step can have different styling based on whether it is completed or not */}
@@ -76,15 +76,22 @@ function MyOders() {
                   </div>
                 </>
               ))}
-              <div className="text-end border-t-2 pt-1">
-                <h4 className="text-xl font-medium text-black">
-                  Shipping updates
+              <div className="text-end border-t-2 pt-1 font-bold">
+                <h4 className="text-xl font-medium text-black ">
+                  Totel Amount 
                 </h4>
-                <div className=" ">ship to</div>
+                {/* <div className=" ">ship to</div> */}
 
-                <button className="bg-red-400 text-white p-2 rounded-md mt-2">
+                {/* <button className="bg-red-400 text-white p-2 rounded-md mt-2">
                   Cancel order
-                </button>
+                </button> */}
+
+                
+                  <span className="text-[green] text-2xl font-semibold">
+                    
+                    ${order?.payment?.amount}.00
+                  </span>
+                
               </div>
             </div>
           </>

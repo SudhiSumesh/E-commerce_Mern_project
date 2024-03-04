@@ -3,11 +3,12 @@ import { Button, Label, Modal, TextInput, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../Context/auth";
 import toast,{ Toaster } from "react-hot-toast";
-
 function AddProductFormModal({ getAllProduct }) {
   const [openModal, setOpenModal] = useState(false);
+  const [error,setError]=useState({})
   const [categories, setCategories] = useState();
   const [file, setFile] = useState([]);
+  
   const [previewImages, setPreviewImages] = useState([]);
   const [auth] = useAuth();
   const [input, setInput] = useState({
@@ -63,6 +64,21 @@ function AddProductFormModal({ getAllProduct }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if(input.name.trim()===""){
+        return setError({...error,nameError:"name is required"})
+      }
+        if (input.description.trim() === "") {
+          return setError({ ...error, descriptionError: "description is required" });
+        }
+          if (input.price.trim() <= 0) {
+            return setError({ ...error, priceError: "price is must be positive number" });
+          }
+            if (input.quantity.trim() <= 0) {
+              return setError({
+                ...error,
+                quantityError: "quantity  is must be positive number",
+              });
+            }
       const formdata = new FormData();
       file.forEach((file) => {
         formdata.append("file", file);
@@ -112,6 +128,7 @@ function AddProductFormModal({ getAllProduct }) {
               <div className="my-3 flex items-center justify-between">
                 <Label className="text-md"> Select Product Category : </Label>
                 <select
+                  required
                   className="rounded-xl"
                   name="category"
                   value={input.category}
@@ -131,6 +148,7 @@ function AddProductFormModal({ getAllProduct }) {
                 onChange={handleFileChange}
                 multiple
                 name=""
+                required
                 className="my-10"
               />
               {/* preview */}
@@ -155,12 +173,17 @@ function AddProductFormModal({ getAllProduct }) {
                 <Label htmlFor="" value="Product Name" />
               </div>
               <TextInput
-                required
+                // required
                 shadow
                 name="name"
                 value={input.name}
                 onChange={handleChange}
               />
+              {error?.nameError ? (
+                <span className="text-[red]">{error.nameError}</span>
+              ) : (
+                ""
+              )}
             </div>
             {/* text area description */}
             <div className="max-w-md">
@@ -170,13 +193,19 @@ function AddProductFormModal({ getAllProduct }) {
               <Textarea
                 id="comment"
                 placeholder="Leave a comment..."
-                required
+                // required
                 rows={4}
                 name="description"
                 value={input.description}
                 onChange={handleChange}
               />
             </div>
+            {error?.descriptionError ? (
+              <span className="text-[red]">{error.descriptionError}</span>
+            ) : (
+              ""
+            )}
+
             {/* price */}
             <div>
               <div className="mb-2 block">
@@ -191,6 +220,12 @@ function AddProductFormModal({ getAllProduct }) {
                 shadow
               />
             </div>
+            {error?.priceError ? (
+              <span className="text-[red]">{error.priceError}</span>
+            ) : (
+              ""
+            )}
+
             {/* quantity */}
             <div>
               <div className="mb-2 block">
@@ -205,6 +240,12 @@ function AddProductFormModal({ getAllProduct }) {
                 shadow
               />
             </div>
+            {error?.quantityError ? (
+              <span className="text-[red]">{error.quantityError}</span>
+            ) : (
+              ""
+            )}
+
             <Button type="submit" color="blue">
               Add new Product
             </Button>
