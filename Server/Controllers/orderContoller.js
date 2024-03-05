@@ -60,3 +60,38 @@ exports.getAllUsersOrderController = async (req, res) => {
     });
   }
 };
+
+//get single order
+
+exports.getSingleOrderController = async (req, res) => {
+  try {
+    // Extract the user ID and order ID from the request parameters
+    const { orderId } = req.params;
+
+    // Query the database to find the user by ID
+    const user = await userModel.findById(req.user._id);
+
+    // Check if the user exists
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    // Find the order within the user's orders array based on the order ID
+    const order = user.orders.find((order) => order._id.toString() === orderId);
+
+    // Check if the order exists
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
+    }
+
+    // If the order exists, return it in the response
+    res.status(200).json({ success: true, order });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};

@@ -71,7 +71,7 @@ const userSchema = new mongoose.Schema(
     deleteRequest: {
       reason: {
         type: String,
-        required: [true, "Reason for deletion is required"],
+        // required: [true, "Reason for deletion is required"],
       },
       status: {
         type: String,
