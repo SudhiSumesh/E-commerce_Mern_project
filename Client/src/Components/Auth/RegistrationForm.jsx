@@ -204,7 +204,7 @@ const RegistrationForm = ({ setAction }) => {
           />
           <Label htmlFor="agree">
             I agree with the&nbsp;
-            <a className="text-cyan-600 hover:underline dark:text-cyan-500">
+            <a className="text-blue-600 hover:underline dark:text-cyan-500">
               terms and conditions
             </a>
           </Label>
@@ -213,9 +213,9 @@ const RegistrationForm = ({ setAction }) => {
           )}
         </div>
 
-        <Button type="submit">
+        <button className="bg-[blue] p-2.5 rounded-md text-white " type="submit">
           Register new account
-        </Button>
+        </button>
       </form>
       <Toaster />
     </>

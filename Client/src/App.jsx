@@ -20,7 +20,7 @@ import { useEffect } from "react";
 import UserOrders from "./Pages/user/UserOrders";
 import DeleteUserAccount from "./Pages/user/DeleteUserAccount";
 import DeleteUser from "./Components/AdminDashboardComponents/users/DeleteUser";
-
+import PrintBill from "./Pages/user/PrintBill";
 function App() {
   const location = useLocation();
 
@@ -44,11 +44,16 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/product/:slug" element={<SingleProduct />} />
         <Route path="/search" element={<SearchPage />} />
+
+        {/* user */}
         <Route path="/settings" element={<PrivateRoute />}>
           <Route path="" element={<Dashboard />} />
           <Route path="my-orders" element={<UserOrders />} />
           <Route path="delete-account" element={<DeleteUserAccount />} />
+          <Route path="print-bill/:orderId" element={<PrintBill />} />
+          
         </Route>
+        {/* admin routes */}
         <Route path="/admin-dashboard" element={<AdminRoute />}>
           <Route path="" element={<AdminDashboard />} />
           <Route path="users" element={<UserList />} />

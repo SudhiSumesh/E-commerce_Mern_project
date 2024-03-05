@@ -15,7 +15,7 @@ const FormModal = () => {
   return (
     <>
       <div
-        className="px-2 text-xl rounded-lg self-center hover:underline hover:text-[blue] cursor-pointer transition-all duration-700"
+        className=" text-[blue] px-2 text-xl rounded-lg self-center hover:underline hover:text-[blue] cursor-pointer transition-all duration-700"
         onClick={() => setOpenModal(true)}
       >
         Login
@@ -45,7 +45,7 @@ const FormModal = () => {
                 <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300 ">
                   Already have account?&nbsp;
                   <a
-                    className="text-cyan-700 hover:underline dark:text-cyan-500"
+                    className="text-blue-700 hover:underline dark:text-cyan-500"
                     onClick={() => setAction("login")}
                   >
                     login to your account

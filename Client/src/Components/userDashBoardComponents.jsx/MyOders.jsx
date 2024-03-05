@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../Context/auth";
+import { Link } from "react-router-dom";
 function MyOders() {
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
@@ -29,7 +30,15 @@ function MyOders() {
               key={order._id}
               className="p-6 mx-auto bg-white rounded-xl shadow-sm border  flex flex-col justify-between gap-10 w-full my-6"
             >
-              <p className="text-[] "> Order ID : {order._id}</p>
+              <div className="flex justify-between">
+                <p className="text-[] "> Order ID : {order._id}</p>
+                <Link
+                  to={`/settings/print-bill/${order._id}`}
+                  className="border p-1 px-3 border-[#867979] rounded-md hover:border-[black]"
+                >
+                  Print
+                </Link>
+              </div>
 
               {order?.orderList?.map((item) => (
                 <>
@@ -78,7 +87,7 @@ function MyOders() {
               ))}
               <div className="text-end border-t-2 pt-1 font-bold">
                 <h4 className="text-xl font-medium text-black ">
-                  Totel Amount 
+                  Totel Amount
                 </h4>
                 {/* <div className=" ">ship to</div> */}
 
@@ -86,12 +95,9 @@ function MyOders() {
                   Cancel order
                 </button> */}
 
-                
-                  <span className="text-[green] text-2xl font-semibold">
-                    
-                    ${order?.payment?.amount}.00
-                  </span>
-                
+                <span className="text-[green] text-2xl font-semibold">
+                  ${order?.payment?.amount}.00
+                </span>
               </div>
             </div>
           </>

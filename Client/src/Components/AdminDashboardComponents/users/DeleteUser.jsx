@@ -6,10 +6,10 @@ import axios from "axios";
 import { useAuth } from "../../../Context/auth";
 function DeleteUser() {
   const [deleteRequests, setDeleteRequests] = useState([]);
-
+  const [status,setStatus]=useState(false)//to trigger re-render
   useEffect(() => {
     getRequests();
-  }, []);
+  }, [status]);
   //get all delete requests
   const getRequests = async () => {
     try {
@@ -18,7 +18,7 @@ function DeleteUser() {
         );
       if (data.success) {
         setDeleteRequests(data.deleteRequests);
-        console.log(deleteRequests);
+        // console.log(deleteRequests);
       } else {
         toast.error(data.message);
       }
@@ -36,6 +36,8 @@ function DeleteUser() {
       );
       if (data.success) {
         toast.success(data.message);
+        setStatus(!status);
+
       }
     } catch (error) {
       console.log(error);
@@ -50,6 +52,7 @@ function DeleteUser() {
       );
       if (data.success) {
         toast.success(data.message);
+        setStatus(!status)
       }
     } catch (error) {
       console.log(error);
@@ -62,7 +65,8 @@ function DeleteUser() {
         <AdminSideBar />
         <div className="m-4 w-1/2 px-10">
           <h1 className="text-4xl  my-4  ">Delete Requests</h1>
-          {deleteRequests?.map((req, index) => (
+          {deleteRequests?.length ===0?<div className="text-xl text-[orange]">No new requests</div>:
+          deleteRequests?.map((req, index) => (
             <div
               className="flex justify-between border shadow-md p-4 rounded-md"
               key={index}
@@ -70,11 +74,11 @@ function DeleteUser() {
               <div>
                 <div className="text-lg">{`${req.name} is requested to delete their account`}</div>
                 <div className="text-lg my-3">
-                  Reason :<span>{req.deleteRequest.reason}</span>
+                  Reason :<span>{req?.deleteRequest?.reason}</span>
                 </div>
                 <div className="text-lg">
                   Email :<span className="text-[blue]"> {req.email}</span>
-                  id{req._id}
+                 
                 </div>
               </div>
               <div className="flex flex-col gap-3">

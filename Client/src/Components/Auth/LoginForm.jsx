@@ -66,6 +66,7 @@ const LoginForm = ({ onCloseModal }) => {
       <h3 className="text-xl font-medium text-gray-900 dark:text-white">
         Sign in
       </h3>
+
       <form onSubmit={formik.handleSubmit}>
         <div className="py-3">
           <div className="block mb-2">
@@ -106,7 +107,8 @@ const LoginForm = ({ onCloseModal }) => {
             <Checkbox id="remember" />
             <Label htmlFor="remember">Remember me</Label>
           </div>
-          <Link to="/forgot-password"
+          <Link
+            to="/forgot-password"
             className="text-sm text-[blue] hover:underline dark:text-cyan-500"
           >
             Lost Password ?
@@ -121,6 +123,11 @@ const LoginForm = ({ onCloseModal }) => {
           </button>
         </div>
       </form>
+      <div className="border p-2 ">
+        <div className="text-[blue]">Try demo account</div>
+        <div>Username : demo@gmail.com</div>
+        <div>Password : demo@123</div>
+      </div>
       <ToastContainer />
     </>
   );

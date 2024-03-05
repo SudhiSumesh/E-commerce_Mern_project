@@ -8,13 +8,13 @@ function HomeVideoSection() {
     event.preventDefault(); // Prevent default context menu
   };
   return (
-    <div className="relative">
+    <div className="relative ">
       <video
         autoPlay
         loop
         onContextMenu={handleContextMenu}
         muted
-        className="md:min-h-[97.15vh] mb-4"
+        className="md:min-h-full mb-4"
       >
         <source src="/assets/videos/herovideo.mp4" type="video/mp4" />
         {/*fallback content in case the video cannot be played */}
