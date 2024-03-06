@@ -1,7 +1,8 @@
 const slugify = require("slugify");
 const productModel = require("../Models/productModel");
 const userModel = require("../Models/userModel");
-
+const fs = require("fs");
+const path = require("path");
 //create product
 exports.createProductController = async (req, res) => {
   console.log(req.body);
@@ -39,11 +40,15 @@ exports.createProductController = async (req, res) => {
         .status(401)
         .send({ error: "price must be a positive non zero number" });
     }
-     if (name.trim() === "" || description.trim()==="") {
-       return res.status(401).json({ message: "Name and description is required" });
-     }
+    if (name.trim() === "" || description.trim() === "") {
+      return res
+        .status(401)
+        .json({ message: "Name and description is required" });
+    }
     //existing product
-    const productexist = await productModel.findOne({ name }) || await productModel.findOne({ slug:slugify(name) })
+    const productexist =
+      (await productModel.findOne({ name })) ||
+      (await productModel.findOne({ slug: slugify(name) }));
 
     if (productexist)
       return res.status(401).json({ message: "product already exist" });
@@ -149,11 +154,11 @@ exports.updateProductController = async (req, res) => {
         .status(401)
         .send({ error: "price must be a positive non zero number" });
     }
-         if (name.trim() === "" || description.trim() === "") {
-           return res
-             .status(401)
-             .json({ message: "Name and description is required" });
-         }
+    if (name.trim() === "" || description.trim() === "") {
+      return res
+        .status(401)
+        .json({ message: "Name and description is required" });
+    }
     // //existing product
     // const productexist =
     //   (await productModel.findOne({ name })) ||
@@ -183,25 +188,48 @@ exports.updateProductController = async (req, res) => {
   }
 };
 
-
+//delete product controller
 
 exports.deleteProductController = async (req, res) => {
   try {
     const productId = req.params.id;
 
-    // Find and delete the product
+    // Find the product to get the image filenames
+    const product = await productModel.findById(productId);
+
+    if (!product) {
+      return res.status(404).send({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    // Delete the product images from the directory
+    const imagesToDelete = [
+      product.imageOne,
+      product.imageTwo,
+      product.imageThree,
+    ];
+    imagesToDelete.forEach((image) => {
+      const imagePath = path.join(__dirname, "..", "public", "images", image);
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+    });
+
+    // Delete the product from the database
     await productModel.findByIdAndDelete(productId);
 
     // Remove references to the deleted product from user carts
     await userModel.updateMany(
       { "cart.items.product": productId },
-      { $pull: { "cart.items": { product: productId } } } //$pull is a MongoDB update operator used to remove all instances of a specified value from an array.
+      { $pull: { "cart.items": { product: productId } } }
     );
 
     // Remove references to the deleted product from user orders
     await userModel.updateMany(
       { "orders.orderList.product": productId },
-      { $pull: { "orders.$[].orderList": { product: productId } } } //$[]: This is the all positional operator.
+      { $pull: { "orders.$[].orderList": { product: productId } } }
     );
 
     res.status(200).send({

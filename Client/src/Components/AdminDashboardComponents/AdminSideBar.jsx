@@ -76,7 +76,7 @@ function AdminSideBar() {
             icon={HiTable}
             className="hover:text-[blue] rounded-none"
           >
-            Orders
+           <Link to={'/admin-dashboard/all-orders'} >Orders</Link>
           </Sidebar.Item>
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup>

@@ -1,11 +1,11 @@
 const express =require("express");
 const { requireSignIn, isAdmin } = require("../Middleware/authMiddleware");
-const { getAllUserctController, requestForDeleteController, getDeleteRequestController, approveDeleteRequestController, rejectDeleteRequestController, getDeleteStatusController } = require("../Controllers/UserController");
+const { getAllUserController, requestForDeleteController, getDeleteRequestController, approveDeleteRequestController, rejectDeleteRequestController, getDeleteStatusController } = require("../Controllers/UserController");
 const router = express.Router();
 
 
 //get userList ||get method
-router.get("/get-all-user", requireSignIn, isAdmin, getAllUserctController);
+router.get("/get-all-user", requireSignIn, isAdmin, getAllUserController);
 
 //request for delete account ||post method
 router.post("/delete-request", requireSignIn, requestForDeleteController);

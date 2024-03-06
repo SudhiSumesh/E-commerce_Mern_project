@@ -21,6 +21,7 @@ import UserOrders from "./Pages/user/UserOrders";
 import DeleteUserAccount from "./Pages/user/DeleteUserAccount";
 import DeleteUser from "./Components/AdminDashboardComponents/users/DeleteUser";
 import PrintBill from "./Pages/user/PrintBill";
+import Ordares from "./Pages/Admin/Ordares";
 function App() {
   const location = useLocation();
 
@@ -60,6 +61,7 @@ function App() {
           <Route path="products" element={<ProductList />} />
           <Route path="category" element={<Category />} />
           <Route path="inbox" element={<DeleteUser />} />
+          <Route path="all-orders" element={<Ordares />} />
         </Route>
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/about" element={<AboutPage />} />

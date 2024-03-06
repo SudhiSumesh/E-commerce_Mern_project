@@ -1,9 +1,9 @@
 const userModel = require("../Models/userModel");
 
 //get all users
-exports.getAllUserctController = async (req, res) => {
+exports.getAllUserController = async (req, res) => {
   try {
-    const users = await userModel.find({}).limit(15);
+    const users = await userModel.find({});
     res.status(200).send({
       success: true,
       totalUser: users.length,
