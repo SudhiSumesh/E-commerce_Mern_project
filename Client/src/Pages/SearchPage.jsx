@@ -14,9 +14,13 @@ function SearchPage() {
           Search For the phone that's right for you.
         </div>
         <div className="container text-xl my-4">
-          {values?.results.length < 1
-            ? <div className="text-center text-3xl text-[orange] mt-52">Can't Find Anything Related To your Search</div>
-            : `Found ${values?.results.length} Matches`}
+          {values?.results.length < 1 ? (
+            <div className="text-center text-3xl text-[orange] mt-52">
+              Can't Find Anything Related To your Search
+            </div>
+          ) : (
+            `Found ${values?.results.length} Matches`
+          )}
         </div>
         <div className="container flex flex-wrap gap-5 my-10">
           {/* map products */}
@@ -83,7 +87,7 @@ function SearchPage() {
                 </span>
                 <Link
                   to=""
-                  className="rounded-lg bg-[blue] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#1010daee] focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                  className="rounded-md bg-[#ffc107] px-5 py-2.5 text-center text-sm font-medium text-[black]  hover:bg-[#e7a543] focus:outline-none  focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
                 >
                   Add to cart
                 </Link>

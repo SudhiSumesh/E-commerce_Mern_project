@@ -19,7 +19,7 @@ const SalesDoughnutChart = () => {
 
       orders?.forEach((order) => {
         order.orderList.forEach(({ product, quantity }) => {
-          const category = product.category.name || "Xiomi";
+          const category = product?.category?.name || "Xiomi";
           salesByCategory[category] =
             (salesByCategory[category] || 0) + quantity;
         });

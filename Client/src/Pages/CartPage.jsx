@@ -205,7 +205,7 @@ const CartPage = () => {
                   >
                     <div className="py-4 md:py-5 flex items-center gap-3">
                       <div className="">
-                        {item.product.quantity === 0 ? (
+                        {item.product?.quantity === 0 ? (
                           <span className=" p-1 bg-[#ff0000]  rounded-md text-[#ffffff] text-center">
                             Out of stock
                           </span>
@@ -214,7 +214,7 @@ const CartPage = () => {
                         )}
                         <img
                           crossOrigin=""
-                          src={`http://localhost:4000/images/${item.product.imageOne}`}
+                          src={`http://localhost:4000/images/${item.product?.imageOne}`}
                           alt="img"
                           width="100px"
                           className="mt-2"
@@ -222,20 +222,20 @@ const CartPage = () => {
                       </div>
                       <div className="w-[150px]">
                         <div className="font-semibold text-lg">
-                          {item.product.name}
+                          {item.product?.name}
                         </div>
                         <div className="text-muted text-[14px]">
-                          {item.product.description}
+                          {item.product?.description}
                         </div>
                       </div>
                     </div>
                     <div className="font-semibold text-lg ml-4">
-                      ${item.product.price}.00
+                      ${item.product?.price}.00
                     </div>
                     <div className="flex justify-center items-center gap-1 mt-3 ml-16 md:mt-0">
                       <img
                         onClick={() =>
-                          handleDecrement(item.product._id, item.quantity)
+                          handleDecrement(item.product?._id, item.quantity)
                         }
                         src="/assets/images/minus.png"
                         alt=""
@@ -253,7 +253,7 @@ const CartPage = () => {
                           handleIncrement(
                             item.product._id,
                             item.quantity,
-                            item.product.quantity
+                            item.product?.quantity
                           )
                         }
                         src="/assets/images/add.png"
@@ -263,7 +263,7 @@ const CartPage = () => {
                     </div>
                     <div className="flex items-center gap-5 mt-3 md:mt-0">
                       <div className="font-semibold text-lg text-black">
-                        ${item.product.price * item.quantity}.00
+                        ${item.product?.price * item.quantity}.00
                       </div>
                     </div>
                     <div className="flex items-center gap-5 mt-3 md:mt-0">
