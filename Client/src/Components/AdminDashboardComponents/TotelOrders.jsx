@@ -1,14 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-function UserCountComponent({ totelUser }) {
+function UserCountComponent( ) {
   const [totelOrders, setTotelOrders] = useState();
 
   //get all user count
   useEffect(() => {
     getAllUser();
   }, []);
-  const getAllUser = async (req, res) => {
+  const getAllUser = async () => {
     try {
      const response = await axios.get(import.meta.env.VITE_GET_ALL_ORDERS_URL);
      const orders = response.data.orders;
