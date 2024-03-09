@@ -27,7 +27,7 @@ function UserCountComponent({ totelUser }) {
             </div>
           </div>
           <div className="flex-1 text-right md:text-center">
-            <h2 className="font-bold uppercase text-gray-600">Totel Orders</h2>
+            <h2 className="font-bold uppercase text-gray-600">Total Orders</h2>
           </div>
         </div>
       </div>

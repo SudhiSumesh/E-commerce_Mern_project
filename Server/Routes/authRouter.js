@@ -3,7 +3,6 @@ const router = express.Router();
 const {
   registerController,
   loginController,
-  testController,
   forgotController,
   resetController,
   updateProfileController,
