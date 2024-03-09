@@ -2,8 +2,8 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import  toast ,{Toaster} from "react-hot-toast";
+import { Checkbox, Label, TextInput } from "flowbite-react";
+import toast, { Toaster } from "react-hot-toast";
 
 const RegistrationForm = ({ setAction }) => {
   const notifyError = (message) => toast.error(message); //toast error function
@@ -63,7 +63,7 @@ const RegistrationForm = ({ setAction }) => {
       "You must accept the terms and conditions"
     ),
   });
-// set  useFormic hook
+  // set  useFormic hook
   const formik = useFormik({
     // setting initail values
     initialValues: {
@@ -75,11 +75,11 @@ const RegistrationForm = ({ setAction }) => {
       address: "",
       agree: false,
     },
-    
+
     validationSchema: validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
-        const { data} = await axios.post(
+        const { data } = await axios.post(
           import.meta.env.VITE_REGISTRATION_POST_URL,
           values,
           { withCredentials: true }
@@ -213,7 +213,10 @@ const RegistrationForm = ({ setAction }) => {
           )}
         </div>
 
-        <button className="bg-[blue] p-2.5 rounded-md text-white " type="submit">
+        <button
+          className="bg-[blue] p-2.5 rounded-md text-white "
+          type="submit"
+        >
           Register new account
         </button>
       </form>

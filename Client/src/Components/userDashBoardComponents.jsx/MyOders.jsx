@@ -4,7 +4,7 @@ import { useAuth } from "../../Context/auth";
 import { Link } from "react-router-dom";
 function MyOders() {
   const [orders, setOrders] = useState([]);
-  const [auth, setAuth] = useAuth();
+  const [auth] = useAuth();
   useEffect(() => {
     getOrders();
   }, [auth]);
@@ -13,7 +13,6 @@ function MyOders() {
       const { data } = await axios.get(import.meta.env.VITE_GET_ORDERS_URL);
       if (data.success) {
         setOrders(data.orders);
-        console.log(orders);
       }
     } catch (error) {
       console.log(error);
@@ -62,9 +61,6 @@ function MyOders() {
                         $ {item.product.price} .00
                       </p>
                       <div>Quantity : {item.quantity}</div>
-                      {/* <div>
-                    Total Price : $ {item.product.price * item.quantity} .00
-                  </div> */}
                     </div>
 
                     <div>
@@ -77,11 +73,6 @@ function MyOders() {
                       <address>{auth.user.address}</address>
                       <p>{auth.user.phone}</p>
                     </div>
-                    {/* Shipping Status */}
-                    {/* This can be made dynamic based on the actual order status */}
-                    {/* Each step can have different styling based on whether it is completed or not */}
-
-                    {/* The date can also be dynamic */}
                   </div>
                 </>
               ))}
@@ -89,12 +80,6 @@ function MyOders() {
                 <h4 className="text-xl font-medium text-black ">
                   Totel Amount
                 </h4>
-                {/* <div className=" ">ship to</div> */}
-
-                {/* <button className="bg-red-400 text-white p-2 rounded-md mt-2">
-                  Cancel order
-                </button> */}
-
                 <span className="text-[green] text-2xl font-semibold">
                   ${order?.payment?.amount}.00
                 </span>

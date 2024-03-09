@@ -1,4 +1,4 @@
-const mongoose =require("mongoose")
+const mongoose = require("mongoose");
 
 const CategorySchema = new mongoose.Schema({
   name: {
@@ -13,4 +13,4 @@ const CategorySchema = new mongoose.Schema({
   },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
 });
-module.exports=mongoose.model('Category',CategorySchema)
+module.exports = mongoose.model("Category", CategorySchema);

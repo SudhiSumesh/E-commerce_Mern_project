@@ -17,9 +17,6 @@ router.route("/register").post(registerController);
 //LOGIN || POST METHOD
 router.route("/login").post(loginController);
 
-//test route
-router.get("/test", requireSignIn, isAdmin, testController);
-
 // User protected route auth
 router.get("/user-auth", requireSignIn, (req, res) => {
   res.status(200).json({
@@ -30,7 +27,7 @@ router.get("/user-auth", requireSignIn, (req, res) => {
 //forgot password route
 router.post("/forgot-password", forgotController);
 //reset password
-router.put("/reset-password",resetController);
+router.put("/reset-password", resetController);
 //Admin protected route auth
 router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
   try {
@@ -45,8 +42,6 @@ router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
   }
 });
 // update-profile|| put method
-router.put('/profile/:id',requireSignIn,updateProfileController)
-// router.route('/logout').get()
-
+router.put("/profile/:id", requireSignIn, updateProfileController);
 
 module.exports = router;

@@ -1,7 +1,7 @@
-import { Button, Label, TextInput } from 'flowbite-react';
-import React from 'react'
+import { Button, Label, TextInput } from "flowbite-react";
+import React from "react";
 
-function CategoryForm({handleFormSubmit,value,setValue}) {
+function CategoryForm({ handleFormSubmit, value, setValue }) {
   return (
     <>
       <form
@@ -12,7 +12,13 @@ function CategoryForm({handleFormSubmit,value,setValue}) {
           <div className="mb-2 block">
             <Label htmlFor="email1" value="Add New Category" />
           </div>
-          <TextInput type="text" value={value} placeholder=" category name" required onChange={(e)=>setValue(e.target.value)}/>
+          <TextInput
+            type="text"
+            value={value}
+            placeholder=" category name"
+            required
+            onChange={(e) => setValue(e.target.value)}
+          />
           <Button type="submit" color="blue" className="my-2 ">
             Add Category
           </Button>
@@ -22,4 +28,4 @@ function CategoryForm({handleFormSubmit,value,setValue}) {
   );
 }
 
-export default CategoryForm
+export default CategoryForm;

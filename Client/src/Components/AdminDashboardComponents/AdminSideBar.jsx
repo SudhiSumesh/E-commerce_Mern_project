@@ -3,7 +3,6 @@ import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { BiBuoy } from "react-icons/bi";
 import {
-  HiArrowSmRight,
   HiChartPie,
   HiInbox,
   HiShoppingBag,
@@ -13,31 +12,29 @@ import {
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
-
 function AdminSideBar() {
   const [deleteRequests, setDeleteRequests] = useState([]);
 
   // get inbox req
-    useEffect(() => {
-      getRequests();
-    }, []);
-    //get all delete requests
-    const getRequests = async () => {
-      try {
-        const { data } = await axios.get(
-          import.meta.env.VITE_GET_ALL_DELETE_REQUESTS_URL
-        );
-        if (data.success) {
-          setDeleteRequests(data.deleteRequests);
-         
-        } else {
-          toast.error(data.message);
-        }
-      } catch (error) {
-        console.log(error);
-        toast.error("something went wrong in getting requests");
+  useEffect(() => {
+    getRequests();
+  }, []);
+  //get all delete requests
+  const getRequests = async () => {
+    try {
+      const { data } = await axios.get(
+        import.meta.env.VITE_GET_ALL_DELETE_REQUESTS_URL
+      );
+      if (data.success) {
+        setDeleteRequests(data.deleteRequests);
+      } else {
+        toast.error(data.message);
       }
-    };
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong in getting requests");
+    }
+  };
   return (
     <Sidebar className="min-h-[80vh] bg-[#f6f5f5be]  ">
       <Sidebar.Items className=" border px-4 rounded-sm bg-white h-[80vh]">
@@ -76,7 +73,7 @@ function AdminSideBar() {
             icon={HiTable}
             className="hover:text-[blue] rounded-none"
           >
-           <Link to={'/admin-dashboard/all-orders'} >Orders</Link>
+            <Link to={"/admin-dashboard/all-orders"}>Orders</Link>
           </Sidebar.Item>
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup>

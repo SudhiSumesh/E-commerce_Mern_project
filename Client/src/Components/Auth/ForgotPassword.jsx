@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import toast,{ Toaster  } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 function ForgotPassword({}) {
   const [email, setEmail] = useState("");
@@ -32,9 +32,7 @@ function ForgotPassword({}) {
   return (
     <>
       <div className="flex flex-col justify-center items-center h-[100vh]">
-        <h1 className="w-full text-center my-10 text-3xl">
-           Forgot Password
-        </h1>
+        <h1 className="w-full text-center my-10 text-3xl">Forgot Password</h1>
 
         <form
           onSubmit={handleSubmit}
@@ -51,9 +49,6 @@ function ForgotPassword({}) {
               placeholder="name@gmail.com"
               required
             />
-            {/* {formik.touched.email && formik.errors.email && (
-                  <p className="text-sm text-red-500">{formik.errors.email}</p> */}
-            {/* )} */}
             <button
               className="bg-[blue] px-3 py-1.5 rounded-md text-white my-4 "
               type="submit"

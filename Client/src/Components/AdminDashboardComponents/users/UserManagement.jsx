@@ -7,7 +7,8 @@ function UserManagement() {
   useEffect(() => {
     getAllUser();
   }, []);
-  const getAllUser = async (req, res) => {
+  //get all user
+  const getAllUser = async () => {
     try {
       const { data } = await axios.get(import.meta.env.VITE_GET_ALL_USER_URL);
       if (data.success) {
@@ -29,7 +30,7 @@ function UserManagement() {
           <Table.HeadCell>Address</Table.HeadCell>
           <Table.HeadCell>
             <span className="sr-only">Edit</span>
-          </Table.HeadCell>{" "}
+          </Table.HeadCell>
           <Table.HeadCell>
             <span className="sr-only">Block</span>
           </Table.HeadCell>
@@ -47,30 +48,6 @@ function UserManagement() {
               <Table.Cell>{user.email}</Table.Cell>
               <Table.Cell>{user.phone}</Table.Cell>
               <Table.Cell>{user.address}</Table.Cell>
-              {/* <Table.Cell>
-                <Link
-                  to=""
-                  className="font-medium text-[blue] hover:underline dark:text-cyan-500"
-                >
-                  Edit
-                </Link>
-              </Table.Cell>
-              <Table.Cell>
-                <Link
-                  to=""
-                  className="font-medium text-[blue]  hover:underline dark:text-cyan-500"
-                >
-                  Block
-                </Link>
-              </Table.Cell>
-              <Table.Cell>
-                <Link
-                  to=""
-                  className="font-medium text-[blue] hover:underline dark:text-cyan-500"
-                >
-                  Delete
-                </Link>
-              </Table.Cell> */}
             </Table.Row>
           ))}
         </Table.Body>

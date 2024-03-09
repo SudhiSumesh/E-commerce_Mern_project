@@ -8,10 +8,11 @@ import CustumerReviews from "../Components/Sections/CostumerReviews";
 function HomePage() {
   return (
     <Layout>
-     <HomeVideoSection />
-     <WhyShopWithUs/>
-     <HomeHeroSection/>
-     <CustumerReviews/>
+      <HomeVideoSection />
+      <WhyShopWithUs />
+      <HomeHeroSection />
+      <CustumerReviews />
     </Layout>
-  )};
+  );
+}
 export default HomePage;

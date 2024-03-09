@@ -3,7 +3,7 @@ import Layout from "../../Layout/Layout";
 import AdminSideBar from "../AdminSideBar";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-import { useAuth } from "../../../Context/auth";
+
 function DeleteUser() {
   const [deleteRequests, setDeleteRequests] = useState([]);
   const [status,setStatus]=useState(false)//to trigger re-render
@@ -18,7 +18,6 @@ function DeleteUser() {
         );
       if (data.success) {
         setDeleteRequests(data.deleteRequests);
-        // console.log(deleteRequests);
       } else {
         toast.error(data.message);
       }

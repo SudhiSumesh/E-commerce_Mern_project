@@ -1,5 +1,3 @@
-
-
 import axios from "axios";
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
@@ -9,29 +7,29 @@ import { useAuth } from "../../../Context/auth";
 
 function ProductDeleteModal({ productId, getAllProduct }) {
   const [openModal, setOpenModal] = useState(false);
-  const [auth,setAuth]=useAuth()
+  const [auth] = useAuth();
   //handle delete btn click
-  const handleClick =async () => {
+  const handleClick = async () => {
     try {
-          if (!auth?.user || !auth?.token) {
-            onCloseModal();
-            return console.log("auth required");
-          }
-     const { data } = await axios.delete(`${import.meta.env.VITE_DELETE_PRODUCT_URL}/${productId}`);
-     if(data.success){
-      console.log(data.message);
-      toast.success(data.message)
-      getAllProduct()
-      setOpenModal(false);
-       
-    }else{
-      toast.error(data.message)
-      console.log(data.message);
-     }
-      
+      if (!auth?.user || !auth?.token) {
+        onCloseModal();
+        return console.log("auth required");
+      }
+      const { data } = await axios.delete(
+        `${import.meta.env.VITE_DELETE_PRODUCT_URL}/${productId}`
+      );
+      if (data.success) {
+        console.log(data.message);
+        toast.success(data.message);
+        getAllProduct();
+        setOpenModal(false);
+      } else {
+        toast.error(data.message);
+        console.log(data.message);
+      }
     } catch (error) {
       console.log(error);
-      toast.error("errror in deleting product")
+      toast.error("errror in deleting product");
     }
   };
   return (

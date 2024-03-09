@@ -1,4 +1,4 @@
- const  validationSchema = Yup.object().shape({
+const validationSchema = Yup.object().shape({
   name: Yup.string().min(3, "enter a valid name").required("Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
@@ -18,8 +18,8 @@
   ),
 });
 
-  const LoginvalidationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string().required("Password is required"),
-  });
-export default {LoginvalidationSchema,validationSchema}
+const LoginvalidationSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string().required("Password is required"),
+});
+export default { LoginvalidationSchema, validationSchema };

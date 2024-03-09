@@ -45,7 +45,7 @@ function ProductsPage() {
       }
     } catch (error) {
       console.log(error);
-      toast.error("errror in adding item to cart")
+      toast.error("errror in adding item to cart");
     }
   };
   useEffect(() => {
@@ -91,7 +91,6 @@ function ProductsPage() {
                 src={`http://localhost:4000/images/${product.imageTwo}`}
                 alt={product.slug}
                 width="300px"
-                
               />
 
               <h5 className="  text-lg font-semibold tracking-tight text-gray-900 dark:text-white">

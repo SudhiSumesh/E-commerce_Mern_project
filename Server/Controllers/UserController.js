@@ -28,10 +28,13 @@ exports.requestForDeleteController = async (req, res) => {
     const user = await userModel.findByIdAndUpdate(req.user._id, {
       deleteRequest: { reason, status: "pending" },
     });
-    if(!user){
-      return res.status(401).json({message:"user not found",success:false})
+    if (!user) {
+      return res
+        .status(401)
+        .json({ message: "user not found", success: false });
     }
-    res.status(200)
+    res
+      .status(200)
       .json({ success: true, message: "Delete request sent successfully" });
   } catch (error) {
     console.error(error);
@@ -59,10 +62,6 @@ exports.getDeleteRequestController = async (req, res) => {
 
 exports.approveDeleteRequestController = async (req, res) => {
   try {
-    // Update user's delete request status
-    // await userModel.findByIdAndUpdate(requestId, {
-    //   "deleteRequest.status": "approved",
-    // });
     if (!req.params.id) {
       return res
         .status(401)

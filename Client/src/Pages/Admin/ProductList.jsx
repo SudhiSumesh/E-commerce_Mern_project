@@ -5,10 +5,9 @@ import ProductManagement from "../../Components/AdminDashboardComponents/product
 function ProductList() {
   return (
     <Layout>
-        
       <div className="flex">
         <AdminSideBar />
-        <ProductManagement/>
+        <ProductManagement />
       </div>
     </Layout>
   );

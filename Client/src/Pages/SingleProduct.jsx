@@ -17,7 +17,6 @@ import { useAuth } from "../Context/auth";
 function SingleProduct() {
   const [product, setProduct] = useState({});
   const [auth, setAuth] = useAuth();
-  // const [productImges,setProductImages]=useState([])
   const [relatedProducts, setRelatedProduct] = useState([]);
   const params = useParams();
   // useeffect
@@ -34,7 +33,6 @@ function SingleProduct() {
       if (data.success) {
         setProduct(data?.product);
         getSimilarProduct(data?.product?._id, data?.product.category._id);
-        // console.log(product);
       } else {
         console.log("error");
       }
@@ -83,7 +81,7 @@ function SingleProduct() {
   };
 
   // Open Razorpay modal
-  const handleOpenRazorpay = (order, amount ,userCart) => {
+  const handleOpenRazorpay = (order, amount, userCart) => {
     const options = {
       key: import.meta.env.VITE_RAZOR_API_KEY_ID,
       amount: Number(order.amount * 100),
@@ -91,16 +89,14 @@ function SingleProduct() {
       name: "Salalah.",
       description: "Find the smartphone thats right for you",
       order_id: order.id,
-      //verify
+      //verify payment
       handler: async function (response) {
-        // console.log(response);
         const { data } = await axios.post(
           import.meta.env.VITE_PAYMENT_VERIFY_URL,
           { ...response, userOrder: userCart, amount }
         );
         if (data.success) {
           toast.success(data.message);
-          //  navigate("/settings/my-orders");
         } else {
           toast.error("error in verification");
         }
@@ -111,10 +107,9 @@ function SingleProduct() {
   };
   //handle payment
   const handlePayment = async (product) => {
-    // setStock(!stock)
     try {
       if (auth?.user) {
-        const userCart=[{product,quantity:1}]
+        const userCart = [{ product, quantity: 1 }];
         //check if stock is out
         const outOfStock = userCart.findIndex((item) => {
           return item.product.quantity === 0;
@@ -132,12 +127,11 @@ function SingleProduct() {
             }
           );
           if (data.success) {
-            // console.log(data.order);
-            handleOpenRazorpay(data.order, data.amount ,userCart);
+            handleOpenRazorpay(data.order, data.amount, userCart);
           }
         }
-      }else{
-        toast.error("please login to checkout")
+      } else {
+        toast.error("please login to checkout");
       }
     } catch (error) {
       console.log(error);
@@ -231,9 +225,12 @@ function SingleProduct() {
                   />
                   ADD TO CART
                 </button>
-                <button onClick={()=>{
-                  handlePayment(product)
-                }} className="p-3 rounded-md pe-6 bg-[tomato] text-white  font-semibold text-base cursor-pointer">
+                <button
+                  onClick={() => {
+                    handlePayment(product);
+                  }}
+                  className="p-3 rounded-md pe-6 bg-[tomato] text-white  font-semibold text-base cursor-pointer"
+                >
                   <FontAwesomeIcon
                     className="fas fa-bag-shopping px-3"
                     icon={faBagShopping}

@@ -13,7 +13,7 @@ function AllOrders() {
 
   const fetchSalesData = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_GET_ALL_ORDERS_URL); // Update the API endpoint accordingly
+      const response = await axios.get(import.meta.env.VITE_GET_ALL_ORDERS_URL);
       const orders = response.data.orders;
 
       setSalesData(orders);
@@ -31,7 +31,9 @@ function AllOrders() {
 
   return (
     <div className="my-4 ms-8">
-      <h1 className="text-xl font-bold my-3 mb-4 text-center">ALL Orders List</h1>
+      <h1 className="text-xl font-bold my-3 mb-4 text-center">
+        ALL Orders List
+      </h1>
       <div className="overflow-x-auto shadow-md">
         <Table>
           <Table.Head>

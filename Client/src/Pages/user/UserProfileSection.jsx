@@ -1,9 +1,9 @@
-import { Card } from 'flowbite-react';
-import React from 'react'
-import { useAuth } from '../../Context/auth';
+import { Card } from "flowbite-react";
+import React from "react";
+import { useAuth } from "../../Context/auth";
 function UserProfileSection() {
-    const [auth]=useAuth()
-    
+  const [auth] = useAuth();
+
   return (
     <div>
       <Card className="w-[700px] flex ">
@@ -41,4 +41,4 @@ function UserProfileSection() {
   );
 }
 
-export default UserProfileSection
+export default UserProfileSection;

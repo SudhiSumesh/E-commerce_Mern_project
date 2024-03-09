@@ -1,8 +1,14 @@
-const express =require("express");
+const express = require("express");
 const { requireSignIn, isAdmin } = require("../Middleware/authMiddleware");
-const { getAllUserController, requestForDeleteController, getDeleteRequestController, approveDeleteRequestController, rejectDeleteRequestController, getDeleteStatusController } = require("../Controllers/UserController");
+const {
+  getAllUserController,
+  requestForDeleteController,
+  getDeleteRequestController,
+  approveDeleteRequestController,
+  rejectDeleteRequestController,
+  getDeleteStatusController,
+} = require("../Controllers/UserController");
 const router = express.Router();
-
 
 //get userList ||get method
 router.get("/get-all-user", requireSignIn, isAdmin, getAllUserController);
@@ -34,5 +40,5 @@ router.put(
   rejectDeleteRequestController
 );
 //get Delete status|| get method
-router.get("/delete-status",requireSignIn,getDeleteStatusController)
+router.get("/delete-status", requireSignIn, getDeleteStatusController);
 module.exports = router;

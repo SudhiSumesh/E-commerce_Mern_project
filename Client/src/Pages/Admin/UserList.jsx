@@ -12,4 +12,4 @@ function UserList() {
     </Layout>
   );
 }
-export default UserList
+export default UserList;

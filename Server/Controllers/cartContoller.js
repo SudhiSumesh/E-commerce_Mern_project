@@ -5,9 +5,7 @@ exports.AddToCartController = async (req, res) => {
   try {
     // Extract productId and quantity from request body
     const { productId, quantity } = req.body;
-// if(quantity<=0){
-//  return res.status(401).json({message:"quantity must be greater than or eqaul to one"})
-// }
+
     // Find the user by ID
     const user = await userModel.findById(req.user._id);
 
@@ -63,7 +61,7 @@ exports.getItemsFromCartContoller = async (req, res) => {
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-    
+
     // Return the user's cart data
     res.status(200).json({ success: true, cart: user.cart });
   } catch (error) {
@@ -72,9 +70,8 @@ exports.getItemsFromCartContoller = async (req, res) => {
   }
 };
 
-//delete cart item 
-exports.deleteItemsFromCartContoller=async (req,res)=>{
-   
+//delete cart item
+exports.deleteItemsFromCartContoller = async (req, res) => {
   const itemId = req.params.itemId; // Extract item ID from request parameters
 
   try {
@@ -111,4 +108,4 @@ exports.deleteItemsFromCartContoller=async (req,res)=>{
     console.error(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
-}
+};

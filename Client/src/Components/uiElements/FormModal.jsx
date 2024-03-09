@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
-import {   Modal } from "flowbite-react";
-import LoginForm from '../Auth/LoginForm';
-import RegistrationForm from '../Auth/RegistrationForm';
-
+import React, { useState } from "react";
+import { Modal } from "flowbite-react";
+import LoginForm from "../Auth/LoginForm";
+import RegistrationForm from "../Auth/RegistrationForm";
 
 const FormModal = () => {
-    const [action,setAction]=useState("login")
-       const [openModal, setOpenModal] = useState(false);
+  const [action, setAction] = useState("login");
+  const [openModal, setOpenModal] = useState(false);
 
-       function onCloseModal() {
-         setOpenModal(false);
-        setAction('login')
-       }
+  function onCloseModal() {
+    setOpenModal(false);
+    setAction("login");
+  }
   return (
     <>
       <div
@@ -57,5 +56,6 @@ const FormModal = () => {
         </Modal.Body>
       </Modal>
     </>
-  );};
-export default FormModal
+  );
+};
+export default FormModal;

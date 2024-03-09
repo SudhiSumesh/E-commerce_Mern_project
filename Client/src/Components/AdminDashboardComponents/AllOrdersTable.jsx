@@ -13,7 +13,7 @@ function AllOrdersTable() {
 
   const fetchSalesData = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_GET_ALL_ORDERS_URL); // Update the API endpoint accordingly
+      const response = await axios.get(import.meta.env.VITE_GET_ALL_ORDERS_URL);
       const orders = response.data.orders;
 
       setSalesData(orders);

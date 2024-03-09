@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -8,8 +6,8 @@ function CategoryDeleteModal({ handleDelete }) {
   const [openModal, setOpenModal] = useState(false);
   //handle delete btn click
   const handleClick = () => {
-    handleDelete()
-    setOpenModal(false)
+    handleDelete();
+    setOpenModal(false);
   };
   return (
     <>

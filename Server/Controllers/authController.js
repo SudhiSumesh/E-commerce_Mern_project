@@ -1,6 +1,6 @@
 const userModel = require("../Models/userModel");
 const JWT = require("jsonwebtoken");
-const bcrypt=require('bcrypt')
+const bcrypt = require("bcrypt");
 const { hashPassword, comparePassword } = require("../Utils/authHelper");
 const sendEmail = require("../Utils/sendMail");
 
@@ -81,7 +81,7 @@ exports.loginController = async (req, res) => {
       success: true,
       message: "login success",
       user: {
-        userId:user._id,
+        userId: user._id,
         name: user.name,
         email: user.email,
         phone: user.phone,
@@ -112,10 +112,8 @@ exports.testController = async (req, res) => {
 exports.forgotController = async (req, res) => {
   try {
     const { email } = req.body;
-        if (!email)
-          return res
-            .status(401)
-            .json({ success: false, message: "require email" });
+    if (!email)
+      return res.status(401).json({ success: false, message: "require email" });
     const user = await userModel.findOne({ email });
     if (!user)
       return res
@@ -123,15 +121,16 @@ exports.forgotController = async (req, res) => {
         .json({ success: false, message: "user not exist" });
 
     const otp = Math.floor(100000 + Math.random() * 900000);
-    
+
     const addOtp = await userModel.findByIdAndUpdate(user._id, {
       otp: otp,
     });
     if (addOtp) {
-     await sendEmail(email, otp);
-      res.status(201).json({ 
-        success:true,
-        message: "otp sended to mail" });
+      await sendEmail(email, otp);
+      res.status(201).json({
+        success: true,
+        message: "otp sended to mail",
+      });
     }
   } catch (error) {
     console.log(error);
@@ -144,78 +143,69 @@ exports.forgotController = async (req, res) => {
 };
 
 //reset password
-exports.resetController=async (req,res)=>{
-try {
-
-  const {password,otp}=req.body
-  if(!otp&&!password){
-   return res.send("otp & passowrd requird")
-  }
-  if(password.length<3){
-   return res.send("password must greater than 3");
-
-  }
-  const user=await userModel.findOne({otp})
+exports.resetController = async (req, res) => {
+  try {
+    const { password, otp } = req.body;
+    if (!otp && !password) {
+      return res.send("otp & passowrd requird");
+    }
+    if (password.length < 3) {
+      return res.send("password must greater than 3");
+    }
+    const user = await userModel.findOne({ otp });
 
     if (!user) {
       return res.send("User not found");
     }
-  if (otp==user?.otp) {
-     const hashedPassword = await bcrypt.hash(password, 10);
-     const updatedPassword = await userModel.findByIdAndUpdate(user._id, {
-       password: hashedPassword,
-       otp:""
-     });
-     if (updatedPassword) {
-       return res.status(201).json({success:true, message: "Password updated" });
-     }
-  }
-} catch (error) {
-   console.log(error);
+    if (otp == user?.otp) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const updatedPassword = await userModel.findByIdAndUpdate(user._id, {
+        password: hashedPassword,
+        otp: "",
+      });
+      if (updatedPassword) {
+        return res
+          .status(201)
+          .json({ success: true, message: "Password updated" });
+      }
+    }
+  } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "Error in reset password",
       error,
-})
-}
-}
-
-
+    });
+  }
+};
 
 // update profile
 
-exports.updateProfileController=async(req,res)=>{
+exports.updateProfileController = async (req, res) => {
   try {
-   const  {id}=req.params
-    const {name,email,address,phone,password,avatar}=req.body
-   
-
-    // // validate password
-    // if(!password && password.length<3){
-    //   return res.status(401).json({error:"password reuired and minimum 3 charecter long"})
-    // }
-    // const hashedPassowrd=password?await hashPassword(password):undefined
+    const { id } = req.params;
+    const { name,address, phone } = req.body;
     const updatedUser = await userModel.findByIdAndUpdate(
-      {_id:id},
+      { _id: id },
       {
-        name: name ,
-        phone: phone ,
-        address:address,
+        name: name,
+        phone: phone,
+        address: address,
       },
       { new: true }
     );
- const user = await userModel.findById({ _id: id });
+    const user = await userModel.findById({ _id: id });
     res.status(200).json({
       success: true,
       message: " profile updated",
       user,
     });
   } catch (error) {
-       console.log(error);
-       res.status(500).json({
-         success: false,
-         message: "Error in profile update",
-         error,
-       });
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error in profile update",
+      error,
+    });
   }
-}
+};

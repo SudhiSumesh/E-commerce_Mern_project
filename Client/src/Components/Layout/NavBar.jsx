@@ -8,7 +8,6 @@ import { useAuth } from "../../Context/auth";
 import DropDownModal from "../uiElements/DropDownModal";
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { toast } from "react-hot-toast";
 
 const NavBar = () => {
   const [auth] = useAuth();
@@ -26,7 +25,6 @@ const NavBar = () => {
         );
         if (data.success) {
           setUserCart(data.cart.items);
-          //  console.log(cartLength);
         }
       } catch (error) {
         console.log(error);
@@ -53,7 +51,7 @@ const NavBar = () => {
               className=" text-2xl self-center p-2 mt-1 hover:text-[blue] cursor-pointer"
             ></FontAwesomeIcon>
             <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -bottom-1 -end-1 dark:border-gray-900">
-              {userCart?.length }
+              {userCart?.length}
             </div>
           </Link>
           {auth?.user ? <DropDownModal /> : <FormModal />}

@@ -2,9 +2,8 @@ import Layout from "../../Components/Layout/Layout";
 import AdminSideBar from "../../Components/AdminDashboardComponents/AdminSideBar";
 import UserCountComponent from "../../Components/AdminDashboardComponents/UserCountComponent";
 import TotelOrders from "../../Components/AdminDashboardComponents/TotelOrders";
-import DashboardChart from "../../Components/AdminDashboardComponents/DashboardChart";
-import SalesBarChart from "../../Components/AdminDashboardComponents/SalesBarChart";
 import AllOrdersTable from "../../Components/AdminDashboardComponents/AllOrdersTable";
+import SalesDoughnutChart from "../../Components/AdminDashboardComponents/SalesDoughnutChart";
 
 const AdminDashboard = () => {
   return (
@@ -18,13 +17,9 @@ const AdminDashboard = () => {
               <UserCountComponent />
               <TotelOrders />
               <div className="">
-                <SalesBarChart />
+                <SalesDoughnutChart />
               </div>
             </div>
-            {/* 
-            <div>
-              <DashboardChart />
-            </div> */}
           </div>
         </div>
       </div>

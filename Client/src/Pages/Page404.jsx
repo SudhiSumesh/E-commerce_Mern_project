@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
 function Page404() {
   return (
@@ -27,12 +27,14 @@ function Page404() {
           </div>
         </div>
         {/* Continue With */}
-        <div className='flex justify-center mt-5'>
-          <Link to="/" className='bg-[blue] p-3 text-white rounded-md'>Go To Home</Link>
+        <div className="flex justify-center mt-5">
+          <Link to="/" className="bg-[blue] p-3 text-white rounded-md">
+            Go To Home
+          </Link>
         </div>
       </div>
     </div>
   );
 }
 
-export default Page404
+export default Page404;

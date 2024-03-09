@@ -1,5 +1,3 @@
-
-import axios from "axios";
 import { useState, createContext, useContext, useEffect } from "react";
 
 const SearchContext = createContext(); // Create the context

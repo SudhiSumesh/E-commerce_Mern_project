@@ -2,13 +2,12 @@ import axios from "axios";
 import { Button, Label, Modal, TextInput, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../Context/auth";
-import toast,{ Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 function AddProductFormModal({ getAllProduct }) {
   const [openModal, setOpenModal] = useState(false);
-  const [error,setError]=useState({})
+  const [error, setError] = useState({});
   const [categories, setCategories] = useState();
   const [file, setFile] = useState([]);
-  
   const [previewImages, setPreviewImages] = useState([]);
   const [auth] = useAuth();
   const [input, setInput] = useState({
@@ -18,6 +17,7 @@ function AddProductFormModal({ getAllProduct }) {
     price: "",
     category: "",
   });
+
   //close modal
   function onCloseModal() {
     setOpenModal(false);
@@ -27,7 +27,7 @@ function AddProductFormModal({ getAllProduct }) {
     const selectedFiles = event.target.files;
     setFile(Array.from(selectedFiles));
 
-    // Generate preview images
+    //Generate preview images
     const imagePreviews = Array.from(selectedFiles).map((file) =>
       URL.createObjectURL(file)
     );
@@ -50,7 +50,7 @@ function AddProductFormModal({ getAllProduct }) {
     }
   };
 
-  // get all category -function
+  // get all category -function call
   useEffect(() => {
     getAllCategory();
   }, [openModal]);
@@ -64,21 +64,28 @@ function AddProductFormModal({ getAllProduct }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if(input.name.trim()===""){
-        return setError({...error,nameError:"name is required"})
+      //validations
+      if (input.name.trim() === "") {
+        return setError({ ...error, nameError: "name is required" });
       }
-        if (input.description.trim() === "") {
-          return setError({ ...error, descriptionError: "description is required" });
-        }
-          if (input.price.trim() <= 0) {
-            return setError({ ...error, priceError: "price is must be positive number" });
-          }
-            if (input.quantity.trim() <= 0) {
-              return setError({
-                ...error,
-                quantityError: "quantity  is must be positive number",
-              });
-            }
+      if (input.description.trim() === "") {
+        return setError({
+          ...error,
+          descriptionError: "description is required",
+        });
+      }
+      if (input.price.trim() <= 0) {
+        return setError({
+          ...error,
+          priceError: "price is must be positive number",
+        });
+      }
+      if (input.quantity.trim() <= 0) {
+        return setError({
+          ...error,
+          quantityError: "quantity  is must be positive number",
+        });
+      }
       const formdata = new FormData();
       file.forEach((file) => {
         formdata.append("file", file);
@@ -95,11 +102,10 @@ function AddProductFormModal({ getAllProduct }) {
       if (data.success) {
         onCloseModal();
         getAllProduct();
-        toast.success(data.message)
-      
+        toast.success(data.message);
       } else {
         console.log(data.message);
-         toast.error(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
       onCloseModal();
@@ -173,7 +179,7 @@ function AddProductFormModal({ getAllProduct }) {
                 <Label htmlFor="" value="Product Name" />
               </div>
               <TextInput
-                // required
+                required
                 shadow
                 name="name"
                 value={input.name}
@@ -193,7 +199,7 @@ function AddProductFormModal({ getAllProduct }) {
               <Textarea
                 id="comment"
                 placeholder="Leave a comment..."
-                // required
+                required
                 rows={4}
                 name="description"
                 value={input.description}
@@ -258,5 +264,3 @@ function AddProductFormModal({ getAllProduct }) {
 }
 
 export default AddProductFormModal;
-
-

@@ -7,7 +7,7 @@ import Spinner from "../uiElements/Spinner";
 
 function privateRoute() {
   const [ok, setOk] = useState();
-  const [auth, setAuth] = useAuth();
+  const [auth] = useAuth();
 
   useEffect(() => {
     const authCheck = async () => {

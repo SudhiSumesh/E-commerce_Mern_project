@@ -2,7 +2,6 @@ const slugify = require("slugify");
 const CategoryModel = require("../Models/CategoryModel");
 const productModel = require("../Models/productModel");
 
-
 // create category
 exports.createCategoryController = async (req, res) => {
   try {
@@ -48,9 +47,9 @@ exports.updateCategoryController = async (req, res) => {
     if (!name || !id)
       return res.status(401).json({ message: "name and Id is required" });
     //if name is empty
-      if (name.trim() === "") {
-        return res.status(401).json({ message: "Name is required" });
-      }
+    if (name.trim() === "") {
+      return res.status(401).json({ message: "Name is required" });
+    }
     //find by id and update
     const category = await CategoryModel.findByIdAndUpdate(
       id,
@@ -72,63 +71,68 @@ exports.updateCategoryController = async (req, res) => {
   }
 };
 //get all category
-exports.categoryController= async (req,res)=>{
-    try {
-        const category =await CategoryModel.find({})
-        res.status(200).json({ success:true,message:"Successfully getted All categoty",category})
-    } catch (error) {
-        console.log(error);
-      res.status(500).json({
-        success:false,
-        message:"Error in getting category",
-        error
-      })
-    }
-}
-//get single category 
+exports.categoryController = async (req, res) => {
+  try {
+    const category = await CategoryModel.find({});
+    res.status(200).json({
+      success: true,
+      message: "Successfully getted All categoty",
+      category,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error in getting category",
+      error,
+    });
+  }
+};
+//get single category
 
-exports.singleCategoryController= async (req,res)=>{
-    try {
-        const {slug}=req.params
-        const category =await CategoryModel.find({slug})
-        // if(!category) {return res.status(200).json({message:"no such category found "})}
-        res.status(200).json({ success:true,message:"Successfully get categoty",category})
-    } catch (error) {
-        console.log(error);
-      res.status(500).json({
-        success:false,
-        message:"Error in getting category",
-        error
-      })
-    }
-}
+exports.singleCategoryController = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const category = await CategoryModel.find({ slug });
+    res
+      .status(200)
+      .json({ success: true, message: "Successfully get categoty", category });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error in getting category",
+      error,
+    });
+  }
+};
 //delete category
-exports.deleteCategoryController= async (req,res)=>{
-     try {
-       const { categoryId } = req.params;
-       if (!categoryId) {
-         return res.status(401).json({ message: "categoryId required" });
-       }
-       const category = await CategoryModel.findById(categoryId);
-       if (!category) {
-         return res.status(401).json({ message: "category not found" });
-       }
-       // Retrieve product IDs associated with this category
-       const productIds = category.products;
-       // Delete all associated products
-       await productModel.deleteMany({ category:categoryId  });
-       // Delete the category itself
-       await CategoryModel.deleteOne({ _id: categoryId }); // Use deleteOne here
-       res.status(200).json({
-         success: true,
-         message: "category deleted successfully",
-       });
-     } catch (error) {
-            console.log(error);
-            res.status(500).json({
-              success: false,
-              message: "Error in deleting category",
-              error,
-            });
-     }
-}
+exports.deleteCategoryController = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    if (!categoryId) {
+      return res.status(401).json({ message: "categoryId required" });
+    }
+    const category = await CategoryModel.findById(categoryId);
+    if (!category) {
+      return res.status(401).json({ message: "category not found" });
+    }
+    // Retrieve product IDs associated with this category
+    const productIds = category.products;
+    // Delete all associated products
+    await productModel.deleteMany({ category: categoryId });
+    // Delete the category itself
+    await CategoryModel.deleteOne({ _id: categoryId }); // Use deleteOne 
+    res.status(200).json({
+      success: true,
+      message: "category deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error in deleting category",
+      error,
+    });
+  }
+};

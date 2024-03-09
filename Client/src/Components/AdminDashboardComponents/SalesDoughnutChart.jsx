@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Chart from "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 import axios from "axios";
 
@@ -8,13 +9,13 @@ const SalesDoughnutChart = () => {
   useEffect(() => {
     fetchSalesData();
   }, []);
-
+ 
   const fetchSalesData = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_GET_ALL_ORDERS_URL); // Update the API endpoint accordingly
+      const response = await axios.get(import.meta.env.VITE_GET_ALL_ORDERS_URL);
       const orders = response.data.orders;
-
       // Aggregate sales data by category
+      console.log(orders);
       const salesByCategory = {};
 
       orders?.forEach((order) => {
@@ -22,6 +23,7 @@ const SalesDoughnutChart = () => {
           const category = product?.category?.name || "Xiomi";
           salesByCategory[category] =
             (salesByCategory[category] || 0) + quantity;
+          console.log("forech");
         });
       });
 
@@ -45,7 +47,7 @@ const SalesDoughnutChart = () => {
               "#F6416C", // Pink
               "#625772", // Lavender
               "#6D214F", // Maroon
-            ].slice(0, labels.length), // Ensure there are enough colors for all categories
+            ].slice(0, labels.length),
             hoverBackgroundColor: [
               "#36A2EB",
               "#FF6384",
@@ -64,6 +66,7 @@ const SalesDoughnutChart = () => {
       };
 
       setSalesData(chartData);
+      console.log(chartData);
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }
@@ -71,10 +74,14 @@ const SalesDoughnutChart = () => {
 
   return (
     <div className="rounded-md " style={{ maxWidth: "300px" }}>
-      <h1 className="ms-2 mt-4 text-xl underline text-[#0000ff8a] font-bold">Sales By Category</h1>
+      <h1 className="ms-2 mt-4 text-xl underline text-[#0000ff8a] font-bold">
+        Sales By Category
+      </h1>
       {salesData && <Doughnut data={salesData} className="mt-4 py-2" />}
     </div>
   );
 };
 
 export default SalesDoughnutChart;
+
+

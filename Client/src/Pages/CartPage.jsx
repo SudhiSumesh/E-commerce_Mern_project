@@ -106,8 +106,6 @@ const CartPage = () => {
       userCart?.map(
         (item) => (total = total + item.product.price * item.quantity)
       );
-
-      // console.log(total);
       return total;
     } catch (error) {
       console.log(error);
@@ -122,16 +120,15 @@ const CartPage = () => {
       name: "Salalah.",
       description: "Find the smartphone thats right for you",
       order_id: order.id,
-      //verify
+      //verify payment
       handler: async function (response) {
-        // console.log(response);
         const { data } = await axios.post(
           import.meta.env.VITE_PAYMENT_VERIFY_URL,
           { ...response, userOrder: userCart, amount }
         );
         if (data.success) {
           toast.success(data.message);
-           navigate("/settings/my-orders");
+          navigate("/settings/my-orders");
         } else {
           toast.error("error in verification");
         }
@@ -142,7 +139,6 @@ const CartPage = () => {
   };
   //handle payment
   const handlePayment = async () => {
-    // setStock(!stock)
     try {
       if (auth?.user) {
         //check if stock is out
@@ -162,12 +158,11 @@ const CartPage = () => {
             }
           );
           if (data.success) {
-            // console.log(data.order);
             handleOpenRazorpay(data.order, data.amount);
           }
         }
-      }else{
-        toast.error("login required to check out")
+      } else {
+        toast.error("login required to check out");
       }
     } catch (error) {
       console.log(error);
@@ -279,7 +274,6 @@ const CartPage = () => {
               )
             ) : (
               <div className="flex justify-center my-14">
-                {" "}
                 <Link
                   className="bg-[red] p-3 rounded-md mx-10 text-white "
                   to={"/"}
@@ -290,21 +284,23 @@ const CartPage = () => {
             )}
           </div>
           <div className="container">
-            <div className="flex justify-end">
-              {/* <button className="delete btn text-red-500"> Remove items</button> */}
-            </div>
+            <div className="flex justify-end"></div>
             <div className="px-5 bg-white pb-3 mt-5">
               <div className="flex items-center gap-5 justify-end p-5">
                 <a className="text-black cursor-pointer text-lg font-semibold">
                   Total : ${grantTotal()}.00
                 </a>
                 <div className="flex flex-col gap-3">
-            {  userCart?.length > 0  ?   <button
-                    onClick={handlePayment}
-                    className="p-3 px-4 cursor-pointer text-white bg-[red] rounded-full  text-lg"
-                  >
-                    Check out
-                  </button> :""}
+                  {userCart?.length > 0 ? (
+                    <button
+                      onClick={handlePayment}
+                      className="p-3 px-4 cursor-pointer text-white bg-[red] rounded-full  text-lg"
+                    >
+                      Check out
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
-import React from 'react'
-import Layout from '../Components/Layout/Layout'
-import { Button, Label, TextInput } from 'flowbite-react';
+import React from "react";
+import Layout from "../Components/Layout/Layout";
+import { Button, Label, TextInput } from "flowbite-react";
 
 const ContactPage = () => {
   return (
@@ -61,9 +61,7 @@ const ContactPage = () => {
               </div>
             </div>
             <div className="px-5 py-3 flex justify-end">
-              <button
-                className=" bg-black text-white py-3 px-14 rounded-full"
-              >
+              <button className=" bg-black text-white py-3 px-14 rounded-full">
                 Send
               </button>
             </div>
@@ -72,6 +70,6 @@ const ContactPage = () => {
       </div>
     </Layout>
   );
-}
+};
 
-export default ContactPage
+export default ContactPage;

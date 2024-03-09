@@ -14,7 +14,6 @@ const SearchBar = () => {
       if (data.success) {
         setValues({ ...values, results: data.results });
         navigate("/search");
-        console.log(values);
       }
     } catch (error) {
       console.log(error);

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, createContext,useContext, useEffect } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 
 const AuthContext = createContext(); // Create the context
 
@@ -8,7 +8,7 @@ const AuthProvider = ({ children }) => {
     user: null,
     token: "",
   });
-  //default axios
+  //default axios header
   axios.defaults.headers.common["Authorization"] = auth?.token;
 
   useEffect(() => {
@@ -59,4 +59,3 @@ const useAuth = () => {
 };
 
 export { useAuth, AuthProvider };
-

@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function WhyShopWithUs() {
-
   return (
-    // {/* why-shop-with-us-sec */}
+      //  why-shop-with-us-sec
     <div className="container p-14">
       <div
         className="flex justify-between md:mt-5 pb-3 border-b cursor-pointer
@@ -24,9 +23,7 @@ function WhyShopWithUs() {
         <div>
           <p className="flex flex-col items-center">
             <img src="/assets/images/healthcare.png" />
-            <p>
-              Free Shipping on orders
-            </p>
+            <p>Free Shipping on orders</p>
           </p>
         </div>
         <div>

@@ -13,15 +13,12 @@ function ProductManagement() {
   //get all products
   const getAllProduct = async () => {
     try {
-      //  getAllCategory();
       if (!auth?.user || !auth?.token) {
-        // onCloseModal();
         return console.log("auth required");
       }
       const { data } = await axios.get(import.meta.env.VITE_GET_PRODUCT_URL);
       if (data?.success) {
         setProducts(data.products);
-        // console.log(products);
       }
     } catch (error) {
       console.log(error);
@@ -31,7 +28,6 @@ function ProductManagement() {
   useEffect(() => {
     getAllProduct();
   }, []);
-
 
   return (
     <>
@@ -57,47 +53,45 @@ function ProductManagement() {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {products
-              ?.map((product, i) => (
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>{i + 1}</Table.Cell>
-                  <Table.Cell>{product.category.name}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {product.name}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <img
-                      crossorigin=""
-                      src={`http://localhost:4000/images/${product.imageOne}`}
-                      alt="productimage"
-                      width="110px"
-                      height="110px"
+            {products?.map((product, i) => (
+              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Cell>{i + 1}</Table.Cell>
+                <Table.Cell>{product.category.name}</Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {product.name}
+                </Table.Cell>
+                <Table.Cell>
+                  <img
+                    crossorigin=""
+                    src={`http://localhost:4000/images/${product.imageOne}`}
+                    alt="productimage"
+                    width="110px"
+                    height="110px"
+                  />
+                </Table.Cell>
+                <Table.Cell className="max-w-[300px]">
+                  {product.description}
+                </Table.Cell>
+                <Table.Cell>{product.price}</Table.Cell>
+                <Table.Cell>{product.quantity}</Table.Cell>
+                <Table.Cell>
+                  <button className="font-medium text-[blue] hover:underline dark:[blue]">
+                    <EditProductModal
+                      product={product}
+                      getAllProduct={getAllProduct}
                     />
-                  </Table.Cell>
-                  <Table.Cell className="max-w-[300px]">
-                    {product.description}
-                  </Table.Cell>
-                  <Table.Cell>{product.price}</Table.Cell>
-                  <Table.Cell>{product.quantity}</Table.Cell>
-                  <Table.Cell>
-                    <button className="font-medium text-[blue] hover:underline dark:[blue]">
-                      <EditProductModal
-                      
-                        product={product}
-                        getAllProduct={getAllProduct}
-                      />
-                    </button>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                      <ProductDeleteModal
-                        productId={product._id}
-                        getAllProduct={getAllProduct}
-                      />
-                    </div>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
+                  </button>
+                </Table.Cell>
+                <Table.Cell>
+                  <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                    <ProductDeleteModal
+                      productId={product._id}
+                      getAllProduct={getAllProduct}
+                    />
+                  </div>
+                </Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table>
         <Toaster />

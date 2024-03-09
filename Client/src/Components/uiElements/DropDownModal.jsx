@@ -7,11 +7,9 @@ import toast, { Toaster } from "react-hot-toast";
 function DropDownModal() {
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
-   
 
   // handle logout
-  const handleLogout =() => {
-    
+  const handleLogout = () => {
     toast.success("logout success");
     setAuth({
       user: null,
@@ -22,8 +20,6 @@ function DropDownModal() {
     broadcastLogout();
 
     navigate("/");
-
-    
   };
 
   // broadcast logout event to other tabs

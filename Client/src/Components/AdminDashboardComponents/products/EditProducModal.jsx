@@ -6,13 +6,10 @@ import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "../../../Context/auth";
 import * as Yup from "yup";
 
-
 function EditProductModal({ product, getAllProduct }) {
   const [auth] = useAuth();
   const [openModal, setOpenModal] = useState(false);
-  // const [previewImages, setPreviewImages] = useState([]);
   const [categories, setCategories] = useState();
-  // const [produ,setProduct]=useState(product)
   //close modal
   useEffect(() => {
     formik.setValues({
@@ -103,9 +100,6 @@ function EditProductModal({ product, getAllProduct }) {
           { withCredentials: true }
         );
         if (data?.success) {
-          // toast.success("product added successfully");
-          // console.log(data.message);
-
           onCloseModal();
           getAllProduct();
           getAllCategory();
@@ -125,7 +119,6 @@ function EditProductModal({ product, getAllProduct }) {
       <button
         onClick={() => {
           setOpenModal(true);
-          // console.log(auth.user,auth.token);
         }}
         className="  text-[blue] hover:underline rounded-lg"
       >
@@ -156,30 +149,6 @@ function EditProductModal({ product, getAllProduct }) {
                   ))}
                 </select>
               </div>
-              {/* choose file */}
-              {/* <input
-                type="file"
-                onChange={handleFileChange}
-                multiple
-                name=""
-                className="my-10"
-              />
-              {/* preview */}
-              {/* <div className="flex justify-between items-center ">
-                {previewImages.map((previewUrl, index) => (
-                  <img
-                    key={index}
-                    src={previewUrl}
-                    alt={`Preview ${index + 1}`}
-                    style={{
-                      display: "flex",
-                      maxWidth: "100px",
-                      maxHeight: "100px",
-                      marginTop: "40px",
-                    }}
-                  />
-                ))}
-              </div> */}
               <div className="my-2  block">
                 <Label htmlFor="" value="Product Name" />
               </div>

@@ -8,11 +8,11 @@ function CategoryEditModal({ name, handleUpdate }) {
   function onCloseModal() {
     setOpenModal(false);
   }
-//when clicking update button
-const handleClick=()=>{
-  handleUpdate(category)
-  onCloseModal()
-}
+  //handle update button  click
+  const handleClick = () => {
+    handleUpdate(category);
+    onCloseModal();
+  };
   return (
     <>
       <button
@@ -36,7 +36,12 @@ const handleClick=()=>{
               />
             </div>
             <div>
-              <Button onClick={handleClick} type="submit" color="blue" className="my-2 ">
+              <Button
+                onClick={handleClick}
+                type="submit"
+                color="blue"
+                className="my-2 "
+              >
                 Update Category
               </Button>
             </div>

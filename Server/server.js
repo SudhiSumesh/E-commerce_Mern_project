@@ -1,13 +1,13 @@
 const express = require("express");
 const cors = require("cors");
-const helmet=require('helmet')
+const helmet = require("helmet");
 const dotenv = require("dotenv").config();
 const DbConnection = require("./Config/dbConnection");
 const authRoutes = require("./Routes/authRouter");
 const categoryRoutes = require("./Routes/CategoryRoutes");
-const ProductRoutes=require('./Routes/ProductRoutes')
-const UserRoutes=require('./Routes/UserRoutes')
-const cartRoutes=require('./Routes/cartRoutes')
+const ProductRoutes = require("./Routes/ProductRoutes");
+const UserRoutes = require("./Routes/UserRoutes");
+const cartRoutes = require("./Routes/cartRoutes");
 const paymentRoutes = require("./Routes/paymentRoutes");
 const orderRoutes = require("./Routes/orderRoutes");
 const app = express();
@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 
 // middlewares
 app.use(express.json());
-app.use(helmet())
+app.use(helmet());
 
 // set cross origin access
 app.use(
@@ -28,7 +28,7 @@ app.use(
   })
 );
 //serve static files
-app.use(express.static('public'))
+app.use(express.static("public"));
 //routes
 
 //AUTH ROUTES
@@ -36,13 +36,13 @@ app.use("/api/v1/auth", authRoutes);
 //CATEGORY ROUTES
 app.use("/api/v1/category", categoryRoutes);
 //PRODUCT ROUTES
-app.use("/api/v1/product",ProductRoutes)
+app.use("/api/v1/product", ProductRoutes);
 //USERCONTROLL ROUTES
-app.use("/api/v1/user-controll",UserRoutes)
+app.use("/api/v1/user-controll", UserRoutes);
 //Add To Cart ROUTES
-app.use("/api/v1/cart",cartRoutes)
+app.use("/api/v1/cart", cartRoutes);
 //PAYMENT ROUTES
-app.use("/api/v1/payment",paymentRoutes)
+app.use("/api/v1/payment", paymentRoutes);
 //ORDER ROUTES
 app.use("/api/v1/orders", orderRoutes);
 //server

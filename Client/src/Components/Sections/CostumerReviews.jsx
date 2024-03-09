@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const CustumerReviews = () => {
   return (
@@ -42,6 +42,6 @@ const CustumerReviews = () => {
       </div>
     </>
   );
-}
+};
 
-export default CustumerReviews
+export default CustumerReviews;

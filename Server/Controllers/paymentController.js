@@ -2,8 +2,7 @@ const dotenv = require("dotenv").config();
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const userModel = require("../Models/userModel");
-const productModel=require("../Models/productModel");
-
+const productModel = require("../Models/productModel");
 
 //orders
 exports.paymentOrderController = async (req, res) => {
@@ -33,7 +32,9 @@ exports.paymentOrderController = async (req, res) => {
       .json({ success: true, message: "order created", order, amount });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, message: "Internal server error order" ,error});
+    res
+      .status(500)
+      .json({ success: false, message: "Internal server error order", error });
   }
 };
 
@@ -44,7 +45,7 @@ exports.paymentVerifyController = async (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
       req.body;
     const { userOrder } = req.body;
-    const {amount}=req.body
+    const { amount } = req.body;
 
     // Concatenate order ID and payment ID
     const body = `${razorpay_order_id}|${razorpay_payment_id}`;
@@ -85,16 +86,6 @@ exports.paymentVerifyController = async (req, res) => {
 
       // Save the updated user document
       await user.save();
-
-      // // Update product quantities stock managemnt
-      // await Promise.all(
-      //   userOrder.map(async (order) => {
-      //     await productModel.findByIdAndUpdate(order.product._id, {
-      //       $inc: { quantity: -order.quantity }, // Decrement quantity
-      //     });
-      //   })
-      // );
-
       //stock management
       userOrder.map(async (order) => {
         await productModel.findByIdAndUpdate(order.product._id, {

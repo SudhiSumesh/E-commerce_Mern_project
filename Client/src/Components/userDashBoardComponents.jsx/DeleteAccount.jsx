@@ -53,7 +53,7 @@ function DeleteAccount() {
         <div className="my-4">
           {/* form sec */}
           <div className=" inline text-xl  py-2 text-[#ee9a1d] rounded-md">
-            {status === "rejected"?` Your request ${status} by admin `:""}
+            {status === "rejected" ? ` Your request ${status} by admin ` : ""}
           </div>
           <div className="">
             <h1 className="text-3xl mb-3">Delete Your Account</h1>

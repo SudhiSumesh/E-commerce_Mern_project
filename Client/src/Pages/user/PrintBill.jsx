@@ -2,25 +2,24 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../Context/auth";
-import {useReactToPrint} from "react-to-print"
+import { useReactToPrint } from "react-to-print";
 
 function PrintBill() {
-    
   // Access the orderId from the URL params
   const { orderId } = useParams();
-  const [auth]= useAuth()
+  const [auth] = useAuth();
   const [order, setOrder] = useState([]);
 
-    const componentRef = useRef();
-    const handlePrint = useReactToPrint({
-      content: () => componentRef.current,
-    });
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   useEffect(() => {
     const fetchOrder = async () => {
       try {
         const { data } = await axios.get(
           `${import.meta.env.VITE_GET_SINGLE_ORDER_URL}/${orderId}`
-        ); // Assuming the endpoint to fetch order details is `/api/orders/:orderId`
+        );
         if (data.success) {
           setOrder(data.order);
         }
@@ -74,8 +73,6 @@ function PrintBill() {
             </tr>
           </thead>
           <tbody>
-            {/* Add table rows here */}
-            {/* Example */}
             {order?.orderList?.map((item) => (
               <tr>
                 <td className="py-2 px-4">A1</td>
@@ -87,7 +84,6 @@ function PrintBill() {
             ))}
           </tbody>
         </table>
-
         {/* Payment Info */}
         <h3 className="text-lg font-bold mb-2">Payment Info:</h3>
         <p>Total: ₹ {order?.payment?.amount}</p>

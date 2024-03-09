@@ -52,7 +52,6 @@ function App() {
           <Route path="my-orders" element={<UserOrders />} />
           <Route path="delete-account" element={<DeleteUserAccount />} />
           <Route path="print-bill/:orderId" element={<PrintBill />} />
-          
         </Route>
         {/* admin routes */}
         <Route path="/admin-dashboard" element={<AdminRoute />}>

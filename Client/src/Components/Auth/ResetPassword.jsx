@@ -17,7 +17,6 @@ function ResetPassword() {
       [name]: value,
     });
   };
-  // console.log(inputValues);
   //handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();

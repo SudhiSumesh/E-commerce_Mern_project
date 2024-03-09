@@ -5,7 +5,7 @@ import axios from "axios";
 import { Checkbox, Label, TextInput } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../Context/auth";
-import { useLocation, useNavigate ,Link} from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 const LoginForm = ({ onCloseModal }) => {
   const [auth, setAuth] = useAuth();
@@ -47,8 +47,7 @@ const LoginForm = ({ onCloseModal }) => {
               user: user,
               token: token,
             });
-            localStorage.setItem("auth", JSON.stringify({user,token}));
-            // console.log(user, token);
+            localStorage.setItem("auth", JSON.stringify({ user, token }));
           }, 1000);
         } else {
           notifyError(message);
